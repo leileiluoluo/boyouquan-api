@@ -214,7 +214,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendBlogAnnualReport(Blog blog, BlogAnnualReport blogAnnualReport) {
         if (null != blog && null != blogAnnualReport) {
-            String adminEmail = "leileiluoluo@leileiluoluo.com"; // blog.getAdminEmail();
+            String adminEmail = blog.getAdminEmail();
             String subject = "[博友圈] 您的 2024 年度报告已揭晓！";
 
             Context context = new Context();

@@ -1,8 +1,8 @@
 -- total blogs collected
 select count(*) from blog where draft=false and collected_at >= '2024-01-01';
--- self submitted
-select count(*) from blog where draft=false and self_submitted=false and collected_at >= '2024-01-01';
 -- system collected
+select count(*) from blog where draft=false and self_submitted=false and collected_at >= '2024-01-01';
+-- self submitted
 select count(*) from blog where draft=false and self_submitted=true and collected_at >= '2024-01-01';
 
 -- total posts

@@ -27,10 +27,12 @@ public class LatestNewsServiceImpl implements LatestNewsService {
         List<LatestNews> news = new ArrayList<>();
 
         // FIXME: please remove me later
-        LatestNews latestNews = new LatestNews();
-        latestNews.setTitle("博友圈 2024 年度报告！");
-        latestNews.setLink("/annual-reports/2024");
-        news.add(latestNews);
+        for (int i = 0; i < 4; i++) {
+            LatestNews latestNews = new LatestNews();
+            latestNews.setTitle("博友圈 2024 年度报告已揭晓！");
+            latestNews.setLink("/annual-reports/2024");
+            news.add(latestNews);
+        }
 
 //        // recent added blogs
 //        List<LatestNews> recentAddedBlogs = getRecentAddedBlogsNews();

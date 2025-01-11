@@ -28,6 +28,7 @@ public class Blog {
     private Date collectedAt;
     private Date updatedAt;
     private Boolean draft;
+    private Boolean gravatarValid;
     private Boolean valid;
     protected Boolean deleted;
 

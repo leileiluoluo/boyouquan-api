@@ -64,11 +64,12 @@ public class GravatarServiceImpl implements GravatarService {
                 byte[] defaultGravatarBytes = getDefaultGravatarFromLocalStore(size);
                 byte[] bytes = getFromGravatarSource(md5Email, size, false);
                 if (bytes.length > 0
-                        && bytes.length != localBytes.length
-                        && bytes.length != defaultGravatarBytes.length) {
-                    writeToLocalStore(false, md5Email, size, bytes);
+                        && bytes.length != localBytes.length) {
+                    boolean gravatarValid = bytes.length != defaultGravatarBytes.length;
 
-                    logger.info("local image refreshed, md5Email: {}, previousLength: {}, currentLength: {}", md5Email, localBytes.length, bytes.length);
+                    writeToLocalStore(gravatarValid, md5Email, size, bytes);
+
+                    logger.info("local image refreshed, gravatarValid: {}, md5Email: {}, previousLength: {}, currentLength: {}", gravatarValid, md5Email, localBytes.length, bytes.length);
                 }
             }
         } catch (Exception e) {
@@ -99,11 +100,9 @@ public class GravatarServiceImpl implements GravatarService {
             Files.write(filePath, bytes);
 
             // update flag
-            if (gravatarValid) {
-                Blog blog = blogService.getByMd5AdminEmail(md5Email);
-                if (null != blog) {
-                    blogService.updateGravatarValidFlag(blog.getDomainName(), true);
-                }
+            Blog blog = blogService.getByMd5AdminEmail(md5Email);
+            if (null != blog && !blog.getGravatarValid().equals(gravatarValid)) {
+                blogService.updateGravatarValidFlag(blog.getDomainName(), gravatarValid);
             }
         } catch (IOException e) {
             logger.error(e.getMessage(), e);

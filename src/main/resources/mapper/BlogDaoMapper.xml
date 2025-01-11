@@ -25,6 +25,7 @@
         collected_at as collectedAt,
         updated_at as updatedAt,
         valid,
+        gravatar_valid as gravatarValid,
         draft,
         deleted
     </sql>

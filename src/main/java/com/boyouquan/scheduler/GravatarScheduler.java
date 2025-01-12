@@ -41,6 +41,7 @@ public class GravatarScheduler {
                 String adminEmail = blog.getAdminEmail();
                 if (!CommonConstants.FAKE_BLOG_ADMIN_EMAIL.equals(adminEmail)) {
                     String md5Email = CommonUtils.md5(adminEmail);
+                    logger.info("refresh blog gravatar for: {}", blog.getDomainName());
 
                     // refresh
                     gravatarService.refreshLocalImage(md5Email, CommonConstants.GRAVATAR_IMAGE_MEDIUM_SIZE);

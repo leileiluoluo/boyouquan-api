@@ -21,9 +21,8 @@ public class PostHelper {
             // save posts
             List<Post> posts = new ArrayList<>();
             for (RSSInfo.Post rssPost : rssInfo.getBlogPosts()) {
-                String link = rssPost.getLink();
-                boolean existsByLink = postService.existsByLink(link);
-                boolean existsByTitle = postService.existsByTitle(rssPost.getTitle());
+                boolean existsByLink = postService.existsByLink(rssPost.getLink());
+                boolean existsByTitle = postService.existsByTitle(blogDomainName, rssPost.getTitle());
 
                 Date publishedAt = rssPost.getPublishedAt();
                 boolean isValidNewPost = isValidNewPost(publishedAt);

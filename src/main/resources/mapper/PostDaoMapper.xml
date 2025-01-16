@@ -244,7 +244,7 @@
     <select id="existsByTitle" resultType="boolean">
         SELECT
         EXISTS (
-        SELECT 1 FROM post WHERE title=#{title}
+        SELECT 1 FROM post WHERE blog_domain_name=#{blogDomainName} AND title=#{title}
         )
     </select>
     <insert id="batchSave" parameterType="java.util.List">

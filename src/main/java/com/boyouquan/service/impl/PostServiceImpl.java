@@ -151,8 +151,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public boolean existsByTitle(String title) {
-        return postDaoMapper.existsByTitle(title);
+    public boolean existsByTitle(String blogDomainName, String title) {
+        return postDaoMapper.existsByTitle(blogDomainName, title);
     }
 
     @Override

@@ -54,6 +54,14 @@ public class PostScheduler {
 
                     RSSInfo rssInfo = blogCrawlerService.getRSSInfoByRSSAddress(blog.getRssAddress(), CommonConstants.RSS_POST_COUNT_READ_LIMIT);
 
+                    // FIXME: please remove me later
+                    if (null != rssInfo) {
+                        logger.info("posts fetched!");
+                        rssInfo.getBlogPosts().forEach(
+                                p -> logger.info(p.getTitle())
+                        );
+                    }
+
                     // save posts
                     int count = postHelper.savePosts(blog.getDomainName(), rssInfo, false);
                     if (0 == count) {

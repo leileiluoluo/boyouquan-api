@@ -38,7 +38,7 @@ public interface PostDaoMapper {
 
     boolean existsByLink(String link);
 
-    boolean existsByTitle(String title);
+    boolean existsByTitle(String blogDomainName, String title);
 
     void batchSave(List<Post> posts);
 

@@ -34,7 +34,7 @@ public interface PostService {
 
     boolean existsByLink(String link);
 
-    boolean existsByTitle(String title);
+    boolean existsByTitle(String blogDomainName, String title);
 
     Post getByLink(String link);
 

@@ -26,37 +26,29 @@ public class LatestNewsServiceImpl implements LatestNewsService {
     public List<LatestNews> getLatestNews() {
         List<LatestNews> news = new ArrayList<>();
 
-        // FIXME: please remove me later
-        for (int i = 0; i < 4; i++) {
-            LatestNews latestNews = new LatestNews();
-            latestNews.setTitle("博友圈 2024 年度报告已揭晓！");
-            latestNews.setLink("/annual-reports/2024");
-            news.add(latestNews);
+        // recent added blogs
+        List<LatestNews> recentAddedBlogs = getRecentAddedBlogsNews();
+        if (!recentAddedBlogs.isEmpty()) {
+            news.addAll(recentAddedBlogs);
         }
 
-//        // recent added blogs
-//        List<LatestNews> recentAddedBlogs = getRecentAddedBlogsNews();
-//        if (!recentAddedBlogs.isEmpty()) {
-//            news.addAll(recentAddedBlogs);
-//        }
-//
-//        // most accessed blogs
-//        List<LatestNews> mostAccessedBlogs = getMostAccessedBlogsNews();
-//        if (!mostAccessedBlogs.isEmpty()) {
-//            news.addAll(mostAccessedBlogs);
-//        }
-//
-//        // most updated blogs
-//        List<LatestNews> mostUpdatedBlogs = getMostUpdatedBlogsNews();
-//        if (!mostUpdatedBlogs.isEmpty()) {
-//            news.addAll(mostUpdatedBlogs);
-//        }
-//
-//        // most initiated blogs
-//        List<LatestNews> mostInitiatedBlogs = getMostInitiatedBlogsNews();
-//        if (!mostInitiatedBlogs.isEmpty()) {
-//            news.addAll(mostInitiatedBlogs);
-//        }
+        // most accessed blogs
+        List<LatestNews> mostAccessedBlogs = getMostAccessedBlogsNews();
+        if (!mostAccessedBlogs.isEmpty()) {
+            news.addAll(mostAccessedBlogs);
+        }
+
+        // most updated blogs
+        List<LatestNews> mostUpdatedBlogs = getMostUpdatedBlogsNews();
+        if (!mostUpdatedBlogs.isEmpty()) {
+            news.addAll(mostUpdatedBlogs);
+        }
+
+        // most initiated blogs
+        List<LatestNews> mostInitiatedBlogs = getMostInitiatedBlogsNews();
+        if (!mostInitiatedBlogs.isEmpty()) {
+            news.addAll(mostInitiatedBlogs);
+        }
 
         return news;
     }

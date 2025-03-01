@@ -25,7 +25,7 @@ public class DomainNameInfoScheduler {
     @Autowired
     private DomainNameInfoService domainNameInfoService;
 
-    @Scheduled(cron = "0 20 21 * * ?")
+    @Scheduled(cron = "0 30 21 * * ?")
     public void processDomainNameInfos() {
         logger.info("domain name infos scheduler start!");
 

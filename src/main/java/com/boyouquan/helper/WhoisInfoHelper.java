@@ -36,7 +36,12 @@ public class WhoisInfoHelper {
                 return null;
             }
 
-            return ObjectUtil.jsonToObject(body, WhoisInfo.class);
+            WhoisInfo whoisInfo = ObjectUtil.jsonToObject(body, WhoisInfo.class);
+            if (200 != whoisInfo.getCode()) {
+                logger.error("request whois info failed, code: {}, body: {}", whoisInfo.getCode(), body);
+                return null;
+            }
+            return whoisInfo;
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }

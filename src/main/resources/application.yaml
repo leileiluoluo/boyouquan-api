@@ -42,5 +42,5 @@ boyouquan:
   email:
     enable: ${EMAIL_ENABLE:false}
   ip-info-query-url: https://whois.pconline.com.cn/ipJson.jsp?ip=%s&json=true
-  domain-whois-info-query-url: https://whois.aliyun.com/whois/api_whois_info?domainName=%s&umToken=whois-web-hichina-com=a0c4039b1d697602fa202b0ff8afd233&_=1740830970591
+  domain-whois-info-query-url: https://cn.apihz.cn/api/wangzhan/whois.php?id=10002950&key=${WHOIS_QUERY_KEY}&domain=%s
   domains-refuse-to-join: qncd.com, xigeshudong.com, gregueria.icu

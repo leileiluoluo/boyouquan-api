@@ -277,7 +277,9 @@ public class BlogServiceImpl implements BlogService {
 
         // domain name info
         DomainNameInfo domainNameInfo = domainNameInfoService.getDomainNameInfoByBlogDomainName(blogDomainName);
-        blogInfo.setDomainNameRegisteredAt(domainNameInfo.getRegisteredAt());
+        if (null != domainNameInfo) {
+            blogInfo.setDomainNameRegisteredAt(domainNameInfo.getRegisteredAt());
+        }
 
         return blogInfo;
     }

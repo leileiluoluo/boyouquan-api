@@ -223,6 +223,15 @@ public class CommonUtils {
         return blogDomainName;
     }
 
+    public static String getRealWhoisDomainFromBlogDomainName(String blogDomainName) {
+        String domain = getDomainFromBlogDomainName(blogDomainName);
+        String[] parts = domain.split("\\.");
+        if (parts.length > 1) {
+            return parts[parts.length - 2] + "." + parts[parts.length - 1];
+        }
+        return domain;
+    }
+
     public static String removeFromPart(String url) {
         if (url.contains("?from")) {
             return url.substring(0, url.indexOf("?from"));

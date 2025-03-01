@@ -28,8 +28,6 @@ public class IPInfoHelper {
     @Autowired
     private BoYouQuanConfig boYouQuanConfig;
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
     public BlogLocation getIpInfoByDomainName(String domainName) {
         String domain = CommonUtils.getDomainFromBlogDomainName(domainName);
         String ip = IPUtil.domainToIp(domain);

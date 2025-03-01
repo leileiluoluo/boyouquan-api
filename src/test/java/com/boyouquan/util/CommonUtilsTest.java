@@ -9,4 +9,9 @@ public class CommonUtilsTest {
         CommonUtils.md5("leileiluoluo@leileiluoluo.com");
     }
 
+    @Test
+    public void testGetRealWhoisDomainFromBlogDomainName() {
+        System.out.println(CommonUtils.getRealWhoisDomainFromBlogDomainName("www.xiaoheiwa.com/1/2/3"));
+    }
+
 }

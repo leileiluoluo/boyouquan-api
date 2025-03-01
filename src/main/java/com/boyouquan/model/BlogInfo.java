@@ -21,6 +21,8 @@ public class BlogInfo extends Blog {
     private Long accessCount;
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date latestPublishedAt;
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private Date domainNameRegisteredAt;
     private List<Post> posts = Collections.emptyList();
     private String blogAdminMediumImageURL;
     private String blogAdminLargeImageURL;

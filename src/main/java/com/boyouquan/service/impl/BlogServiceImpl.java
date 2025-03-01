@@ -30,6 +30,8 @@ public class BlogServiceImpl implements BlogService {
     private BlogStatusService blogStatusService;
     @Autowired
     private BlogLocationService blogLocationService;
+    @Autowired
+    private DomainNameInfoService domainNameInfoService;
 
     @Override
     public List<BlogLatestPublishedAt> listBlogLatestPublishedAt() {
@@ -272,6 +274,10 @@ public class BlogServiceImpl implements BlogService {
         if (null != blogLocation) {
             blogInfo.setBlogServerLocation(blogLocation.getLocationShort());
         }
+
+        // domain name info
+        DomainNameInfo domainNameInfo = domainNameInfoService.getDomainNameInfoByBlogDomainName(blogDomainName);
+        blogInfo.setDomainNameRegisteredAt(domainNameInfo.getRegisteredAt());
 
         return blogInfo;
     }

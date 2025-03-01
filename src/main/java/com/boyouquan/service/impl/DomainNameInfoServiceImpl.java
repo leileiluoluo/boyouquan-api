@@ -18,6 +18,13 @@ public class DomainNameInfoServiceImpl implements DomainNameInfoService {
     private DomainNameInfoDaoMapper domainNameInfoDaoMapper;
 
     @Override
+    public DomainNameInfo getDomainNameInfoByBlogDomainName(String blogDomainName) {
+        String realDomainName = CommonUtils.getRealWhoisDomainFromBlogDomainName(blogDomainName);
+
+        return domainNameInfoDaoMapper.getByRealDomainName(realDomainName);
+    }
+
+    @Override
     public void refreshDomainNameInfo(String blogDomainName) {
         String realDomainName = CommonUtils.getRealWhoisDomainFromBlogDomainName(blogDomainName);
 

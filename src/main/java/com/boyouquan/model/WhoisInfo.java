@@ -11,14 +11,10 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WhoisInfo {
 
-    @JsonProperty("module")
-    private Module module;
+    @JsonProperty("code")
+    private int code;
 
-    @Data
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Module {
-        @JsonProperty("creationDate")
-        private Date creationDate;
-    }
+    @JsonProperty("addtime")
+    private Date registeredAt;
 
 }

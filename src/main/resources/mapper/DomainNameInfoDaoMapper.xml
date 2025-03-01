@@ -37,6 +37,6 @@
         SET
         registered_at=#{registeredAt},
         updated_at=now()
-        WHERE real_domain_name=#{readDomainName}
+        WHERE real_domain_name=#{realDomainName}
     </update>
 </mapper>

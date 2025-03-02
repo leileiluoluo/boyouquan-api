@@ -26,7 +26,7 @@ public class DomainNameInfoServiceImpl implements DomainNameInfoService {
     public void refreshDomainNameInfo(String blogDomainName) {
         String realDomainName = CommonUtils.getRealWhoisDomainFromBlogDomainName(blogDomainName);
 
-        WhoisInfo whoisInfo = whoisInfoHelper.getDomainNameInfoByRealDomainName(blogDomainName);
+        WhoisInfo whoisInfo = whoisInfoHelper.getDomainNameInfoByRealDomainName(realDomainName);
         if (null != whoisInfo) {
             DomainNameInfo existingDomainNameInfo = domainNameInfoDaoMapper.getByBlogDomainName(blogDomainName);
             if (null != existingDomainNameInfo) {

@@ -2,7 +2,8 @@ package com.boyouquan.model;
 
 public enum BlogSortType {
     collect_time,
-    access_count;
+    access_count,
+    create_time;
 
     public static BlogSortType of(String sort) {
         for (BlogSortType sortType : BlogSortType.values()) {
@@ -10,6 +11,6 @@ public enum BlogSortType {
                 return sortType;
             }
         }
-        return access_count;
+        return collect_time;
     }
 }

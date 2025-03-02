@@ -99,7 +99,7 @@
                 ORDER BY collected_at DESC
                 LIMIT #{offset}, #{rows}
             </when>
-            <otherwise>
+            <when test="sort == 'access_count'">
                 SELECT
                 <include refid="select_columns"/>
                 FROM blog b
@@ -119,6 +119,24 @@
                     )
                 </if>
                 ORDER BY a.count DESC
+                LIMIT #{offset}, #{rows}
+            </when>
+            <otherwise>
+                SELECT
+                <include refid="select_columns"/>
+                FROM blog b
+                INNER JOIN domain_name_info d
+                ON b.domain_name=d.blog_domain_name
+                WHERE b.draft=false
+                AND b.deleted=false
+                <if test="keyword != null and keyword != ''">
+                    AND
+                    (
+                    b.name LIKE CONCAT('%', #{keyword}, '%')
+                    OR b.address LIKE CONCAT('%', #{keyword}, '%')
+                    )
+                </if>
+                ORDER BY d.registered_at
                 LIMIT #{offset}, #{rows}
             </otherwise>
         </choose>

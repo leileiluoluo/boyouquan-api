@@ -3,7 +3,6 @@ package com.boyouquan.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -11,10 +10,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WhoisInfo {
 
-    @JsonProperty("code")
-    private int code;
-
-    @JsonProperty("addtime")
-    private Date registeredAt;
+    @JsonProperty("created")
+    private Date created;
 
 }

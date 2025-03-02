@@ -20,8 +20,11 @@ public class BoYouQuanConfig {
     @Value("${boyouquan.ip-info-query-url}")
     private String ipInfoQueryUrl;
 
-    @Value("${boyouquan.domain-whois-info-query-url}")
+    @Value("${boyouquan.domain-whois-info-query.url}")
     private String domainWhoisInfoQueryUrl;
+
+    @Value("${boyouquan.domain-whois-info-query.api-key}")
+    private String domainWhoisInfoQueryApiKey;
 
     @Value("${boyouquan.domains-refuse-to-join}")
     private List<String> domainsRefuseToJoin;

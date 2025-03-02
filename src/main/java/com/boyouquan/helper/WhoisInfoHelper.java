@@ -26,7 +26,10 @@ public class WhoisInfoHelper {
     public WhoisInfo getDomainNameInfoByRealDomainName(String realDomainName) {
         String url = String.format(boYouQuanConfig.getDomainWhoisInfoQueryUrl(), realDomainName);
 
-        Request request = new Request.Builder().url(url).build();
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", boYouQuanConfig.getDomainWhoisInfoQueryApiKey())
+                .build();
 
         Call call = client.newCall(request);
         try (Response response = call.execute(); ResponseBody responseBody = response.body()) {
@@ -37,8 +40,8 @@ public class WhoisInfoHelper {
             }
 
             WhoisInfo whoisInfo = ObjectUtil.jsonToObject(body, WhoisInfo.class);
-            if (200 != whoisInfo.getCode()) {
-                logger.error("request whois info failed, code: {}, body: {}", whoisInfo.getCode(), body);
+            if (null == whoisInfo.getCreated()) {
+                logger.error("request whois info failed, body: {}", body);
                 return null;
             }
             return whoisInfo;

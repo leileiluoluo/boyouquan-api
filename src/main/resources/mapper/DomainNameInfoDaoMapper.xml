@@ -1,6 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.boyouquan.dao.DomainNameInfoDaoMapper">
     <sql id="insert_columns">
+        blog_domain_name,
         real_domain_name,
         registered_at,
         created_at,
@@ -8,23 +9,25 @@
         deleted
     </sql>
     <sql id="select_columns">
+        blog_domain_name as blogDomainName,
         real_domain_name as realDomainName,
         registered_at as registeredAt,
         created_at as createdAt,
         updated_at as updatedAt,
         deleted
     </sql>
-    <select id="getByRealDomainName" resultType="com.boyouquan.model.DomainNameInfo">
+    <select id="getByBlogDomainName" resultType="com.boyouquan.model.DomainNameInfo">
         SELECT
         <include refid="select_columns"/>
         FROM domain_name_info
         WHERE deleted=false
-        AND real_domain_name=#{realDomainName}
+        AND blog_domain_name=#{blogDomainName}
     </select>
     <insert id="save">
         INSERT INTO domain_name_info (
         <include refid="insert_columns"/>
         ) VALUES (
+        #{blogDomainName},
         #{realDomainName},
         #{registeredAt},
         now(),
@@ -37,6 +40,6 @@
         SET
         registered_at=#{registeredAt},
         updated_at=now()
-        WHERE real_domain_name=#{realDomainName}
+        WHERE blog_domain_name=#{blogDomainName}
     </update>
 </mapper>

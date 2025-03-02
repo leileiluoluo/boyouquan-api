@@ -123,7 +123,19 @@
             </when>
             <otherwise>
                 SELECT
-                <include refid="select_columns"/>
+                b.domain_name as domainName,
+                b.admin_email as adminEmail,
+                b.name,
+                b.address,
+                b.rss_address as rssAddress,
+                b.description,
+                b.self_submitted as selfSubmitted,
+                b.collected_at as collectedAt,
+                b.updated_at as updatedAt,
+                b.valid,
+                b.gravatar_valid as gravatarValid,
+                b.draft,
+                b.deleted
                 FROM blog b
                 INNER JOIN domain_name_info d
                 ON b.domain_name=d.blog_domain_name

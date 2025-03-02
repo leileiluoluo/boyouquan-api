@@ -260,7 +260,7 @@ public class BlogServiceImpl implements BlogService {
 
         blogInfo.setSubmittedInfo(blog.getSelfSubmitted() ? "自行提交" : "后台收录");
         String collectedAt = CommonUtils.dateCommonFormatDisplay(blogInfo.getCollectedAt());
-        blogInfo.setSubmittedInfoTip(blog.getSelfSubmitted() ? String.format("该博客由博主自行提交于 %s", collectedAt) : String.format("该博客由本站后台收录于 %s", collectedAt));
+        blogInfo.setSubmittedInfoTip(blog.getSelfSubmitted() ? String.format("该博客由博主自行提交于：%s", collectedAt) : String.format("该博客由本站后台收录于：%s", collectedAt));
 
         // status
         boolean isStatusOk = blogStatusService.isStatusOkByBlogDomainName(blog.getDomainName());

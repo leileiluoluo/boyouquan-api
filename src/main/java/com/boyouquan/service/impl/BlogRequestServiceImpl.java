@@ -41,6 +41,8 @@ public class BlogRequestServiceImpl implements BlogRequestService {
     @Autowired
     private BlogLocationService blogLocationService;
     @Autowired
+    private DomainNameInfoService domainNameInfoService;
+    @Autowired
     private PostHelper postHelper;
     @Autowired
     private EmailService emailService;
@@ -86,6 +88,10 @@ public class BlogRequestServiceImpl implements BlogRequestService {
                 update(blogRequest);
                 return;
             }
+
+            // query domain name info
+            String blogDomainName = CommonUtils.getDomain(rssInfo.getBlogAddress());
+            domainNameInfoService.refreshDomainNameInfo(blogDomainName);
 
             // success
             blogRequest.setStatus(BlogRequest.Status.system_check_valid);

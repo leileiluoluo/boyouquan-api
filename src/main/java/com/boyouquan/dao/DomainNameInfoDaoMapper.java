@@ -4,7 +4,7 @@ import com.boyouquan.model.DomainNameInfo;
 
 public interface DomainNameInfoDaoMapper {
 
-    DomainNameInfo getByRealDomainName(String realDomainName);
+    DomainNameInfo getByBlogDomainName(String blogDomainName);
 
     void save(DomainNameInfo domainNameInfo);
 

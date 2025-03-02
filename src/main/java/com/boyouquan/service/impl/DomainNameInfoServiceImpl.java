@@ -19,25 +19,24 @@ public class DomainNameInfoServiceImpl implements DomainNameInfoService {
 
     @Override
     public DomainNameInfo getDomainNameInfoByBlogDomainName(String blogDomainName) {
-        String realDomainName = CommonUtils.getRealWhoisDomainFromBlogDomainName(blogDomainName);
-
-        return domainNameInfoDaoMapper.getByRealDomainName(realDomainName);
+        return domainNameInfoDaoMapper.getByBlogDomainName(blogDomainName);
     }
 
     @Override
     public void refreshDomainNameInfo(String blogDomainName) {
         String realDomainName = CommonUtils.getRealWhoisDomainFromBlogDomainName(blogDomainName);
 
-        WhoisInfo whoisInfo = whoisInfoHelper.getDomainNameInfoByRealDomainName(realDomainName);
+        WhoisInfo whoisInfo = whoisInfoHelper.getDomainNameInfoByRealDomainName(blogDomainName);
         if (null != whoisInfo) {
-            DomainNameInfo existingDomainNameInfo = domainNameInfoDaoMapper.getByRealDomainName(blogDomainName);
+            DomainNameInfo existingDomainNameInfo = domainNameInfoDaoMapper.getByBlogDomainName(blogDomainName);
             if (null != existingDomainNameInfo) {
-                existingDomainNameInfo.setRegisteredAt(whoisInfo.getRegisteredAt());
+                existingDomainNameInfo.setRegisteredAt(whoisInfo.getCreated());
                 domainNameInfoDaoMapper.update(existingDomainNameInfo);
             } else {
                 DomainNameInfo domainNameInfo = new DomainNameInfo();
+                domainNameInfo.setBlogDomainName(blogDomainName);
                 domainNameInfo.setRealDomainName(realDomainName);
-                domainNameInfo.setRegisteredAt(whoisInfo.getRegisteredAt());
+                domainNameInfo.setRegisteredAt(whoisInfo.getCreated());
                 domainNameInfoDaoMapper.save(domainNameInfo);
             }
         }

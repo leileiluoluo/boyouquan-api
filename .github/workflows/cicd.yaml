@@ -48,8 +48,9 @@ jobs:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_ENABLE: ${{ secrets.EMAIL_ENABLE }}
+          DOMAIN_WHOIS_QUERY_API_KEY: ${{ secrets.DOMAIN_WHOIS_QUERY_API_KEY }}
         with:
-          envs: DATABASE_URL,DATABASE_USER,DATABASE_PASSWORD,EMAIL_PASSWORD,EMAIL_ENABLE
+          envs: DATABASE_URL,DATABASE_USER,DATABASE_PASSWORD,EMAIL_PASSWORD,EMAIL_ENABLE,DOMAIN_WHOIS_QUERY_API_KEY
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
           username: ${{ secrets.USERNAME }}
@@ -65,6 +66,7 @@ jobs:
             export DATABASE_PASSWORD=$DATABASE_PASSWORD
             export EMAIL_PASSWORD=$EMAIL_PASSWORD
             export EMAIL_ENABLE=$EMAIL_ENABLE
+            export DOMAIN_WHOIS_QUERY_API_KEY=$DOMAIN_WHOIS_QUERY_API_KEY
             nohup java -Xms200m -Xmx200m -XX:+HeapDumpOnOutOfMemoryError -jar /usr/app/old/boyouquan-api-2.0.jar > /tmp/server.log 2>&1 &
             sleep 1
             while ! grep -m1 'Started BoYouQuanWebApplication' < /tmp/server.log; do

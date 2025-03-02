@@ -40,7 +40,7 @@ public class WhoisInfoHelper {
             }
 
             WhoisInfo whoisInfo = ObjectUtil.jsonToObject(body, WhoisInfo.class);
-            if (null == whoisInfo.getCreated()) {
+            if (null == whoisInfo || null == whoisInfo.getCreated()) {
                 logger.error("request whois info failed, body: {}", body);
                 return null;
             }

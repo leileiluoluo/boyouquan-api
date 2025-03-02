@@ -8,4 +8,4 @@ CREATE TABLE domain_name_info (
     deleted BOOLEAN DEFAULT FALSE
 );
 
-CREATE INDEX idx_domain_name_info_real_domain_name ON domain_name_info (real_domain_name);
+CREATE INDEX idx_domain_name_info_domain_name ON domain_name_info (blog_domain_name);

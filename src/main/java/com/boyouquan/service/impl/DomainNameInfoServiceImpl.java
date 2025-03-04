@@ -30,8 +30,10 @@ public class DomainNameInfoServiceImpl implements DomainNameInfoService {
         if (null != whoisInfo) {
             DomainNameInfo existingDomainNameInfo = domainNameInfoDaoMapper.getByBlogDomainName(blogDomainName);
             if (null != existingDomainNameInfo) {
-                existingDomainNameInfo.setRegisteredAt(whoisInfo.getCreated());
-                domainNameInfoDaoMapper.update(existingDomainNameInfo);
+                if (!existingDomainNameInfo.getConfirmed()) {
+                    existingDomainNameInfo.setRegisteredAt(whoisInfo.getCreated());
+                    domainNameInfoDaoMapper.update(existingDomainNameInfo);
+                }
             } else {
                 DomainNameInfo domainNameInfo = new DomainNameInfo();
                 domainNameInfo.setBlogDomainName(blogDomainName);

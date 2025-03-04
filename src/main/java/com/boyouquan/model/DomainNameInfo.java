@@ -10,8 +10,8 @@ public class DomainNameInfo {
     private String blogDomainName;
     private String realDomainName;
     private Date registeredAt;
-    private Date createdAt;
-    private Date updatedAt;
-    protected Boolean deleted;
+    private Date detectedAt;
+    private Date refreshedAt;
+    protected Boolean confirmed;
 
 }

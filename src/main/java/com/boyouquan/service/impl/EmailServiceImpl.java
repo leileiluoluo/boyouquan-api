@@ -229,6 +229,21 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public void sendEmailValidationCode(String email, String code) {
+        String subject = "[博友圈] 博主邮箱验证码";
+
+        Context context = new Context();
+
+        context.setVariable("email", email);
+        context.setVariable("code", code);
+
+        String text = templateEngine.process("email/email_validation_code_template", context);
+
+        // send
+        send(email, subject, text, true);
+    }
+
+    @Override
     public void send(String to, String subject, String content, boolean html) {
         try {
             if (to.equals(CommonConstants.FAKE_BLOG_ADMIN_EMAIL)

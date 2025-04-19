@@ -10,5 +10,6 @@ public class BlogRequestForm {
     private String description;
     private String rssAddress;
     private String adminEmail;
+    private String emailVerificationCode;
 
 }

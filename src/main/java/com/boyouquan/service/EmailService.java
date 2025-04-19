@@ -24,6 +24,8 @@ public interface EmailService {
 
     void sendBlogAnnualReport(Blog blog, BlogAnnualReport blogAnnualReport);
 
+    void sendEmailValidationCode(String email, String code);
+
     void send(String to, String subject, String content, boolean html);
 
 }

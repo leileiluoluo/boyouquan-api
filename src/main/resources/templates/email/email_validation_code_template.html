@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout::layout}">
+<body>
+<div class="email-container">
+<main layout:fragment="content">
+    <p>
+        验证码：<strong style="color: red" th:text="${code}"></strong>
+    </p>
+</main>
+</div>
+</body>
+</html>

@@ -4,15 +4,12 @@ import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.enumration.ErrorCode;
 import com.boyouquan.helper.BlogRequestFormHelper;
 import com.boyouquan.helper.IPControlHelper;
-import com.boyouquan.model.BlogRequest;
-import com.boyouquan.model.BlogRequestForm;
-import com.boyouquan.model.BlogRequestInfo;
+import com.boyouquan.model.*;
 import com.boyouquan.service.BlogRequestService;
-import com.boyouquan.util.IPUtil;
-import com.boyouquan.util.Pagination;
-import com.boyouquan.util.PaginationBuilder;
-import com.boyouquan.util.ResponseUtil;
+import com.boyouquan.service.EmailValidationService;
+import com.boyouquan.util.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +32,8 @@ public class BlogRequestController {
     private BlogRequestService blogRequestService;
     @Autowired
     private IPControlHelper ipControlHelper;
+    @Autowired
+    private EmailValidationService emailValidationService;
 
     @GetMapping("")
     public ResponseEntity<Pagination<BlogRequestInfo>> listBlogRequests(
@@ -72,11 +71,48 @@ public class BlogRequestController {
         return ResponseEntity.ok(blogRequestInfo);
     }
 
+    @PostMapping("/validation-code")
+    public ResponseEntity<?> sendEmailValidationCode(@RequestBody EmailValidationForm emailValidationForm) {
+        // email
+        String adminEmail = emailValidationForm.getAdminEmail().trim();
+        if (!EmailUtil.isEmailValid(adminEmail)) {
+            return ResponseUtil.errorResponse(ErrorCode.BLOG_REQUEST_ADMIN_EMAIL_INVALID);
+        }
+
+        // generate code & send email
+        emailValidationService.generateCodeSendEmailAndSave(adminEmail);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/email-validation")
+    public ResponseEntity<?> addBlogRequest(@RequestBody EmailValidationForm emailValidationForm) {
+        // email
+        String adminEmail = emailValidationForm.getAdminEmail().trim();
+        if (!EmailUtil.isEmailValid(adminEmail)) {
+            return ResponseUtil.errorResponse(ErrorCode.BLOG_REQUEST_ADMIN_EMAIL_INVALID);
+        }
+
+        // email validation
+        EmailValidation emailValidation = emailValidationService.getByEmailAndCode(adminEmail, emailValidationForm.getCode());
+        if (null == emailValidation
+                || CommonUtils.isDateOneHourAgo(emailValidation.getIssuedAt())) {
+            return ResponseUtil.errorResponse(ErrorCode.BLOG_REQUEST_EMAIL_VALIDATION_CODE_INVALID);
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @PostMapping("")
     public ResponseEntity<?> addBlogRequest(@RequestBody BlogRequestForm blogRequestForm, HttpServletRequest request) {
         ErrorCode error = blogRequestFormHelper.paramsValidation(blogRequestForm);
         if (null != error) {
             return ResponseUtil.errorResponse(error);
+        }
+
+        // email validation
+        EmailValidation emailValidation = emailValidationService.getByEmailAndCode(blogRequestForm.getAdminEmail(), blogRequestForm.getEmailVerificationCode());
+        if (null == emailValidation
+                || CommonUtils.isDateOneHourAgo(emailValidation.getIssuedAt())) {
+            return ResponseUtil.errorResponse(ErrorCode.BLOG_REQUEST_EMAIL_VALIDATION_CODE_INVALID);
         }
 
         // IP Control

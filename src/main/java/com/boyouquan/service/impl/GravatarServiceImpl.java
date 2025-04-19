@@ -64,12 +64,11 @@ public class GravatarServiceImpl implements GravatarService {
                 byte[] defaultGravatarBytes = getDefaultGravatarFromLocalStore(size);
                 byte[] bytes = getFromGravatarSource(md5Email, size, false);
                 if (bytes.length > 0
-                        && bytes.length != localBytes.length) {
-                    boolean gravatarValid = bytes.length != defaultGravatarBytes.length;
+                        && bytes.length != localBytes.length
+                        && bytes.length != defaultGravatarBytes.length) {
+                    writeToLocalStore(true, md5Email, size, bytes);
 
-                    writeToLocalStore(gravatarValid, md5Email, size, bytes);
-
-                    logger.info("local image refreshed, gravatarValid: {}, md5Email: {}, previousLength: {}, currentLength: {}", gravatarValid, md5Email, localBytes.length, bytes.length);
+                    logger.info("local image refreshed, md5Email: {}, previousLength: {}, currentLength: {}", md5Email, localBytes.length, bytes.length);
                 }
             }
         } catch (Exception e) {

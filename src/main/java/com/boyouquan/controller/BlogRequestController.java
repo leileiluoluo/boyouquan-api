@@ -99,7 +99,7 @@ public class BlogRequestController {
         }
 
         // email validation
-        EmailValidation emailValidation = emailValidationService.getByEmailAndCode(adminEmail, emailValidationForm.getCode());
+        EmailValidation emailValidation = emailValidationService.getByEmailAndCode(adminEmail, emailValidationForm.getEmailVerificationCode());
         if (null == emailValidation
                 || CommonUtils.isDateOneHourAgo(emailValidation.getIssuedAt())) {
             return ResponseUtil.errorResponse(ErrorCode.BLOG_REQUEST_EMAIL_VALIDATION_CODE_INVALID);

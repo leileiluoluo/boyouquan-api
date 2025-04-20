@@ -56,9 +56,21 @@ INSERT INTO `user` (`username`, `md5password`, `role`, `deleted`)
 export DATABASE_URL="jdbc:mysql://localhost:3306/boyouquan?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8"
 export DATABASE_USER=root # 换成你的账号
 export DATABASE_PASSWORD=root # 换成你的密码
-export EMAIL_ENABLE=false
+```
 
+```shell
 java -jar ./target/boyouquan-api-2.0.jar
+```
+
+若需要开启邮件发送以及博客年龄获取功能，在启动前还需要设置如下环境变量：
+
+```shell
+export EMAIL_HOST=smtp.xxx.com # 您的邮箱服务器 SMTP 地址，如 QQ 邮箱的 SMTP 地址为 smtp.exmail.qq.com
+export EMAIL_PORT=465 # 您的邮箱服务器 SMTP 端口，如 QQ 邮箱的 SMTP 端口为 465
+export EMAIL_USERNAME=someone@some-domain.com # 您的邮箱账号
+export EMAIL_PASSWORD=xxx # 您的邮箱密码
+export EMAIL_ENABLE=true  # 开启邮件发送功能
+export DOMAIN_WHOIS_QUERY_API_KEY=xxx # 支持博客年龄获取，注册 jsonwhoisapi.com 网站，申请免费的 API_KEY
 ```
 
 程序启动后，尝试使用命令行或在浏览器访问一下博客列表

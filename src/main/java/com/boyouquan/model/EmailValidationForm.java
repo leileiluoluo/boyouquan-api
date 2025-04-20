@@ -7,6 +7,6 @@ import lombok.Data;
 public class EmailValidationForm {
 
     private String adminEmail;
-    private String code;
+    private String emailVerificationCode;
 
 }

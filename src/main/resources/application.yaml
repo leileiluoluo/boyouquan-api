@@ -12,9 +12,9 @@ spring:
     jcache:
       config: classpath:ehcache.xml
   mail:
-    host: smtp.exmail.qq.com
-    port: 465
-    username: contact@boyouquan.com
+    host: ${EMAIL_HOST:smtp.exmail.qq.com}
+    port: ${EMAIL_PORT:465}
+    username: ${EMAIL_USERNAME:contact@boyouquan.com}
     password: ${EMAIL_PASSWORD:fake}
     default-encoding: UTF-8
     properties:

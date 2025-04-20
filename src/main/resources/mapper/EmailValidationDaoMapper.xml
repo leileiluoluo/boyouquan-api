@@ -2,7 +2,9 @@
 <mapper namespace="com.boyouquan.dao.EmailValidationDaoMapper">
     <sql id="insert_columns">
         email,
-        code
+        code,
+        issued_at,
+        deleted
     </sql>
     <sql id="select_columns">
         id,
@@ -19,6 +21,13 @@
         AND code=#{code}
         ORDER BY issued_at DESC
         LIMIT 1
+    </select>
+    <select id="countTodayIssuedByEmail" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM email_validation
+        WHERE email=#{email}
+        AND DATE(issued_at) = CURDATE()
     </select>
     <insert id="save">
         INSERT INTO email_validation (

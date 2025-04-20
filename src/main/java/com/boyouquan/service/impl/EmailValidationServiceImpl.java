@@ -23,6 +23,11 @@ public class EmailValidationServiceImpl implements EmailValidationService {
     }
 
     @Override
+    public int countTodayIssuedByEmail(String email) {
+        return emailValidationDaoMapper.countTodayIssuedByEmail(email);
+    }
+
+    @Override
     public void generateCodeSendEmailAndSave(String email) {
         String code = generateCode();
 

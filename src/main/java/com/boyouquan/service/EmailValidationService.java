@@ -6,6 +6,8 @@ public interface EmailValidationService {
 
     EmailValidation getByEmailAndCode(String email, String code);
 
+    int countTodayIssuedByEmail(String email);
+
     void generateCodeSendEmailAndSave(String email);
 
 }

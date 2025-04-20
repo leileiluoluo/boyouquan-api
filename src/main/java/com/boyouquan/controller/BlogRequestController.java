@@ -79,6 +79,12 @@ public class BlogRequestController {
             return ResponseUtil.errorResponse(ErrorCode.BLOG_REQUEST_ADMIN_EMAIL_INVALID);
         }
 
+        // check
+        int count = emailValidationService.countTodayIssuedByEmail(adminEmail);
+        if (count >= CommonConstants.EMAIL_VALIDATION_CODE_ONE_DAY_LIMIT) {
+            return ResponseUtil.errorResponse(ErrorCode.BLOG_REQUEST_EMAIL_VALIDATION_CODE_LIMIT_EXCEED);
+        }
+
         // generate code & send email
         emailValidationService.generateCodeSendEmailAndSave(adminEmail);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -115,12 +121,6 @@ public class BlogRequestController {
             return ResponseUtil.errorResponse(ErrorCode.BLOG_REQUEST_EMAIL_VALIDATION_CODE_INVALID);
         }
 
-        // IP Control
-        String ip = IPUtil.getRealIp(request);
-        if (ipControlHelper.alreadyAccessed(ip, "blog_submitted")) {
-            return ResponseUtil.errorResponse(ErrorCode.BLOG_SUBMITTED_WITH_SAME_IP);
-        }
-
         // submit
         BlogRequest blogRequest = new BlogRequest();
         blogRequest.setName(blogRequestForm.getName().trim());
@@ -131,9 +131,6 @@ public class BlogRequestController {
         blogRequestService.submit(blogRequest);
 
         executorService.execute(() -> {
-            // IP Control
-            ipControlHelper.access(ip, "blog_submitted");
-
             blogRequestService.processNewRequest(blogRequest.getRssAddress());
         });
 

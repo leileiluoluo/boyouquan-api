@@ -38,7 +38,7 @@ public class PlanetShuttleController {
             fromBlog = blogService.getByShortDomainName(fromDomainName);
         }
 
-        Blog blog = blogService.listByRandom(Collections.emptyList(), 1).stream().findFirst().get();
+        Blog blog = blogService.listByRandom(Collections.emptyList(), false, 1).stream().findFirst().get();
 
         // save planet shuttle
         long fromBlogInitiatedCount = 0;

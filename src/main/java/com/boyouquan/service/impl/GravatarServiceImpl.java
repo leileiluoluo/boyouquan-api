@@ -1,5 +1,6 @@
 package com.boyouquan.service.impl;
 
+import com.boyouquan.config.BoYouQuanConfig;
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.model.Blog;
 import com.boyouquan.service.BlogService;
@@ -26,6 +27,8 @@ public class GravatarServiceImpl implements GravatarService {
 
     private static final OkHttpClient client = OkHttpUtil.getUnsafeOkHttpClient();
 
+    @Autowired
+    private BoYouQuanConfig boYouQuanConfig;
     @Autowired
     private BlogService blogService;
 
@@ -127,7 +130,7 @@ public class GravatarServiceImpl implements GravatarService {
     }
 
     private byte[] getFromGravatarSource(String md5Email, int size, boolean includeNobodyImage) {
-        String url = String.format(CommonConstants.GRAVATAR_SOURCE_ADDRESS, md5Email, size);
+        String url = String.format(boYouQuanConfig.getGravatarUrl(), md5Email, size);
 
         Request request = new Request.Builder()
                 .url(url)

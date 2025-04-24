@@ -41,6 +41,7 @@ mybatis:
 boyouquan:
   email:
     enable: ${EMAIL_ENABLE:false}
+  gravatar-url: https://cn.cravatar.com/avatar/%s?s=%d
   ip-info-query-url: https://whois.pconline.com.cn/ipJson.jsp?ip=%s&json=true
   domain-whois-info-query:
     url: https://api.jsonwhoisapi.com/v1/whois?identifier=%s

@@ -35,7 +35,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
-        AND gravatar_valid=true
+        AND gravatar_valid=#{gravatarValid}
         <if test="excludedDomainNames != null and excludedDomainNames.size() > 0">
             AND domain_name NOT IN
             <foreach collection="excludedDomainNames" index="index" item="item" open="(" separator="," close=")">

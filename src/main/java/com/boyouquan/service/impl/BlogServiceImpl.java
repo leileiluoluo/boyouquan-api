@@ -69,11 +69,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<Blog> listByRandom(List<String> excludedDomainNames, int limit) {
+    public List<Blog> listByRandom(List<String> excludedDomainNames, boolean gravatarValid, int limit) {
         int tryTimes = 0;
         List<Blog> blogs = Collections.emptyList();
         while (tryTimes < CommonConstants.RANDOM_BLOG_MAX_TRY_TIMES) {
-            blogs = blogDaoMapper.listByRandom(excludedDomainNames, limit);
+            blogs = blogDaoMapper.listByRandom(excludedDomainNames, gravatarValid, limit);
 
             boolean existsStatusNotOkBlogs = blogs.stream()
                     .anyMatch(
@@ -141,7 +141,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<BlogInfo> listPopularBlogInfos(int limit) {
-        List<Blog> popularBlogs = listByRandom(Collections.emptyList(), limit);
+        List<Blog> popularBlogs = listByRandom(Collections.emptyList(), true, limit);
 
         // list
         List<BlogInfo> blogInfos = new ArrayList<>();

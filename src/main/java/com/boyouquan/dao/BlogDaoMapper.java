@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BlogDaoMapper {
 
-    List<Blog> listByRandom(List<String> excludedDomainNames, int limit);
+    List<Blog> listByRandom(List<String> excludedDomainNames, boolean gravatarValid, int limit);
 
     Long countAll();
 

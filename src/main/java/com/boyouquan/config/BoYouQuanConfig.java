@@ -17,6 +17,9 @@ public class BoYouQuanConfig {
     @Value("${boyouquan.email.enable}")
     private Boolean emailEnabled;
 
+    @Value("${boyouquan.gravatar-url}")
+    private String gravatarUrl;
+
     @Value("${boyouquan.ip-info-query-url}")
     private String ipInfoQueryUrl;
 

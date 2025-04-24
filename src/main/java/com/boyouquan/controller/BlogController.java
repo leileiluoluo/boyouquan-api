@@ -61,7 +61,7 @@ public class BlogController {
 
     @GetMapping("/random-blogs")
     public ResponseEntity<List<BlogInfo>> getRandomBlogsUnderBlog(@RequestParam("domainName") String domainName) {
-        List<BlogInfo> blogInfos = blogService.listByRandom(List.of(domainName), 2)
+        List<BlogInfo> blogInfos = blogService.listByRandom(List.of(domainName), false, 2)
                 .stream()
                 .map(blog -> blogService.getBlogInfoByDomainName(blog.getDomainName()))
                 .toList();

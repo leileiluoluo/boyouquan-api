@@ -20,7 +20,7 @@ public class CommonConstants {
     public static final String BLOG_LIST_ADDRESS_SORT_BY_COLLECT_TIME = "/blogs?sort=collect_time";
     public static final String BLOG_ITEM_ADDRESS_PATTERN = "/blogs?sort=access_count&keyword=%s";
 
-    public static final String GRAVATAR_SOURCE_ADDRESS = "https://cravatar.cn/avatar/%s?s=%d";
+    public static final String GRAVATAR_SOURCE_ADDRESS = "https://cn.cravatar.com/avatar/%s?s=%d";
     public static final String GRAVATAR_STORE_FOLDER = "gravatar/%s/";
     public static final String GRAVATAR_DEFAULT_IMAGE_MD5_EMAIL = "ccd670b883d4ac11d698c380668529de";
     public static final int GRAVATAR_IMAGE_MEDIUM_SIZE = 40;

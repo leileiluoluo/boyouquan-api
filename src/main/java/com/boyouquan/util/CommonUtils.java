@@ -61,10 +61,10 @@ public class CommonUtils {
 
         String timePastStr = getTimePastStr(timeDiff);
         if (sunset) {
-            return String.format("很遗憾，该博客悄无声息地于「%s」陨落在了网络的海洋里，再也不可能回来了！我依然清晰地记得我们相识于「%s」，在一起走过整整 %d 天后，你就突然消失了，没有兑现我们携手走下去的承诺。我依旧会为你保留这个页面，来记录你曾经发布过的那些点点滴滴，以证明你真的在这个网络世界存在过！", detectedAtDateStr, collectedAtDateStr, togetherDays);
+            return String.format("很遗憾，该博客悄无声息地于「%s」陨落在了网络的海洋里，再也不可能回来了！该博客提交于「%s」，与博友圈一起经历过 %d 个日出与日落。", detectedAtDateStr, collectedAtDateStr, togetherDays);
         }
 
-        return String.format("自「%s」第一次检测到该博客无法访问以来，到现在%s，但你仍未恢复正常。接下来，我依旧会像往常一样，每天向你发射一次心跳，希望能得到你归来的讯息，如果整整一年都没有等到你归来，那么我也就死心了，我会确信你真的已经陨落在网络的海洋里了。", detectedAtDateStr, timePastStr);
+        return String.format("自「%s」第一次检测到该博客无法访问以来，到现在%s，该博客仍未恢复正常。", detectedAtDateStr, timePastStr);
     }
 
     public static boolean isDateOneHourAgo(Date date) {

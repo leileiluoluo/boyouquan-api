@@ -5,7 +5,7 @@
         <key-type>java.lang.Integer</key-type>
         <value-type>com.boyouquan.util.Pagination</value-type>
         <expiry>
-            <ttl>86400</ttl>
+            <ttl>1440</ttl>
         </expiry>
         <listeners>
             <listener>

@@ -32,4 +32,10 @@ public class BoYouQuanConfig {
     @Value("${boyouquan.domains-refuse-to-join}")
     private List<String> domainsRefuseToJoin;
 
+    @Value("${boyouquan.cors.openWhiteList}")
+    private Boolean corsOpenWhiteList;
+
+    @Value("${boyouquan.cors.whiteList}")
+    private List<String> corsWhiteList;
+
 }

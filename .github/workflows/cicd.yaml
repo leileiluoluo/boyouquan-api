@@ -67,6 +67,7 @@ jobs:
             export EMAIL_PASSWORD=$EMAIL_PASSWORD
             export EMAIL_ENABLE=$EMAIL_ENABLE
             export DOMAIN_WHOIS_QUERY_API_KEY=$DOMAIN_WHOIS_QUERY_API_KEY
+            export CORS_OPEN_WHITE_LIST=false
             nohup java -Xms200m -Xmx200m -XX:+HeapDumpOnOutOfMemoryError -jar /usr/app/old/boyouquan-api-2.0.jar > /tmp/server.log 2>&1 &
             sleep 1
             while ! grep -m1 'Started BoYouQuanWebApplication' < /tmp/server.log; do

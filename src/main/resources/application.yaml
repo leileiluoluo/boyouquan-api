@@ -47,3 +47,6 @@ boyouquan:
     url: https://api.jsonwhoisapi.com/v1/whois?identifier=%s
     api-key: ${DOMAIN_WHOIS_QUERY_API_KEY:fake_one}
   domains-refuse-to-join: qncd.com, xigeshudong.com, gregueria.icu
+  cors:
+    openWhiteList: ${CORS_OPEN_WHITE_LIST:true}
+    whiteList: ${CORS_WHITE_LIST:http://localhost:3000}

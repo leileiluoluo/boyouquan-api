@@ -17,7 +17,7 @@ public class CommonConstants {
     public static final String MOST_ACCESSED_BLOG_ANNOUNCE_PATTERN = "上个月浏览最多的博客是「%s」，浏览 %d 次！";
     public static final String MOST_UPDATED_BLOG_ANNOUNCE_PATTERN = "最近一个月更博最频繁的博友是「%s」，更博 %d 篇！";
     public static final String MOST_INITIATED_BLOG_ANNOUNCE_PATTERN = "上个月星球穿梭助力最多的博友是「%s」，助力 %d 次！";
-    public static final String BLOG_LIST_ADDRESS_SORT_BY_COLLECT_TIME = "/blogs?sort=collect_time";
+    public static final String BLOG_LIST_ADDRESS_SORT_BY_COLLECT_TIME = "/blogs";
     public static final String BLOG_ITEM_ADDRESS_PATTERN = "/blogs?sort=access_count&keyword=%s";
 
     public static final String GRAVATAR_STORE_FOLDER = "gravatar/%s/";

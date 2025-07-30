@@ -23,7 +23,6 @@ public class MonthlySelectedController {
     private MonthlySelectedService monthlySelectedService;
 
     @GetMapping("")
-    @Cacheable(value = "monthlyReportCache", key = "#page")
     public Pagination<MonthlySelectedPost> list(@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
         List<String> yearMonthStrs = monthlySelectedService.listYearMonthStrs();
 

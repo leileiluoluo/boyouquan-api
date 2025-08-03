@@ -20,6 +20,8 @@ public enum ErrorCode implements RestErrorResponse {
     LOGIN_USERNAME_PASSWORD_INVALID(HttpStatus.BAD_REQUEST, "login_username_password_invalid", "账号密码无效"),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "unauthorized", "无权限访问该接口"),
     BLOG_SUBMITTED_WITH_SAME_IP(HttpStatus.BAD_REQUEST, "blog_submitted_with_same_ip", "同一 IP 同一天内仅可提交一次"),
+    SUBSCRIPTION_PARAMS_INVALID(HttpStatus.BAD_REQUEST, "subscription_params_invalid", "订阅参数无效，请返回重新输入！"),
+    SUBSCRIPTION_EXISTS(HttpStatus.BAD_REQUEST, "subscription_exists", "您已订阅了该类型的邮件通知，请勿重复订阅！"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "internal_server_error", "服务器内部错误");
 
     private final HttpStatus httpStatus;

@@ -7,4 +7,4 @@ CREATE TABLE subscription (
     unsubscribed BOOLEAN DEFAULT FALSE
 );
 
-CREATE INDEX idx_subscription_email_status ON subscription (email, status);
+CREATE INDEX idx_subscription_email_status ON subscription (email, type);

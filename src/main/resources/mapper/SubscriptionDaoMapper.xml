@@ -21,7 +21,7 @@
           AND type=#{type}
         ORDER BY subscribed_at
     </select>
-    <select id="existsSubscribedByEmailAndType" resultType="com.boyouquan.model.Subscription">
+    <select id="existsSubscribedByEmailAndType" resultType="boolean">
         SELECT
         EXISTS (
         SELECT 1 FROM subscription WHERE unsubscribed=false AND email=#{email} AND type=#{type}

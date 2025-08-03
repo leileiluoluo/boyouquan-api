@@ -1,0 +1,55 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boyouquan.dao.SubscriptionDaoMapper">
+    <sql id="insert_columns">
+        email,
+        type,
+        subscribed_at,
+        unsubscribed
+    </sql>
+    <sql id="select_columns">
+        email,
+        type,
+        subscribed_at,
+        unsubscribed_at,
+        unsubscribed
+    </sql>
+    <select id="listSubscribedByType" resultType="com.boyouquan.model.Subscription">
+        SELECT
+        <include refid="select_columns"/>
+        FROM subscription
+        WHERE unsubscribed=false
+          AND type=#{type}
+        ORDER BY subscribed_at
+    </select>
+    <select id="existsSubscribedByEmailAndType" resultType="com.boyouquan.model.Subscription">
+        SELECT
+        EXISTS (
+        SELECT 1 FROM subscription WHERE unsubscribed=false AND email=#{email} AND type=#{type}
+        )
+    </select>
+    <select id="listSubscribedByEmail" resultType="com.boyouquan.model.Subscription">
+        SELECT
+        <include refid="select_columns"/>
+        FROM subscription
+        WHERE unsubscribed=false
+          AND email=#{email}
+        ORDER BY subscribed_at DESC
+    </select>
+    <insert id="subscribe">
+        INSERT INTO subscription (
+        <include refid="insert_columns"/>
+        ) VALUES (
+        #{email},
+        #{status},
+        now(),
+        false
+        )
+    </insert>
+    <update id="unsubscribe">
+        UPDATE subscription
+        SET unsubscribed=true,
+          unsubscribed_at = now()
+        WHERE email=#{email}
+          AND type=#{type}
+    </update>
+</mapper>

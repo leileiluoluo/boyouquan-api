@@ -40,7 +40,7 @@
         <include refid="insert_columns"/>
         ) VALUES (
         #{email},
-        #{status},
+        #{type},
         now(),
         false
         )

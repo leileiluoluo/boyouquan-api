@@ -6,15 +6,14 @@ import com.boyouquan.model.Blog;
 import com.boyouquan.model.MonthlySelectedPost;
 import com.boyouquan.model.Post;
 import com.boyouquan.model.SelectedPostAccess;
-import com.boyouquan.service.BlogService;
-import com.boyouquan.service.BlogStatusService;
-import com.boyouquan.service.MonthlySelectedService;
-import com.boyouquan.service.PostService;
+import com.boyouquan.service.*;
+import com.boyouquan.util.CommonUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,6 +27,8 @@ public class MonthlySelectedServiceImpl implements MonthlySelectedService {
     private PostService postService;
     @Autowired
     private BlogStatusService blogStatusService;
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public List<String> listYearMonthStrs() {
@@ -63,6 +64,15 @@ public class MonthlySelectedServiceImpl implements MonthlySelectedService {
         monthlySelectedPost.setPostInfos(postInfos);
 
         return monthlySelectedPost;
+    }
+
+    @Override
+    public void sendLatestReport(String email) {
+        String latestYearMonth = CommonUtils.getYearMonthStr(new Date());
+        MonthlySelectedPost monthlySelectedPost = listSelectedByYearMonth(latestYearMonth);
+
+        // send
+        emailService.sendLatestMonthlySelected(email, monthlySelectedPost);
     }
 
 }

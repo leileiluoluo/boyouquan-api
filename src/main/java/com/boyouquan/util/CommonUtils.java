@@ -275,6 +275,10 @@ public class CommonUtils {
         }
     }
 
+    public static String getYearMonthStr(Date date) {
+        return COMMON_YEAR_MONTH_PATTERN.format(date);
+    }
+
     public static String repairURL(String rawURL) {
         // FIXME: important, use this way to solve path wth chinese character issue
         return new String(rawURL.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);

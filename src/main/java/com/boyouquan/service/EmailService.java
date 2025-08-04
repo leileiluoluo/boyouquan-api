@@ -26,6 +26,8 @@ public interface EmailService {
 
     void sendEmailValidationCode(String email, String code);
 
+    void sendLatestMonthlySelected(String email, MonthlySelectedPost monthlySelectedPost);
+
     void send(String to, String subject, String content, boolean html);
 
 }

@@ -244,6 +244,20 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public void sendLatestMonthlySelected(String email, MonthlySelectedPost monthlySelectedPost) {
+        String subject = String.format("[博友圈] %s 精选文章", monthlySelectedPost.getYearMonthStr());
+
+        Context context = new Context();
+
+        context.setVariable("monthlySelectedPost", monthlySelectedPost);
+
+        String text = templateEngine.process("email/monthly_selected_subscription_template", context);
+
+        // send
+        send(email, subject, text, true);
+    }
+
+    @Override
     public void send(String to, String subject, String content, boolean html) {
         try {
             if (to.equals(CommonConstants.FAKE_BLOG_ADMIN_EMAIL)

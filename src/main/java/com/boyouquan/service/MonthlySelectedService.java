@@ -10,4 +10,6 @@ public interface MonthlySelectedService {
 
     MonthlySelectedPost listSelectedByYearMonth(String yearMonth);
 
+    void sendLatestReport(String email);
+
 }

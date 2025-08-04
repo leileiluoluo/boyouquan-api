@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -68,7 +69,9 @@ public class MonthlySelectedServiceImpl implements MonthlySelectedService {
 
     @Override
     public void sendLatestReport(String email) {
-        String latestYearMonth = CommonUtils.getYearMonthStr(new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        String latestYearMonth = CommonUtils.getYearMonthStr(calendar.getTime());
         MonthlySelectedPost monthlySelectedPost = listSelectedByYearMonth(latestYearMonth);
 
         // send

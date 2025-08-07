@@ -7,7 +7,6 @@ import com.boyouquan.util.CommonUtils;
 import com.boyouquan.util.IPUtil;
 import com.boyouquan.util.ObjectUtil;
 import com.boyouquan.util.OkHttpUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

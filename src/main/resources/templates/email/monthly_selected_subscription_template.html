@@ -4,11 +4,24 @@
 <body>
 <div class="email-container">
 <main layout:fragment="content">
-    <h1 th:text="${monthlySelectedPost.yearMonthStr} + ' 精选文章'"></h1>
+    <h1 th:text="'博友圈' ${monthlySelectedPost.yearMonthStr} + ' 精选文章'"></h1>
 
-    <ul th:each="post, stat : ${monthlySelectedPost.postInfos}">
-        <li><a th:text="${post.title}" th:href="@{'https://www.boyouquan.com/go?from=email&link={link}'(link=${post.link})}"></a></li>
-    </ul>
+    <table>
+        <thead>
+        <tr>
+            <th>博客名称</th>
+            <th>文章标题</th>
+            <th>发布时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post, stat : ${monthlySelectedPost.postInfos}}">
+            <td><a th:text="${post.blogName}" th:href="@{'https://www.boyouquan.com/blogs/{domain}'(domain=${post.blogDomainName})}"></a></td>
+            <td><a th:text="${post.title}" th:href="@{'https://www.boyouquan.com/go?from=email&link={link}'(link=${post.link})}"></a></td>
+            <td th:text="${post.publishedAt}"></td>
+        </tr>
+        </tbody>
+    </table>
 
     <p>「<a href="https://www.boyouquan.com/monthly-selected">查看更多</a>」</p>
     <p>「<a href="https://www.boyouquan.com/monthly-selected">取消订阅</a>」</p>

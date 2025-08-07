@@ -18,7 +18,7 @@
         <tr th:each="post, stat : ${monthlySelectedPost.postInfos}">
             <td><a th:text="${post.blogName}" th:href="@{'https://www.boyouquan.com/blogs/{domain}'(domain=${post.blogDomainName})}"></a></td>
             <td><a th:text="${post.title}" th:href="@{'https://www.boyouquan.com/go?from=email&link={link}'(link=${post.link})}"></a></td>
-            <td th:text="${post.publishedAt}"></td>
+            <td th:text="${com.boyouquan.util.CommonUtils.dateCommonFormatDisplay(post.publishedAt)}"></td>
         </tr>
         </tbody>
     </table>

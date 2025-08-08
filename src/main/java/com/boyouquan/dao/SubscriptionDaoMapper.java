@@ -8,6 +8,8 @@ public interface SubscriptionDaoMapper {
 
     List<Subscription> listSubscribedByType(Subscription.Type type);
 
+    boolean existsSubscribedByEmail(String email);
+
     boolean existsSubscribedByEmailAndType(String email, Subscription.Type type);
 
     List<Subscription> listSubscribedByEmail(String email);

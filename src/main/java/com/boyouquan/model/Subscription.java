@@ -14,7 +14,8 @@ public class Subscription {
     private Boolean unsubscribed = false;
 
     public enum Type {
-        MONTHLY_SELECTED
+        MONTHLY_SELECTED,
+        ALL
     }
 
 }

@@ -30,6 +30,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public boolean existsSubscribedByEmail(String email) {
+        return subscriptionDaoMapper.existsSubscribedByEmail(email);
+    }
+
+    @Override
     public void subscribe(String email, Subscription.Type type) {
         subscriptionDaoMapper.subscribe(email, type);
     }

@@ -21,6 +21,12 @@
           AND type=#{type}
         ORDER BY subscribed_at
     </select>
+    <select id="existsSubscribedByEmail" resultType="boolean">
+        SELECT
+        EXISTS (
+        SELECT 1 FROM subscription WHERE unsubscribed=false AND email=#{email}
+        )
+    </select>
     <select id="existsSubscribedByEmailAndType" resultType="boolean">
         SELECT
         EXISTS (

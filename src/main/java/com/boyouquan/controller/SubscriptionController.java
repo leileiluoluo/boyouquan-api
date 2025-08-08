@@ -1,6 +1,7 @@
 package com.boyouquan.controller;
 
 import com.boyouquan.enumration.ErrorCode;
+import com.boyouquan.model.CancelSubscriptionForm;
 import com.boyouquan.model.Subscription;
 import com.boyouquan.model.SubscriptionForm;
 import com.boyouquan.service.MonthlySelectedService;
@@ -10,10 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,6 +54,26 @@ public class SubscriptionController {
         });
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<?> unsubscribe(@RequestBody CancelSubscriptionForm form) {
+        // business validation
+        boolean exists = subscriptionService.existsSubscribedByEmail(form.getEmail());
+        if (!exists) {
+            return ResponseUtil.errorResponse(ErrorCode.SUBSCRIPTION_NOT_EXISTS);
+        }
+
+        // unsubscribe
+        if (Subscription.Type.ALL.equals(form.getType())) {
+            for (Subscription.Type type : Subscription.Type.values()) {
+                subscriptionService.unsubscribe(form.getEmail(), type);
+            }
+        } else {
+            subscriptionService.unsubscribe(form.getEmail(), form.getType());
+        }
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

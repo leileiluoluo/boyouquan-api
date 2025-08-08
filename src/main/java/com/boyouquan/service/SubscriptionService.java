@@ -12,6 +12,8 @@ public interface SubscriptionService {
 
     boolean existsSubscribedByEmailAndType(String email, Subscription.Type type);
 
+    boolean existsSubscribedByEmail(String email);
+
     void subscribe(String email, Subscription.Type type);
 
     void unsubscribe(String email, Subscription.Type type);

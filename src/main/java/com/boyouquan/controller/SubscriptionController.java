@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,6 +27,12 @@ public class SubscriptionController {
     private SubscriptionService subscriptionService;
     @Autowired
     private MonthlySelectedService monthlySelectedService;
+
+    @GetMapping("/{email}")
+    public ResponseEntity<?> listSubscriptions(@PathVariable("email") String email) {
+        List<Subscription> subscriptions = subscriptionService.listSubscribedByEmail(email);
+        return ResponseEntity.ok(subscriptions);
+    }
 
     @PostMapping("")
     public ResponseEntity<?> subscribe(@RequestBody SubscriptionForm subscriptionForm) {

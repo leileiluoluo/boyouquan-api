@@ -249,6 +249,7 @@ public class EmailServiceImpl implements EmailService {
 
         Context context = new Context();
 
+        context.setVariable("email", email);
         context.setVariable("monthlySelectedPost", monthlySelectedPost);
 
         String text = templateEngine.process("email/monthly_selected_subscription_template", context);

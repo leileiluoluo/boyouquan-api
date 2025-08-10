@@ -55,7 +55,8 @@
         UPDATE subscription
         SET unsubscribed=true,
           unsubscribed_at = now()
-        WHERE email=#{email}
+        WHERE unsubscribed=false
+          AND email=#{email}
           AND type=#{type}
     </update>
 </mapper>

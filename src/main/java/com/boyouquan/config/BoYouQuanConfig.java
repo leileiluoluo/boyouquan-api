@@ -38,4 +38,7 @@ public class BoYouQuanConfig {
     @Value("${boyouquan.cors.whiteList}")
     private List<String> corsWhiteList;
 
+    @Value("${boyouquan.encryption.key}")
+    private String encryptionKey;
+
 }

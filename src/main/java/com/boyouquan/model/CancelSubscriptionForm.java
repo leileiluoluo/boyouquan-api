@@ -8,6 +8,7 @@ import java.util.List;
 public class CancelSubscriptionForm {
 
     private String email;
+    private String token;
     private List<Subscription.Type> types;
 
 }

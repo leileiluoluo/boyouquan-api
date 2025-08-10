@@ -1,6 +1,7 @@
 package com.boyouquan.controller;
 
 import com.boyouquan.enumration.ErrorCode;
+import com.boyouquan.helper.EncryptionHelper;
 import com.boyouquan.model.CancelSubscriptionForm;
 import com.boyouquan.model.Subscription;
 import com.boyouquan.model.SubscriptionForm;
@@ -23,6 +24,8 @@ public class SubscriptionController {
 
     private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
+    @Autowired
+    private EncryptionHelper encryptionHelper;
     @Autowired
     private SubscriptionService subscriptionService;
     @Autowired
@@ -66,6 +69,10 @@ public class SubscriptionController {
     @DeleteMapping("")
     public ResponseEntity<?> unsubscribe(@RequestBody CancelSubscriptionForm form) {
         // business validation
+        if (!encryptionHelper.encrypt(form.getEmail()).equals(form.getToken())) {
+            return ResponseUtil.errorResponse(ErrorCode.SUBSCRIPTION_CANCEL_TOKEN_INVALID);
+        }
+
         boolean exists = subscriptionService.existsSubscribedByEmail(form.getEmail());
         if (!exists) {
             return ResponseUtil.errorResponse(ErrorCode.SUBSCRIPTION_NOT_EXISTS);

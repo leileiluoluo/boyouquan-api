@@ -50,3 +50,5 @@ boyouquan:
   cors:
     openWhiteList: ${CORS_OPEN_WHITE_LIST:true}
     whiteList: ${CORS_WHITE_LIST:http://localhost:3000}
+  encryption:
+    key: ${ENCRYPTION_KEY:boyouquan}

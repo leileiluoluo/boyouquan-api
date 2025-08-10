@@ -2,6 +2,7 @@ package com.boyouquan.service.impl;
 
 import com.boyouquan.config.BoYouQuanConfig;
 import com.boyouquan.constant.CommonConstants;
+import com.boyouquan.helper.EncryptionHelper;
 import com.boyouquan.model.*;
 import com.boyouquan.service.EmailService;
 import jakarta.mail.MessagingException;
@@ -27,6 +28,8 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender javaMailSender;
     @Autowired
     private SpringTemplateEngine templateEngine;
+    @Autowired
+    private EncryptionHelper encryptionHelper;
 
     @Override
     public void sendBlogRequestSubmittedNotice(BlogRequest blogRequest) {
@@ -250,6 +253,7 @@ public class EmailServiceImpl implements EmailService {
         Context context = new Context();
 
         context.setVariable("email", email);
+        context.setVariable("token", encryptionHelper.encrypt(email));
         context.setVariable("monthlySelectedPost", monthlySelectedPost);
 
         String text = templateEngine.process("email/monthly_selected_subscription_template", context);

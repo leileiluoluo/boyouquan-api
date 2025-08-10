@@ -22,6 +22,7 @@ public enum ErrorCode implements RestErrorResponse {
     BLOG_SUBMITTED_WITH_SAME_IP(HttpStatus.BAD_REQUEST, "blog_submitted_with_same_ip", "同一 IP 同一天内仅可提交一次"),
     SUBSCRIPTION_PARAMS_INVALID(HttpStatus.BAD_REQUEST, "subscription_params_invalid", "订阅参数无效，请返回重新输入！"),
     SUBSCRIPTION_EXISTS(HttpStatus.BAD_REQUEST, "subscription_exists", "您已订阅了该频道的邮件通知，请勿重复订阅！"),
+    SUBSCRIPTION_CANCEL_TOKEN_INVALID(HttpStatus.BAD_REQUEST, "subscription_cancel_token_invalid", "取消订阅的令牌无效"),
     SUBSCRIPTION_NOT_EXISTS(HttpStatus.BAD_REQUEST, "subscription_not_exists", "您未订阅任何频道的邮件通知"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "internal_server_error", "服务器内部错误");
 

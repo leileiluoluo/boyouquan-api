@@ -2,10 +2,12 @@ package com.boyouquan.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class CancelSubscriptionForm {
 
     private String email;
-    private Subscription.Type type;
+    private List<Subscription.Type> types;
 
 }

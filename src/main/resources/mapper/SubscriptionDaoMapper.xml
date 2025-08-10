@@ -9,8 +9,8 @@
     <sql id="select_columns">
         email,
         type,
-        subscribed_at,
-        unsubscribed_at,
+        subscribed_at as subscribedAt,
+        unsubscribed_at as unsubscribedAt,
         unsubscribed
     </sql>
     <select id="listSubscribedByType" resultType="com.boyouquan.model.Subscription">

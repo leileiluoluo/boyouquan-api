@@ -72,12 +72,8 @@ public class SubscriptionController {
         }
 
         // unsubscribe
-        if (Subscription.Type.ALL.equals(form.getType())) {
-            for (Subscription.Type type : Subscription.Type.values()) {
-                subscriptionService.unsubscribe(form.getEmail(), type);
-            }
-        } else {
-            subscriptionService.unsubscribe(form.getEmail(), form.getType());
+        for (Subscription.Type type : form.getTypes()) {
+            subscriptionService.unsubscribe(form.getEmail(), type);
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

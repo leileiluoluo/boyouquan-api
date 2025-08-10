@@ -6,6 +6,8 @@
 <main layout:fragment="content">
     <h1 th:text="'博友圈 ' + ${monthlySelectedPost.yearMonthStr} + ' 精选文章'"></h1>
 
+    <p th:text="'如下是您订阅的博友圈「每月精选」频道 ' + ${monthlySelectedPost.yearMonthStr} + ' 的精选文章：'"></p>
+
     <table>
         <thead>
         <tr>
@@ -24,7 +26,7 @@
     </table>
 
     <div class="footer-operation">
-        <p><a href="https://www.boyouquan.com/monthly-selected">查看更多</a> | <a href="https://www.boyouquan.com/monthly-selected">取消订阅</a></p>
+        <p><a href="https://www.boyouquan.com/">首页</a> | <a href="https://www.boyouquan.com/monthly-selected">往期精选</a> | <a th:href="@{'https://www.boyouquan.com/cancel-subscription?email={email}'(email=${email})}">取消订阅</a></p>
     </div>
 </main>
 </div>

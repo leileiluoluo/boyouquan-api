@@ -31,7 +31,7 @@ public class CommonConstants {
     public static final int RSS_POST_COUNT_READ_LIMIT = 10;
     public static final int RSS_BLOG_DESCRIPTION_LENGTH_LIMIT = 800;
     public static final int LATEST_POST_COUNT_LIMIT = 3;
-    public static final int ALL_POST_COUNT_LIMIT = 100;
+    public static final int ALL_POST_COUNT_LIMIT = 10000;
 
     public static final String HOME_PAGE_ADDRESS = "https://www.boyouquan.com/home";
     public static final String HOME_PAGE_SORT_LATEST_ADDRESS = "https://www.boyouquan.com/home?sort=latest";

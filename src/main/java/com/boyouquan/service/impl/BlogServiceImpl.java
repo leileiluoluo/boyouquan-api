@@ -114,7 +114,7 @@ public class BlogServiceImpl implements BlogService {
         }
 
         // assemble
-        return assembleBlogInfo(blog, false, CommonConstants.ALL_POST_COUNT_LIMIT);
+        return assembleBlogInfo(blog, false, CommonConstants.LATEST_POST_COUNT_LIMIT);
     }
 
     @Override

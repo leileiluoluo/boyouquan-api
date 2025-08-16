@@ -23,6 +23,7 @@ public class BlogRequest {
     private Boolean selfSubmitted;
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date requestedAt;
+    @JsonSerialize(using = CustomDateSerializer.class)
     private Date updatedAt;
     private Status status;
     private String reason;

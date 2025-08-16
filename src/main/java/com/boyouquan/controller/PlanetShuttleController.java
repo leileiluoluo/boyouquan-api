@@ -58,6 +58,7 @@ public class PlanetShuttleController {
         PlanetShuttleGo planetShuttleGo = new PlanetShuttleGo();
         planetShuttleGo.setBlogName(blog.getName());
         planetShuttleGo.setBlogAddress(blog.getAddress());
+        planetShuttleGo.setBlogDescription(blog.getDescription());
         planetShuttleGo.setFromBlog(fromBlog);
         planetShuttleGo.setFromBlogInitiatedCount(fromBlogInitiatedCount);
 

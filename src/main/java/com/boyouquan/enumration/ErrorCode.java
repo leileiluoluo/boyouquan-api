@@ -24,6 +24,7 @@ public enum ErrorCode implements RestErrorResponse {
     SUBSCRIPTION_EXISTS(HttpStatus.BAD_REQUEST, "subscription_exists", "您已订阅了该频道的邮件通知，请勿重复订阅！"),
     SUBSCRIPTION_CANCEL_TOKEN_INVALID(HttpStatus.BAD_REQUEST, "subscription_cancel_token_invalid", "取消订阅的令牌无效"),
     SUBSCRIPTION_NOT_EXISTS(HttpStatus.BAD_REQUEST, "subscription_not_exists", "您未订阅任何频道的邮件通知"),
+    SUBSCRIPTION_IP_COUNT_LIMIT_EXCEED(HttpStatus.BAD_REQUEST, "subscription_ip_count_limit_exceed", "您的 IP 订阅数已超过限制"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "internal_server_error", "服务器内部错误");
 
     private final HttpStatus httpStatus;

@@ -15,7 +15,7 @@ public class IPControlHelper {
 
     private final Logger logger = LoggerFactory.getLogger(IPControlHelper.class);
 
-    private static final Map<String, Boolean> ACCESS_MAP = new HashMap<>();
+    private static final Map<String, Integer> ACCESS_MAP = new HashMap<>();
 
     @Scheduled(cron = "0 0 0 * * ?")
     public void clearMap() {
@@ -33,7 +33,24 @@ public class IPControlHelper {
 
     public void access(String ip, String link) {
         String key = ip + "#" + link;
-        ACCESS_MAP.put(key, true);
+        ACCESS_MAP.put(key, 1);
+    }
+
+    public Integer getSubscriptionCount(String ip, String type) {
+        String key = ip + "#" + type;
+        if (!ACCESS_MAP.containsKey(key)) {
+            return 0;
+        }
+        return ACCESS_MAP.get(key);
+    }
+
+    public void subscribe(String ip, String type) {
+        String key = ip + "#" + type;
+        if (!ACCESS_MAP.containsKey(key)) {
+            ACCESS_MAP.put(key, 1);
+        } else {
+            ACCESS_MAP.put(key, ACCESS_MAP.get(key) + 1);
+        }
     }
 
 }

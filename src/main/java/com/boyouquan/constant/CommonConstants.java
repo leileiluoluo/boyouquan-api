@@ -52,5 +52,7 @@ public class CommonConstants {
 
     public static final int EMAIL_VALIDATION_CODE_ONE_DAY_LIMIT = 5;
 
+    public static final int SAME_IP_SUBSCRIPTION_COUNT_LIMIT = 2;
+
 }
 

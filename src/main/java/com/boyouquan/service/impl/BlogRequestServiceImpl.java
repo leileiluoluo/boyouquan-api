@@ -361,12 +361,12 @@ public class BlogRequestServiceImpl implements BlogRequestService {
         List<BlogRequest.Status> successStatusList = List.of(BlogRequest.Status.submitted, BlogRequest.Status.system_check_valid);
         List<BlogRequest.Status> failureStatusList = List.of(BlogRequest.Status.system_check_invalid, BlogRequest.Status.rejected);
         if (successStatusList.contains(blogRequest.getStatus())) {
-            blogRequestInfo.setStatusInfo("等待审核");
+            blogRequestInfo.setStatusInfo("待审核");
         } else if (failureStatusList.contains(blogRequest.getStatus())) {
             blogRequestInfo.setStatusInfo("未通过");
             blogRequestInfo.setFailed(true);
         } else if (BlogRequest.Status.approved.equals(blogRequest.getStatus())) {
-            blogRequestInfo.setStatusInfo("通过");
+            blogRequestInfo.setStatusInfo("已通过");
         } else if (BlogRequest.Status.uncollected.equals(blogRequest.getStatus())) {
             blogRequestInfo.setStatusInfo("取消收录");
             blogRequestInfo.setFailed(true);

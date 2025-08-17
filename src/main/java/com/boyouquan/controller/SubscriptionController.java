@@ -1,13 +1,17 @@
 package com.boyouquan.controller;
 
+import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.enumration.ErrorCode;
 import com.boyouquan.helper.EncryptionHelper;
+import com.boyouquan.helper.IPControlHelper;
 import com.boyouquan.model.CancelSubscriptionForm;
 import com.boyouquan.model.Subscription;
 import com.boyouquan.model.SubscriptionForm;
 import com.boyouquan.service.MonthlySelectedService;
 import com.boyouquan.service.SubscriptionService;
+import com.boyouquan.util.IPUtil;
 import com.boyouquan.util.ResponseUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +34,8 @@ public class SubscriptionController {
     private SubscriptionService subscriptionService;
     @Autowired
     private MonthlySelectedService monthlySelectedService;
+    @Autowired
+    private IPControlHelper ipControlHelper;
 
     @GetMapping("/{email}")
     public ResponseEntity<?> listSubscriptions(@PathVariable("email") String email) {
@@ -38,7 +44,9 @@ public class SubscriptionController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> subscribe(@RequestBody SubscriptionForm subscriptionForm) {
+    public ResponseEntity<?> subscribe(@RequestBody SubscriptionForm subscriptionForm, HttpServletRequest request) {
+        String ip = IPUtil.getRealIp(request);
+
         // params validation
         if (null == subscriptionForm
                 || StringUtils.isBlank(subscriptionForm.getEmail())
@@ -52,8 +60,14 @@ public class SubscriptionController {
             return ResponseUtil.errorResponse(ErrorCode.SUBSCRIPTION_EXISTS);
         }
 
+        Integer count = ipControlHelper.getSubscriptionCount(ip, subscriptionForm.getType().name());
+        if (count >= CommonConstants.SAME_IP_SUBSCRIPTION_COUNT_LIMIT) {
+            return ResponseUtil.errorResponse(ErrorCode.SUBSCRIPTION_IP_COUNT_LIMIT_EXCEED);
+        }
+
         // subscribe
         subscriptionService.subscribe(subscriptionForm.getEmail(), subscriptionForm.getType());
+        ipControlHelper.subscribe(ip, subscriptionForm.getType().name());
 
         // send email
         executorService.execute(() -> {

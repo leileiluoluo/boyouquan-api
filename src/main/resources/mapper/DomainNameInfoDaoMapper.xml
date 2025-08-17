@@ -38,7 +38,7 @@
         UPDATE domain_name_info
         SET
         registered_at=#{registeredAt},
-        refreshed_at=now(),
+        refreshed_at=now()
         WHERE blog_domain_name=#{blogDomainName}
     </update>
 </mapper>

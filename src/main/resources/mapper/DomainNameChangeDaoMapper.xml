@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boyouquan.dao.DomainNameChangeDaoMapper">
+    <sql id="insert_columns">
+        old_domain_name,
+        new_domain_name,
+        changed_at,
+        deleted
+    </sql>
+    <sql id="select_columns">
+        id,
+        old_domain_name as oldDomainName,
+        new_domain_name as newDomainName,
+        changed_at as changedAt,
+        deleted
+    </sql>
+    <select id="existsByOldDomainName" resultType="boolean">
+        SELECT
+        EXISTS (
+        SELECT 1
+        FROM domain_name_change
+        WHERE deleted=false
+          AND old_domain_name=#{oldDomainName}
+        )
+    </select>
+    <select id="getByOldDomainName" resultType="com.boyouquan.model.DomainNameChange">
+        SELECT
+        <include refid="select_columns"/>
+        FROM domain_name_change
+        WHERE deleted=false
+          AND old_domain_name=#{oldDomainName}
+    </select>
+    <insert id="save">
+        INSERT INTO domain_name_change (
+        <include refid="insert_columns"/>
+        ) VALUES (
+        #{oldDomainName},
+        #{newDomainName},
+        now(),
+        false
+        )
+    </insert>
+</mapper>

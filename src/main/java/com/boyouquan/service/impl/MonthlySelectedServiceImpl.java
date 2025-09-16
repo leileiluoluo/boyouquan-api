@@ -29,6 +29,8 @@ public class MonthlySelectedServiceImpl implements MonthlySelectedService {
     @Autowired
     private BlogStatusService blogStatusService;
     @Autowired
+    private AccessService accessService;
+    @Autowired
     private EmailService emailService;
 
     @Override
@@ -56,6 +58,12 @@ public class MonthlySelectedServiceImpl implements MonthlySelectedService {
                     // blog status
                     boolean blogStatusOk = blogStatusService.isStatusOkByBlogDomainName(selectedPostAccess.getBlogDomainName());
                     postInfo.setBlogStatusOk(blogStatusOk);
+
+                    String blogAdminMediumImageURL = blogService.getBlogAdminMediumImageURLByDomainName(blog.getDomainName());
+                    postInfo.setBlogAdminMediumImageURL(blogAdminMediumImageURL);
+
+                    Long linkAccessCount = accessService.countByLink(post.getLink());
+                    postInfo.setLinkAccessCount(linkAccessCount);
 
                     return postInfo;
                 }).toList();

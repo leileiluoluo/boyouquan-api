@@ -30,5 +30,7 @@ public class MonthlySelectedPost implements Serializable {
         private static final long serialVersionUID = -3112386258677953078L;
 
         private boolean blogStatusOk;
+        private boolean hasImage;
+        private String imageURL;
     }
 }

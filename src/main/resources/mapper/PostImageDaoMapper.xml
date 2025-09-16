@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boyouquan.dao.PostImageDaoMapper">
+    <sql id="insert_columns">
+        link,
+        blog_domain_name,
+        image_url,
+        captured_at,
+        deleted
+    </sql>
+    <sql id="select_columns">
+        link,
+        blog_domain_name as blogDomainName,
+        image_url as imageURL,
+        captured_at as capturedAt,
+        deleted
+    </sql>
+    <select id="getImageURLByLink" resultType="java.lang.String">
+        SELECT
+        image_url
+        FROM post_image
+        WHERE deleted=false
+        AND link=#{link}
+    </select>
+    <select id="existsImageURLByLink" resultType="boolean">
+        SELECT
+        EXISTS (
+        SELECT 1 FROM post_image WHERE deleted=false AND link=#{link}
+        )
+    </select>
+    <insert id="save">
+        INSERT INTO post_image (
+        <include refid="insert_columns"/>
+        ) VALUES
+        (
+        #{link},
+        #{blogDomainName},
+        #{imageURL},
+        now(),
+        false
+        )
+    </insert>
+</mapper>

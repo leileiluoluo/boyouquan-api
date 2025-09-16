@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,6 +27,8 @@ public class MonthlySelectedServiceImpl implements MonthlySelectedService {
     private PostService postService;
     @Autowired
     private BlogStatusService blogStatusService;
+    @Autowired
+    private PostImageService postImageService;
     @Autowired
     private AccessService accessService;
     @Autowired
@@ -59,9 +60,17 @@ public class MonthlySelectedServiceImpl implements MonthlySelectedService {
                     boolean blogStatusOk = blogStatusService.isStatusOkByBlogDomainName(selectedPostAccess.getBlogDomainName());
                     postInfo.setBlogStatusOk(blogStatusOk);
 
+                    // post image
+                    boolean existsPostImage = postImageService.existsImageURLByLink(post.getLink());
+                    String postImageURL = postImageService.getImageURLByLink(post.getLink());
+                    postInfo.setHasImage(existsPostImage);
+                    postInfo.setImageURL(postImageURL);
+
+                    // admin image url
                     String blogAdminMediumImageURL = blogService.getBlogAdminMediumImageURLByDomainName(blog.getDomainName());
                     postInfo.setBlogAdminMediumImageURL(blogAdminMediumImageURL);
 
+                    // access count
                     Long linkAccessCount = accessService.countByLink(post.getLink());
                     postInfo.setLinkAccessCount(linkAccessCount);
 

@@ -88,6 +88,13 @@
             <version>1.21.1</version>
         </dependency>
 
+        <!-- jsoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.21.2</version>
+        </dependency>
+
         <!-- commons lang -->
         <dependency>
             <groupId>org.apache.commons</groupId>

@@ -14,7 +14,6 @@ public class PostImage implements Serializable {
     private static final long serialVersionUID = -1412983129684476981L;
 
     private String link;
-    private String blogDomainName;
     private String imageURL;
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date capturedAt;

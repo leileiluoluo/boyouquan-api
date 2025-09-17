@@ -10,4 +10,6 @@ public interface PostImageDaoMapper {
 
     void save(PostImage postImage);
 
+    void updateImageURL(String link, String imageURL);
+
 }

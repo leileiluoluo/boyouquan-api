@@ -36,4 +36,9 @@
         false
         )
     </insert>
+    <update id="updateImageURL">
+        UPDATE post_image
+        SET image_url = #{imageURL}
+        WHERE link = #{link}
+    </update>
 </mapper>

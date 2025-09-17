@@ -27,4 +27,9 @@ public class PostImageServiceImpl implements PostImageService {
         postImageDaoMapper.save(postImage);
     }
 
+    @Override
+    public void updateImageURL(String link, String imageURL) {
+        postImageDaoMapper.updateImageURL(link, imageURL);
+    }
+
 }

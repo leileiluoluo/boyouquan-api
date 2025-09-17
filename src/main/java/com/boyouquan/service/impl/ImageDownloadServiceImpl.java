@@ -7,6 +7,7 @@ import com.boyouquan.service.ImageDownloadService;
 import com.boyouquan.util.CommonUtils;
 import com.boyouquan.util.OkHttpUtil;
 import jakarta.annotation.PostConstruct;
+import net.coobird.thumbnailator.Thumbnails;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,31 +98,55 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                         .build();
             }
 
+            long totalBytes = 0;
             try (InputStream inputStream = body.byteStream()) {
                 try (var outputStream = new FileOutputStream(outputFile.toFile())) {
                     byte[] buffer = new byte[81920];
                     int bytesRead;
-                    long totalBytes = 0;
 
                     while ((bytesRead = inputStream.read(buffer)) != -1) {
                         outputStream.write(buffer, 0, bytesRead);
                         totalBytes += bytesRead;
                     }
-
-                    return ImageDownloadResult.builder()
-                            .success(true)
-                            .filePath(outputFile.getFileName().toString())
-                            .totalBytes(totalBytes)
-                            .imageType(fileExtension)
-                            .build();
                 }
             }
+
+            String newFileName = generateFileName(fileExtension);
+            Path newOutputFile = Paths.get(outputPath.toString(), newFileName);
+            String finalFilePath = outputFile.getFileName().toString();
+            if (totalBytes / 1000 > CommonConstants.POST_IMAGES_SIZE_LIMIT) {
+                float quality = (float) totalBytes / 1000 / 200;
+                boolean success = compressImage(outputFile.toString(), newOutputFile.toString(), quality);
+                if (success) {
+                    finalFilePath = newOutputFile.getFileName().toString();
+                }
+            }
+
+            return ImageDownloadResult.builder()
+                    .success(true)
+                    .filePath(finalFilePath)
+                    .totalBytes(totalBytes)
+                    .imageType(fileExtension)
+                    .build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return ImageDownloadResult.builder()
                     .success(false)
                     .message(e.getMessage())
                     .build();
+        }
+    }
+
+    @Override
+    public boolean compressImage(String inputPath, String outputPath, float quality) {
+        try {
+            Thumbnails.of(new File(inputPath))
+                    .outputQuality(quality)
+                    .toFile(new File(outputPath));
+            return true;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return false;
         }
     }
 

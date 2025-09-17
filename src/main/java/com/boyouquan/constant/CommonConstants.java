@@ -56,5 +56,7 @@ public class CommonConstants {
 
     public static final int POST_IMAGES_SCRAPER_SIZE = 20;
 
+    public static final int POST_IMAGES_SIZE_LIMIT = 200;
+
 }
 

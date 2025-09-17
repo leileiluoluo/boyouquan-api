@@ -1,9 +1,12 @@
 package com.boyouquan.service.impl;
 
+import com.boyouquan.config.BoYouQuanConfig;
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.model.ImageDownloadResult;
 import com.boyouquan.service.ImageDownloadService;
+import com.boyouquan.util.CommonUtils;
 import com.boyouquan.util.OkHttpUtil;
+import jakarta.annotation.PostConstruct;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -11,12 +14,16 @@ import okhttp3.ResponseBody;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -26,8 +33,25 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
 
     private static final OkHttpClient client = OkHttpUtil.getUnsafeOkHttpClient();
 
+    @Autowired
+    private BoYouQuanConfig boYouQuanConfig;
+
+    @PostConstruct
+    public void init() {
+        String imageStorePath = boYouQuanConfig.getPostImageStorePath();
+        try {
+            Path path = Paths.get(imageStorePath);
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+                LOGGER.info("download path not exists, now create it, path: {}", path);
+            }
+        } catch (IOException e) {
+            LOGGER.error("download path create failed: {}", imageStorePath, e);
+        }
+    }
+
     @Override
-    public ImageDownloadResult downloadImage(String imageURL, String outputPath) {
+    public ImageDownloadResult downloadImage(String imageURL) {
         Request request = new Request.Builder()
                 .addHeader(CommonConstants.HEADER_USER_AGENT, CommonConstants.DATA_SPIDER_USER_AGENT)
                 .url(imageURL)
@@ -53,7 +77,11 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
             }
 
             String fileName = generateFileName(fileExtension);
-            Path outputFile = Paths.get(outputPath, fileName);
+            String yearStr = CommonUtils.getYearStr(new Date());
+            String monthStr = CommonUtils.getMonthStr(new Date());
+            Path outputFile = Paths.get(boYouQuanConfig.getPostImageStorePath(), yearStr, monthStr, fileName);
+
+            Files.createFile(outputFile);
 
             long contentLength = body.contentLength();
             if (contentLength == -1) {

@@ -2,6 +2,7 @@ package com.boyouquan.controller;
 
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.service.ImageScraperService;
+import com.boyouquan.service.PostImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ public class PostImageController {
 
     @Autowired
     private ImageScraperService imageScraperService;
+
 
     @GetMapping("/raw-images/by-link")
     public ResponseEntity<?> getRawImagesByLink(@RequestParam("link") String link) {

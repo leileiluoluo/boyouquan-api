@@ -36,6 +36,8 @@ public class AdminController {
     private PinHistoryService pinHistoryService;
     @Autowired
     private BlogRequestFormHelper blogRequestFormHelper;
+    @Autowired
+    private PostImageService postImageService;
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
@@ -240,6 +242,27 @@ public class AdminController {
         pinHistory.setBlogDomainName(post.getBlogDomainName());
         pinHistory.setLink(link);
         pinHistoryService.save(pinHistory);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/post-images")
+    public ResponseEntity<?> addImage(@RequestBody PostImageForm form, HttpServletRequest request) {
+        // permission check
+        if (!PermissionUtil.hasAdminPermission(request)) {
+            return ResponseUtil.errorResponse(ErrorCode.UNAUTHORIZED);
+        }
+
+        // add
+        boolean exists = postImageService.existsImageURLByLink(form.getLink());
+        if (exists) {
+            PostImage postImage = new PostImage();
+            postImage.setLink(form.getLink());
+            postImage.setImageURL(form.getImageURL());
+            postImageService.save(postImage);
+        } else {
+            postImageService.updateImageURL(form.getLink(), form.getImageURL());
+        }
 
         return ResponseEntity.noContent().build();
     }

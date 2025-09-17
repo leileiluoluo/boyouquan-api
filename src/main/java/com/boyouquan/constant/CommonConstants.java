@@ -54,5 +54,7 @@ public class CommonConstants {
 
     public static final int SAME_IP_SUBSCRIPTION_COUNT_LIMIT = 2;
 
+    public static final int POST_IMAGES_SCRAPER_SIZE = 8;
+
 }
 

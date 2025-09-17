@@ -2,14 +2,12 @@
 <mapper namespace="com.boyouquan.dao.PostImageDaoMapper">
     <sql id="insert_columns">
         link,
-        blog_domain_name,
         image_url,
         captured_at,
         deleted
     </sql>
     <sql id="select_columns">
         link,
-        blog_domain_name as blogDomainName,
         image_url as imageURL,
         captured_at as capturedAt,
         deleted
@@ -33,10 +31,14 @@
         ) VALUES
         (
         #{link},
-        #{blogDomainName},
         #{imageURL},
         now(),
         false
         )
     </insert>
+    <update id="updateImageURL">
+        UPDATE post_image
+        SET image_url = #{imageURL}
+        WHERE link = #{link}
+    </update>
 </mapper>

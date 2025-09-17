@@ -79,9 +79,13 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
             String fileName = generateFileName(fileExtension);
             String yearStr = CommonUtils.getYearStr(new Date());
             String monthStr = CommonUtils.getMonthStr(new Date());
-            Path outputFile = Paths.get(boYouQuanConfig.getPostImageStorePath(), yearStr, monthStr, fileName);
+            Path outputPath = Paths.get(boYouQuanConfig.getPostImageStorePath(), yearStr, monthStr);
+            Path outputFile = Paths.get(outputPath.toString(), fileName);
 
-            Files.createFile(outputFile);
+            if (!Files.exists(outputPath)) {
+                Files.createDirectories(outputPath);
+                LOGGER.info("outputPath created, outputPath: {}", outputPath);
+            }
 
             long contentLength = body.contentLength();
             if (contentLength == -1) {

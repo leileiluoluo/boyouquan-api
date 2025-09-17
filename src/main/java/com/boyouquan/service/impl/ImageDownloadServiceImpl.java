@@ -124,6 +124,28 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
         }
     }
 
+    @Override
+    public byte[] getImageBytes(String filePath) {
+        Path fileFullPath = Paths.get(boYouQuanConfig.getPostImageStorePath(), filePath);
+        try {
+            return Files.readAllBytes(fileFullPath);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+            return new byte[0];
+        }
+    }
+
+    @Override
+    public String getContentType(String filePath) {
+        Path fileFullPath = Paths.get(boYouQuanConfig.getPostImageStorePath(), filePath);
+        try {
+            return Files.probeContentType(fileFullPath);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
     private String getFileExtension(String imageURL) {
         if (imageURL.contains(".")) {
             String urlPath = imageURL.split("\\?")[0];

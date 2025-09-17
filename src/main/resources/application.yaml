@@ -52,3 +52,5 @@ boyouquan:
     whiteList: ${CORS_WHITE_LIST:http://localhost:3000}
   encryption:
     key: ${ENCRYPTION_KEY:boyouquan}
+  post-image-store:
+    path: ${POST_IMAGE_STORE_PATH:post-images}

@@ -2,14 +2,26 @@
 <mapper namespace="com.boyouquan.dao.PostImageDaoMapper">
     <sql id="insert_columns">
         link,
+        image_type,
+        image_size_kb,
+        year_str,
+        month_str,
+        raw_image_url,
         image_url,
         captured_at,
+        updated_at,
         deleted
     </sql>
     <sql id="select_columns">
         link,
+        image_type as imageType,
+        image_size_kb as imageSizeKb,
+        year_str as yearStr,
+        month_str as monthStr,
+        raw_image_url as rawImageURL,
         image_url as imageURL,
         captured_at as capturedAt,
+        updated_at as updatedAt,
         deleted
     </sql>
     <select id="getImageURLByLink" resultType="java.lang.String">
@@ -31,14 +43,26 @@
         ) VALUES
         (
         #{link},
+        #{imageType},
+        #{imageSizeKb},
+        #{yearStr},
+        #{monthStr},
+        #{rawImageURL},
         #{imageURL},
+        now(),
         now(),
         false
         )
     </insert>
-    <update id="updateImageURL">
+    <update id="update">
         UPDATE post_image
-        SET image_url = #{imageURL}
+        SET image_type = #{imageType},
+            image_size_kb = #{imageSizeKb},
+            year_str = #{yearStr},
+            month_str = #{monthStr},
+            raw_image_url = #{rawImageURL},
+            image_url = #{imageURL},
+            updated_at = now()
         WHERE link = #{link}
     </update>
 </mapper>

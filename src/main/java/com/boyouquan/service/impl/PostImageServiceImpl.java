@@ -30,7 +30,7 @@ public class PostImageServiceImpl implements PostImageService {
         if (null == postImage) {
             return null;
         }
-        return postImage.getYearStr() + "/" + postImage.getMonthStr() + "/" + postImage.getImageURL();
+        return "/images/" + postImage.getYearStr() + "/" + postImage.getMonthStr() + "/" + postImage.getImageURL();
     }
 
     @Override

@@ -95,6 +95,12 @@
             <version>1.21.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.20</version>
+        </dependency>
+
         <!-- commons lang -->
         <dependency>
             <groupId>org.apache.commons</groupId>

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MonthlySelectedService {
 
-    List<String> listYearMonthStrs();
+    List<String> listYearMonthStrs(boolean includeCurrentMonth);
 
     MonthlySelectedPost listSelectedByYearMonth(String yearMonth);
 

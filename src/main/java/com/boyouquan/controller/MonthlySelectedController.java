@@ -22,8 +22,10 @@ public class MonthlySelectedController {
     private MonthlySelectedService monthlySelectedService;
 
     @GetMapping("")
-    public Pagination<MonthlySelectedPost> list(@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        List<String> yearMonthStrs = monthlySelectedService.listYearMonthStrs();
+    public Pagination<MonthlySelectedPost> list(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "includeCurrentMonth", required = false, defaultValue = "false") boolean includeCurrentMonth) {
+        List<String> yearMonthStrs = monthlySelectedService.listYearMonthStrs(includeCurrentMonth);
 
         List<String> yearMonthSubStrs = yearMonthStrs.stream()
                 .skip((long) (page - 1) * CommonConstants.MONTHLY_SELECTED_PAGE_SIZE)

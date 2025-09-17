@@ -4,7 +4,9 @@
         SELECT distinct a.year_month_str
         FROM access a, blog b, post p
         WHERE a.blog_domain_name=b.domain_name
-        AND a.year_month_str!=DATE_FORMAT(CURDATE(), '%Y/%m')
+        <if test="includeCurrentMonth == false">
+            AND a.year_month_str!=DATE_FORMAT(CURDATE(), '%Y/%m')
+        </if>
         AND a.blog_domain_name=p.blog_domain_name
         AND a.link=p.link
         AND a.link!=b.address

@@ -35,8 +35,8 @@ public class MonthlySelectedServiceImpl implements MonthlySelectedService {
     private EmailService emailService;
 
     @Override
-    public List<String> listYearMonthStrs() {
-        return monthlySelectedDaoMapper.listYearMonthStrs();
+    public List<String> listYearMonthStrs(boolean includeCurrentMonth) {
+        return monthlySelectedDaoMapper.listYearMonthStrs(includeCurrentMonth);
     }
 
     @Override

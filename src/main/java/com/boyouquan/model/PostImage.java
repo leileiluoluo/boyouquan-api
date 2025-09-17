@@ -14,9 +14,16 @@ public class PostImage implements Serializable {
     private static final long serialVersionUID = -1412983129684476981L;
 
     private String link;
+    private String imageType;
+    private Long imageSizeKb;
+    private String yearStr;
+    private String monthStr;
+    private String rawImageURL;
     private String imageURL;
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date capturedAt;
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private Date updatedAt;
     private Boolean deleted;
 
 }

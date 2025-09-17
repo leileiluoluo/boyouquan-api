@@ -41,4 +41,7 @@ public class BoYouQuanConfig {
     @Value("${boyouquan.encryption.key}")
     private String encryptionKey;
 
+    @Value("${boyouquan.post-image-store.path}")
+    private String postImageStorePath;
+
 }

@@ -254,15 +254,7 @@ public class AdminController {
         }
 
         // add
-        boolean exists = postImageService.existsImageURLByLink(form.getLink());
-        if (exists) {
-            PostImage postImage = new PostImage();
-            postImage.setLink(form.getLink());
-            postImage.setImageURL(form.getImageURL());
-            postImageService.save(postImage);
-        } else {
-            postImageService.updateImageURL(form.getLink(), form.getImageURL());
-        }
+        postImageService.saveOrUpdate(form.getLink(), form.getImageURL());
 
         return ResponseEntity.noContent().build();
     }

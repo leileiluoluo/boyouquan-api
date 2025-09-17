@@ -1,16 +1,30 @@
 package com.boyouquan.service.impl;
 
+import com.boyouquan.config.BoYouQuanConfig;
 import com.boyouquan.dao.PostImageDaoMapper;
+import com.boyouquan.model.ImageDownloadResult;
 import com.boyouquan.model.PostImage;
+import com.boyouquan.service.ImageDownloadService;
 import com.boyouquan.service.PostImageService;
+import com.boyouquan.util.CommonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class PostImageServiceImpl implements PostImageService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostImageServiceImpl.class);
+
+    @Autowired
+    private BoYouQuanConfig boYouQuanConfig;
     @Autowired
     private PostImageDaoMapper postImageDaoMapper;
+    @Autowired
+    private ImageDownloadService imageDownloadService;
 
     @Override
     public String getImageURLByLink(String link) {
@@ -23,13 +37,34 @@ public class PostImageServiceImpl implements PostImageService {
     }
 
     @Override
-    public void save(PostImage postImage) {
-        postImageDaoMapper.save(postImage);
-    }
+    public void saveOrUpdate(String link, String imageURL) {
+        String storePath = boYouQuanConfig.getPostImageStorePath();
+        ImageDownloadResult result = imageDownloadService.downloadImage(imageURL, storePath);
+        if (!result.isSuccess()) {
+            LOGGER.error("image download failed, message: {}", result.getMessage());
+            return;
+        }
 
-    @Override
-    public void updateImageURL(String link, String imageURL) {
-        postImageDaoMapper.updateImageURL(link, imageURL);
+        PostImage postImageStored = postImageDaoMapper.getByLink(link);
+        if (null == postImageStored) {
+            PostImage postImage = new PostImage();
+            postImage.setLink(link);
+            postImage.setRawImageURL(imageURL);
+            postImage.setImageURL(result.getFilePath());
+            postImage.setImageType(result.getImageType());
+            postImage.setImageSizeKb(result.getTotalBytes() / 1000);
+            postImage.setYearStr(CommonUtils.getYearStr(new Date()));
+            postImage.setMonthStr(CommonUtils.getMonthStr(new Date()));
+            postImageDaoMapper.save(postImage);
+        } else {
+            postImageStored.setRawImageURL(imageURL);
+            postImageStored.setImageURL(result.getFilePath());
+            postImageStored.setImageType(result.getImageType());
+            postImageStored.setImageSizeKb(result.getTotalBytes() / 1000);
+            postImageStored.setYearStr(CommonUtils.getYearStr(new Date()));
+            postImageStored.setMonthStr(CommonUtils.getMonthStr(new Date()));
+            postImageDaoMapper.update(postImageStored);
+        }
     }
 
 }

@@ -6,10 +6,12 @@ public interface PostImageDaoMapper {
 
     String getImageURLByLink(String link);
 
+    PostImage getByLink(String link);
+
     boolean existsImageURLByLink(String link);
 
     void save(PostImage postImage);
 
-    void updateImageURL(String link, String imageURL);
+    void update(PostImage postImage);
 
 }

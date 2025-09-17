@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Date;
 
 @Service
 public class PostImageServiceImpl implements PostImageService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostImageServiceImpl.class);
-
 
     @Autowired
     private PostImageDaoMapper postImageDaoMapper;
@@ -26,12 +26,28 @@ public class PostImageServiceImpl implements PostImageService {
 
     @Override
     public String getImageURLByLink(String link) {
-        return postImageDaoMapper.getImageURLByLink(link);
+        PostImage postImage = postImageDaoMapper.getByLink(link);
+        if (null == postImage) {
+            return null;
+        }
+        return postImage.getYearStr() + "/" + postImage.getMonthStr() + "/" + postImage.getImageURL();
     }
 
     @Override
     public boolean existsImageURLByLink(String link) {
         return postImageDaoMapper.existsImageURLByLink(link);
+    }
+
+    @Override
+    public byte[] getImageBytes(String year, String month, String filename) {
+        String filePath = year + File.separator + month + File.separator + filename;
+        return imageDownloadService.getImageBytes(filePath);
+    }
+
+    @Override
+    public String getContentType(String year, String month, String filename) {
+        String filePath = year + File.separator + month + File.separator + filename;
+        return imageDownloadService.getContentType(filePath);
     }
 
     @Override

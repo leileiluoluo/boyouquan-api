@@ -31,6 +31,13 @@
         WHERE deleted=false
         AND link=#{link}
     </select>
+    <select id="getByLink" resultType="com.boyouquan.model.PostImage">
+        SELECT
+        <include refid="select_columns"/>
+        FROM post_image
+        WHERE deleted=false
+        AND link=#{link}
+    </select>
     <select id="existsImageURLByLink" resultType="boolean">
         SELECT
         EXISTS (
@@ -57,12 +64,12 @@
     <update id="update">
         UPDATE post_image
         SET image_type = #{imageType},
-            image_size_kb = #{imageSizeKb},
-            year_str = #{yearStr},
-            month_str = #{monthStr},
-            raw_image_url = #{rawImageURL},
-            image_url = #{imageURL},
-            updated_at = now()
+        image_size_kb = #{imageSizeKb},
+        year_str = #{yearStr},
+        month_str = #{monthStr},
+        raw_image_url = #{rawImageURL},
+        image_url = #{imageURL},
+        updated_at = now()
         WHERE link = #{link}
     </update>
 </mapper>

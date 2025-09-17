@@ -4,6 +4,6 @@ import com.boyouquan.model.ImageDownloadResult;
 
 public interface ImageDownloadService {
 
-    ImageDownloadResult downloadImage(String imageURL, String outputPath);
+    ImageDownloadResult downloadImage(String imageURL);
 
 }

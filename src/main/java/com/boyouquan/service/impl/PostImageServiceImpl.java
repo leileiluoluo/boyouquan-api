@@ -1,6 +1,5 @@
 package com.boyouquan.service.impl;
 
-import com.boyouquan.config.BoYouQuanConfig;
 import com.boyouquan.dao.PostImageDaoMapper;
 import com.boyouquan.model.ImageDownloadResult;
 import com.boyouquan.model.PostImage;
@@ -19,8 +18,7 @@ public class PostImageServiceImpl implements PostImageService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostImageServiceImpl.class);
 
-    @Autowired
-    private BoYouQuanConfig boYouQuanConfig;
+
     @Autowired
     private PostImageDaoMapper postImageDaoMapper;
     @Autowired
@@ -38,8 +36,7 @@ public class PostImageServiceImpl implements PostImageService {
 
     @Override
     public void saveOrUpdate(String link, String imageURL) {
-        String storePath = boYouQuanConfig.getPostImageStorePath();
-        ImageDownloadResult result = imageDownloadService.downloadImage(imageURL, storePath);
+        ImageDownloadResult result = imageDownloadService.downloadImage(imageURL);
         if (!result.isSuccess()) {
             LOGGER.error("image download failed, message: {}", result.getMessage());
             return;

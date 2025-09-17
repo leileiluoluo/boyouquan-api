@@ -53,4 +53,4 @@ boyouquan:
   encryption:
     key: ${ENCRYPTION_KEY:boyouquan}
   post-image-store:
-    path: ${POST_IMAGE_STORE_PATH:post-images}
+    path: ${POST_IMAGE_STORE_PATH:./post-images}

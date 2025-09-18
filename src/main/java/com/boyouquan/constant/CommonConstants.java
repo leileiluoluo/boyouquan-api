@@ -58,5 +58,7 @@ public class CommonConstants {
 
     public static final int POST_IMAGES_SIZE_LIMIT = 200;
 
+    public static final int POST_IMAGES_WIDTH_LIMIT = 500;
+
 }
 

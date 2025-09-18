@@ -62,6 +62,10 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                 .url(imageURL)
                 .build();
 
+        long totalBytes = 0L;
+        String fileExtension = null;
+        Path outputPath = null;
+        Path outputFile = null;
         try (Response resp = client.newCall(request).execute()) {
             ResponseBody body = resp.body();
             if (!resp.isSuccessful()) {
@@ -72,7 +76,7 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                         .build();
             }
 
-            String fileExtension = getFileExtension(imageURL);
+            fileExtension = getFileExtension(imageURL);
             if (StringUtils.isBlank(fileExtension)) {
                 LOGGER.error("file extension unknown, imageURL: {}", imageURL);
                 return ImageDownloadResult.builder()
@@ -84,36 +88,15 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
             String fileName = generateFileName(fileExtension);
             String yearStr = CommonUtils.getYearStr(new Date());
             String monthStr = CommonUtils.getMonthStr(new Date());
-            Path outputPath = Paths.get(boYouQuanConfig.getPostImageStorePath(), yearStr, monthStr);
-            Path outputFile = Paths.get(outputPath.toString(), fileName);
+            outputPath = Paths.get(boYouQuanConfig.getPostImageStorePath(), yearStr, monthStr);
+            outputFile = Paths.get(outputPath.toString(), fileName);
 
             if (!Files.exists(outputPath)) {
                 Files.createDirectories(outputPath);
                 LOGGER.info("outputPath created, outputPath: {}", outputPath);
             }
 
-            long totalBytes = writeFile(outputFile, body);
-
-            if (totalBytes <= 0) {
-                LOGGER.error("totalBytes is zero, imageURL: {}", imageURL);
-                return ImageDownloadResult.builder()
-                        .success(false)
-                        .message("totalBytes is zero")
-                        .build();
-            }
-
-            String finalFilePath = outputFile.toString();
-            ImageCompressResult compressResult = compressToNewFile(outputPath.toString(), outputFile, totalBytes, fileExtension);
-            if (compressResult.isSuccess()) {
-                finalFilePath = compressResult.getFilePath();
-            }
-
-            return ImageDownloadResult.builder()
-                    .success(true)
-                    .filePath(finalFilePath)
-                    .totalBytes(totalBytes)
-                    .imageType(fileExtension)
-                    .build();
+            totalBytes = writeFile(outputFile, body);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return ImageDownloadResult.builder()
@@ -121,6 +104,27 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                     .message(e.getMessage())
                     .build();
         }
+
+        if (totalBytes <= 0) {
+            LOGGER.error("totalBytes is zero, imageURL: {}", imageURL);
+            return ImageDownloadResult.builder()
+                    .success(false)
+                    .message("totalBytes is zero")
+                    .build();
+        }
+
+        String finalFilePath = outputFile.toString();
+        ImageCompressResult compressResult = compressToNewFile(outputPath.toString(), outputFile, totalBytes, fileExtension);
+        if (compressResult.isSuccess()) {
+            finalFilePath = compressResult.getFilePath();
+        }
+
+        return ImageDownloadResult.builder()
+                .success(true)
+                .filePath(finalFilePath)
+                .totalBytes(totalBytes)
+                .imageType(fileExtension)
+                .build();
     }
 
     private long compressImage(String inputPath, String outputPath, int width, int height, float quality) {
@@ -180,57 +184,79 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
 
     private long writeFile(Path outputFile, ResponseBody body) {
         long totalBytes = 0;
-        try (InputStream inputStream = body.byteStream()) {
-            try (var outputStream = new FileOutputStream(outputFile.toFile())) {
-                byte[] buffer = new byte[81920];
-                int bytesRead;
 
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                    totalBytes += bytesRead;
-                }
-                return totalBytes;
+        InputStream inputStream = null;
+        FileOutputStream outputStream = null;
+        try {
+            inputStream = body.byteStream();
+            outputStream = new FileOutputStream(outputFile.toFile());
+            byte[] buffer = new byte[81920];
+            int bytesRead;
+
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+                totalBytes += bytesRead;
             }
+            outputStream.flush();
+            outputStream.getFD().sync();
+
+            return totalBytes;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return 0L;
+        } finally {
+            try {
+                if (null != inputStream) {
+                    inputStream.close();
+                }
+                if (null != outputStream) {
+                    outputStream.close();
+                }
+                if (null != body) {
+                    body.close();
+                }
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
     private ImageCompressResult compressToNewFile(String outputPath, Path sourceFile, long originalTotalBytes, String fileExtension) {
-        String newFileName = generateFileName(fileExtension);
-        Path newOutputFile = Paths.get(outputPath, newFileName);
-        int originalImageWidth = getImageWidth(sourceFile.toString());
-        int originalImageHeight = getImageHeight(sourceFile.toString());
-        int imageWidth = originalImageWidth;
-        int imageHeight = originalImageHeight;
-        long totalBytes = 0L;
-        if (originalTotalBytes / 1000 > CommonConstants.POST_IMAGES_SIZE_LIMIT) {
-            if (originalImageWidth > CommonConstants.POST_IMAGES_WIDTH_LIMIT) {
-                imageWidth = CommonConstants.POST_IMAGES_WIDTH_LIMIT;
-                imageHeight = originalImageHeight * CommonConstants.POST_IMAGES_WIDTH_LIMIT / originalImageWidth;
-            }
+        try {
+            String newFileName = generateFileName(fileExtension);
+            Path newOutputFile = Paths.get(outputPath, newFileName);
+            int originalImageWidth = getImageWidth(sourceFile.toString());
+            int originalImageHeight = getImageHeight(sourceFile.toString());
+            int imageWidth = originalImageWidth;
+            int imageHeight = originalImageHeight;
+            long totalBytes = 0L;
+            if (originalTotalBytes / 1000 > CommonConstants.POST_IMAGES_SIZE_LIMIT) {
+                if (originalImageWidth > CommonConstants.POST_IMAGES_WIDTH_LIMIT) {
+                    imageWidth = CommonConstants.POST_IMAGES_WIDTH_LIMIT;
+                    imageHeight = originalImageHeight * CommonConstants.POST_IMAGES_WIDTH_LIMIT / originalImageWidth;
+                }
 
-            totalBytes = compressImage(sourceFile.toString(), newOutputFile.toString(), imageWidth, imageHeight, 1);
-            if (totalBytes > 0L) {
-                try {
+                totalBytes = compressImage(sourceFile.toString(), newOutputFile.toString(), imageWidth, imageHeight, 1);
+                if (totalBytes > 0L) {
+
                     Files.delete(sourceFile);
                     LOGGER.info("original file has been deleted, file: {}", sourceFile);
-                } catch (IOException e) {
-                    LOGGER.error(e.getMessage(), e);
+
+                    return ImageCompressResult.builder()
+                            .success(true)
+                            .originalFilePath(sourceFile.toString())
+                            .originalSizeKb(totalBytes / 1000)
+                            .originalImageWidth(originalImageWidth)
+                            .originalImageHeight(originalImageHeight)
+                            .filePath(newOutputFile.toString())
+                            .sizeKb(totalBytes / 100)
+                            .imageWidth(imageWidth)
+                            .imageHeight(imageHeight)
+                            .build();
                 }
-                return ImageCompressResult.builder()
-                        .success(true)
-                        .originalFilePath(sourceFile.toString())
-                        .originalSizeKb(totalBytes / 1000)
-                        .originalImageWidth(originalImageWidth)
-                        .originalImageHeight(originalImageHeight)
-                        .filePath(newOutputFile.toString())
-                        .sizeKb(totalBytes / 100)
-                        .imageWidth(imageWidth)
-                        .imageHeight(imageHeight)
-                        .build();
             }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
         }
         return ImageCompressResult.builder().success(false).build();
     }

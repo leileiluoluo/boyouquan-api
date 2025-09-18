@@ -12,7 +12,7 @@ public class ImageDownloadServiceTest {
 
     @Test
     public void testDownloadImage() {
-        String imageURL = "https://www.boyouquan.com/images/2025/09/image_67989cbe.jpg";
+        String imageURL = "https://macinorg-blog.oss-cn-chengdu.aliyuncs.com/blog/Shirley_IMG_5592.webp?x-oss-process=style/wechat-mp";
         imageDownloadService.downloadImage(imageURL);
     }
 

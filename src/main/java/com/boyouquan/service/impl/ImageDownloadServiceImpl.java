@@ -66,6 +66,7 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
         String fileExtension = null;
         Path outputPath = null;
         Path outputFile = null;
+        String fileName = null;
         try (Response resp = client.newCall(request).execute()) {
             ResponseBody body = resp.body();
             if (!resp.isSuccessful()) {
@@ -85,7 +86,7 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                         .build();
             }
 
-            String fileName = generateFileName(fileExtension);
+            fileName = generateFileName(fileExtension);
             String yearStr = CommonUtils.getYearStr(new Date());
             String monthStr = CommonUtils.getMonthStr(new Date());
             outputPath = Paths.get(boYouQuanConfig.getPostImageStorePath(), yearStr, monthStr);
@@ -113,15 +114,14 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                     .build();
         }
 
-        String finalFilePath = outputFile.toString();
         ImageCompressResult compressResult = compressToNewFile(outputPath.toString(), outputFile, totalBytes, fileExtension);
         if (compressResult.isSuccess()) {
-            finalFilePath = compressResult.getFilePath();
+            fileName = compressResult.getFilePath();
         }
 
         return ImageDownloadResult.builder()
                 .success(true)
-                .filePath(finalFilePath)
+                .filePath(fileName)
                 .totalBytes(totalBytes)
                 .imageType(fileExtension)
                 .build();
@@ -248,7 +248,7 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                             .originalSizeKb(totalBytes / 1000)
                             .originalImageWidth(originalImageWidth)
                             .originalImageHeight(originalImageHeight)
-                            .filePath(newOutputFile.toString())
+                            .filePath(newFileName)
                             .sizeKb(totalBytes / 100)
                             .imageWidth(imageWidth)
                             .imageHeight(imageHeight)

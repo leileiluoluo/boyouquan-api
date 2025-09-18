@@ -51,18 +51,12 @@ public class PostImageServiceImpl implements PostImageService {
     }
 
     @Override
-    public void saveOrUpdate(String link, String imageURL) {
-        ImageDownloadResult result = imageDownloadService.downloadImage(imageURL);
-        if (!result.isSuccess()) {
-            LOGGER.error("image download failed, message: {}", result.getMessage());
-            return;
-        }
-
+    public void saveOrUpdate(String link, String rawImageURL, ImageDownloadResult result) {
         PostImage postImageStored = postImageDaoMapper.getByLink(link);
         if (null == postImageStored) {
             PostImage postImage = new PostImage();
             postImage.setLink(link);
-            postImage.setRawImageURL(imageURL);
+            postImage.setRawImageURL(rawImageURL);
             postImage.setImageURL(result.getFilePath());
             postImage.setImageType(result.getImageType());
             postImage.setImageSizeKb(result.getTotalBytes() / 1000);
@@ -70,7 +64,7 @@ public class PostImageServiceImpl implements PostImageService {
             postImage.setMonthStr(CommonUtils.getMonthStr(new Date()));
             postImageDaoMapper.save(postImage);
         } else {
-            postImageStored.setRawImageURL(imageURL);
+            postImageStored.setRawImageURL(rawImageURL);
             postImageStored.setImageURL(result.getFilePath());
             postImageStored.setImageType(result.getImageType());
             postImageStored.setImageSizeKb(result.getTotalBytes() / 1000);

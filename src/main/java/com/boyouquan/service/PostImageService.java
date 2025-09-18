@@ -1,5 +1,7 @@
 package com.boyouquan.service;
 
+import com.boyouquan.model.ImageDownloadResult;
+
 public interface PostImageService {
 
     String getImageURLByLink(String link);
@@ -10,6 +12,6 @@ public interface PostImageService {
 
     String getContentType(String year, String month, String filename);
 
-    void saveOrUpdate(String link, String imageURL);
+    void saveOrUpdate(String link, String rawImageURL, ImageDownloadResult result);
 
 }

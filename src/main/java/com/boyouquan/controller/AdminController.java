@@ -37,6 +37,8 @@ public class AdminController {
     @Autowired
     private BlogRequestFormHelper blogRequestFormHelper;
     @Autowired
+    private ImageDownloadService imageDownloadService;
+    @Autowired
     private PostImageService postImageService;
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -253,8 +255,13 @@ public class AdminController {
             return ResponseUtil.errorResponse(ErrorCode.UNAUTHORIZED);
         }
 
+        ImageDownloadResult result = imageDownloadService.downloadImage(form.getImageURL());
+        if (!result.isSuccess()) {
+            return ResponseUtil.errorResponse(ErrorCode.POST_IMAGE_ADD_FAILED, result.getMessage());
+        }
+
         // add
-        postImageService.saveOrUpdate(form.getLink(), form.getImageURL());
+        postImageService.saveOrUpdate(form.getLink(), form.getImageURL(), result);
 
         return ResponseEntity.noContent().build();
     }

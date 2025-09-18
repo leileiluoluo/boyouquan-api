@@ -14,4 +14,12 @@ public class ResponseUtil {
                 .body(errorResponse);
     }
 
+    public static ResponseEntity<ErrorResponse> errorResponse(RestErrorResponse restErrorResponse, String message) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode(restErrorResponse.getCode());
+        errorResponse.setMessage(message);
+        return ResponseEntity.status(restErrorResponse.getHttpStatus())
+                .body(errorResponse);
+    }
+
 }

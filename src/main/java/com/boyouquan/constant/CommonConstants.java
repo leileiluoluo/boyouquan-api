@@ -60,5 +60,7 @@ public class CommonConstants {
 
     public static final int POST_IMAGES_WIDTH_LIMIT = 500;
 
+    public static final String POST_IMAGES_URL_PREFIX = "/images/";
+
 }
 

@@ -15,11 +15,16 @@ public class PostImage implements Serializable {
 
     private String link;
     private String imageType;
+    private String rawImageURL;
+    private Long rawImageSizeKb;
+    private Long rawImageWidth;
+    private Long rawImageHeight;
     private Long imageSizeKb;
+    private Long imageWidth;
+    private Long imageHeight;
     private String yearStr;
     private String monthStr;
-    private String rawImageURL;
-    private String imageURL;
+    private String imageName;
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date capturedAt;
     @JsonSerialize(using = CustomDateSerializer.class)

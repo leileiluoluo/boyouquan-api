@@ -115,15 +115,19 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
         }
 
         ImageCompressResult compressResult = compressToNewFile(outputPath.toString(), outputFile, totalBytes, fileExtension);
-        if (compressResult.isSuccess()) {
-            fileName = compressResult.getFilePath();
+        if (!compressResult.isSuccess()) {
+            return ImageDownloadResult.builder()
+                    .success(false)
+                    .message("compress failed")
+                    .build();
         }
 
         return ImageDownloadResult.builder()
                 .success(true)
-                .filePath(fileName)
+                .imageName(compressResult.getFileName())
                 .totalBytes(totalBytes)
                 .imageType(fileExtension)
+                .compressResult(compressResult)
                 .build();
     }
 
@@ -229,27 +233,22 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
             int originalImageHeight = getImageHeight(sourceFile.toString());
             int imageWidth = originalImageWidth;
             int imageHeight = originalImageHeight;
-            long totalBytes = 0L;
             if (originalTotalBytes / 1000 > CommonConstants.POST_IMAGES_SIZE_LIMIT) {
                 if (originalImageWidth > CommonConstants.POST_IMAGES_WIDTH_LIMIT) {
                     imageWidth = CommonConstants.POST_IMAGES_WIDTH_LIMIT;
                     imageHeight = originalImageHeight * CommonConstants.POST_IMAGES_WIDTH_LIMIT / originalImageWidth;
                 }
 
-                totalBytes = compressImage(sourceFile.toString(), newOutputFile.toString(), imageWidth, imageHeight, 1);
-                if (totalBytes > 0L) {
-
-                    Files.delete(sourceFile);
-                    LOGGER.info("original file has been deleted, file: {}", sourceFile);
-
+                long compressedTotalBytes = compressImage(sourceFile.toString(), newOutputFile.toString(), imageWidth, imageHeight, 1);
+                if (compressedTotalBytes > 0L) {
                     return ImageCompressResult.builder()
                             .success(true)
                             .originalFilePath(sourceFile.toString())
-                            .originalSizeKb(totalBytes / 1000)
+                            .originalSizeKb(originalTotalBytes / 1000)
                             .originalImageWidth(originalImageWidth)
                             .originalImageHeight(originalImageHeight)
-                            .filePath(newFileName)
-                            .sizeKb(totalBytes / 100)
+                            .fileName(newFileName)
+                            .sizeKb(compressedTotalBytes / 1000)
                             .imageWidth(imageWidth)
                             .imageHeight(imageHeight)
                             .build();
@@ -257,6 +256,15 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
+        } finally {
+            try {
+                if (Files.exists(sourceFile)) {
+                    Files.delete(sourceFile);
+                    LOGGER.info("original file has been deleted, file: {}", sourceFile);
+                }
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
         return ImageCompressResult.builder().success(false).build();
     }

@@ -15,7 +15,8 @@ public class ImageDownloadResult implements Serializable {
     private boolean success;
     private String message;
     private String imageType;
-    private String filePath;
+    private String imageName;
     private long totalBytes;
+    private ImageCompressResult compressResult;
 
 }

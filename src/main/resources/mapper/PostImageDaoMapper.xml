@@ -3,11 +3,16 @@
     <sql id="insert_columns">
         link,
         image_type,
+        raw_image_url,
+        raw_image_size_kb,
+        raw_image_width,
+        raw_image_height,
         image_size_kb,
+        image_width,
+        image_height,
         year_str,
         month_str,
-        raw_image_url,
-        image_url,
+        image_name,
         captured_at,
         updated_at,
         deleted
@@ -15,18 +20,23 @@
     <sql id="select_columns">
         link,
         image_type as imageType,
+        raw_image_url as rawImageURL,
+        raw_image_size_kb as rawImageSizeKb,
+        raw_image_width as rawImageWidth,
+        raw_image_height as rawImageHeight,
         image_size_kb as imageSizeKb,
+        image_width as imageWidth,
+        image_height as imageHeight,
         year_str as yearStr,
         month_str as monthStr,
-        raw_image_url as rawImageURL,
-        image_url as imageURL,
+        image_name as imageName,
         captured_at as capturedAt,
         updated_at as updatedAt,
         deleted
     </sql>
     <select id="getImageURLByLink" resultType="java.lang.String">
         SELECT
-        image_url
+        concat(year_str, '/', month_str, '/', image_name)
         FROM post_image
         WHERE deleted=false
         AND link=#{link}
@@ -51,11 +61,16 @@
         (
         #{link},
         #{imageType},
+        #{rawImageURL},
+        #{rawImageSizeKb},
+        #{rawImageWidth},
+        #{rawImageHeight},
         #{imageSizeKb},
+        #{imageWidth},
+        #{imageHeight},
         #{yearStr},
         #{monthStr},
-        #{rawImageURL},
-        #{imageURL},
+        #{imageName},
         now(),
         now(),
         false
@@ -64,11 +79,16 @@
     <update id="update">
         UPDATE post_image
         SET image_type = #{imageType},
+        raw_image_url = #{rawImageURL},
+        raw_image_size_kb = #{rawImageSizeKb},
+        raw_image_width = #{rawImageWidth},
+        raw_image_height = #{rawImageHeight},
         image_size_kb = #{imageSizeKb},
+        image_width = #{imageWidth},
+        image_height = #{imageHeight},
         year_str = #{yearStr},
         month_str = #{monthStr},
-        raw_image_url = #{rawImageURL},
-        image_url = #{imageURL},
+        image_name = #{imageName},
         updated_at = now()
         WHERE link = #{link}
     </update>

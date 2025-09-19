@@ -15,11 +15,11 @@ public class ImageCompressResult implements Serializable {
     private boolean success;
     private String originalFilePath;
     private long originalSizeKb;
-    private int originalImageWidth;
-    private int originalImageHeight;
-    private String filePath;
+    private long originalImageWidth;
+    private long originalImageHeight;
+    private String fileName;
     private long sizeKb;
-    private int imageWidth;
-    private int imageHeight;
+    private long imageWidth;
+    private long imageHeight;
 
 }

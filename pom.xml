@@ -108,6 +108,14 @@
             <version>3.18.0</version>
         </dependency>
 
+        <!-- web reader plugin -->
+        <!-- FIXME: only 3.9.0 is fine -->
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-webp</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+
         <!-- actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

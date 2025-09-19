@@ -28,7 +28,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -50,8 +52,11 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                 Files.createDirectories(path);
                 LOGGER.info("download path not exists, now create it, path: {}", path);
             }
-        } catch (IOException e) {
-            LOGGER.error("download path create failed: {}", imageStorePath, e);
+
+            // FIXME: register webp support
+            ImageIO.scanForPlugins();
+        } catch (Exception e) {
+            LOGGER.error("init failed: {}", imageStorePath, e);
         }
     }
 
@@ -84,6 +89,18 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                         .success(false)
                         .message("file extension unknown")
                         .build();
+            }
+
+            // FIXME: special type
+            if (".webp".equalsIgnoreCase(fileExtension)) {
+                List<String> supportedVersions = Arrays.asList(ImageIO.getReaderFormatNames());
+                if (!supportedVersions.contains("webp")) {
+                    LOGGER.error("there is no webp plugin, imageURL: {}", imageURL);
+                    return ImageDownloadResult.builder()
+                            .success(false)
+                            .message("there is no webp plugin")
+                            .build();
+                }
             }
 
             fileName = generateFileName(fileExtension);
@@ -131,13 +148,20 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                 .build();
     }
 
-    private long compressImage(String inputPath, String outputPath, int width, int height, float quality) {
+    private long compressImage(String fileExtension, String inputPath, String outputPath, int width, int height) {
         try {
             File outputFile = new File(outputPath);
-            Thumbnails.of(new File(inputPath))
+
+            BufferedImage originalImage = ImageIO.read(new File(inputPath));
+            BufferedImage thumbnail = Thumbnails.of(originalImage)
                     .size(width, height)
-                    .outputQuality(quality)
-                    .toFile(outputFile);
+                    .asBufferedImage();
+
+            String format = fileExtension.replace(".", "");
+            if ("webp".equals(format)) {
+                format = "jpg";
+            }
+            ImageIO.write(thumbnail, format, outputFile);
 
             return outputFile.length();
         } catch (Exception e) {
@@ -174,7 +198,7 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
             String[] parts = urlPath.split("\\.");
             if (parts.length > 1) {
                 String potentialExt = "." + parts[parts.length - 1].toLowerCase();
-                if (potentialExt.matches("\\.(jpg|jpeg|png|gif|bmp|webp)$")) {
+                if (potentialExt.matches("\\.(jpg|jpeg|png|svg|webp)$")) {
                     return potentialExt;
                 }
             }
@@ -239,7 +263,7 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                     imageHeight = originalImageHeight * CommonConstants.POST_IMAGES_WIDTH_LIMIT / originalImageWidth;
                 }
 
-                long compressedTotalBytes = compressImage(sourceFile.toString(), newOutputFile.toString(), imageWidth, imageHeight, 1);
+                long compressedTotalBytes = compressImage(fileExtension, sourceFile.toString(), newOutputFile.toString(), imageWidth, imageHeight);
                 if (compressedTotalBytes > 0L) {
                     return ImageCompressResult.builder()
                             .success(true)

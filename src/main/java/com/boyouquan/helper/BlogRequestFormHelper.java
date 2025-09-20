@@ -48,7 +48,7 @@ public class BlogRequestFormHelper {
         if (!rssAddress.startsWith("http")) {
             return ErrorCode.BLOG_REQUEST_RSS_ADDRESS_INVALID;
         }
-        if (!CommonUtils.getDomain(rssAddress).contains("/")) {
+        if (!CommonUtils.getNoSchemeDomainName(rssAddress).contains("/")) {
             return ErrorCode.BLOG_REQUEST_RSS_ADDRESS_INVALID;
         }
 
@@ -73,7 +73,7 @@ public class BlogRequestFormHelper {
         }
 
         // blog exists?
-        String domainName = CommonUtils.getDomain(rssAddress);
+        String domainName = CommonUtils.getDomainName(rssAddress);
         if (blogService.existsByDomainName(domainName)) {
             return ErrorCode.BLOG_REQUEST_BLOG_EXISTS;
         }

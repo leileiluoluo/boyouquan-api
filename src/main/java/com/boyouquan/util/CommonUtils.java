@@ -203,7 +203,7 @@ public class CommonUtils {
         return blogAddress;
     }
 
-    public static String getDomain(String address) {
+    public static String getNoSchemeDomainName(String address) {
         // scheme
         if (address.startsWith("https://")) {
             address = address.substring("https://".length());
@@ -216,6 +216,16 @@ public class CommonUtils {
             address = address.substring(0, address.length() - 1);
         }
         return address;
+    }
+
+    public static String getDomainName(String address) {
+        String addressAfter = address.replace("https://", "")
+                .replace("http://", "");
+        int slashIndex = addressAfter.indexOf("/");
+        if (slashIndex > 0) {
+            return addressAfter.substring(0, slashIndex);
+        }
+        return addressAfter;
     }
 
     public static String getDomainFromURL(String url) {

@@ -4,6 +4,7 @@ import com.boyouquan.config.BoYouQuanConfig;
 import com.boyouquan.enumration.ErrorCode;
 import com.boyouquan.model.BlogRequestForm;
 import com.boyouquan.service.BlogRequestService;
+import com.boyouquan.service.BlogService;
 import com.boyouquan.util.CommonUtils;
 import com.boyouquan.util.EmailUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,8 @@ public class BlogRequestFormHelper {
     private BoYouQuanConfig boYouQuanConfig;
     @Autowired
     private BlogRequestService blogRequestService;
+    @Autowired
+    private BlogService blogService;
 
     public ErrorCode paramsValidation(BlogRequestForm blogRequestForm) {
         // name
@@ -64,9 +67,15 @@ public class BlogRequestFormHelper {
             return ErrorCode.BLOG_REQUEST_ADMIN_EMAIL_INVALID;
         }
 
-        // exists?
+        // blog request exists?
         if (null != blogRequestService.getByRssAddress(blogRequestForm.getRssAddress())) {
             return ErrorCode.BLOG_REQUEST_RSS_ADDRESS_EXISTS;
+        }
+
+        // blog exists?
+        String domainName = CommonUtils.getDomain(rssAddress);
+        if (blogService.existsByDomainName(domainName)) {
+            return ErrorCode.BLOG_REQUEST_BLOG_EXISTS;
         }
 
         return null;

@@ -15,6 +15,7 @@ public enum ErrorCode implements RestErrorResponse {
     BLOG_REQUEST_EMAIL_VALIDATION_CODE_LIMIT_EXCEED(HttpStatus.BAD_REQUEST, "blog_request_email_validation_code_limit_exceed", "今日验证码获取次数已达上限"),
     BLOG_REQUEST_EMAIL_VALIDATION_CODE_INVALID(HttpStatus.BAD_REQUEST, "blog_request_email_validation_code_invalid", "邮箱验证码无效或已超时"),
     BLOG_REQUEST_RSS_ADDRESS_EXISTS(HttpStatus.BAD_REQUEST, "blog_request_rss_address_exists", "RSS 地址已存在"),
+    BLOG_REQUEST_BLOG_EXISTS(HttpStatus.BAD_REQUEST, "blog_request_blog_exists", "博客已被收录，请勿重复提交，您可以在博客广场搜索域名来查看"),
     LOGIN_USERNAME_INVALID(HttpStatus.BAD_REQUEST, "login_username_invalid", "账号无效"),
     LOGIN_PASSWORD_INVALID(HttpStatus.BAD_REQUEST, "login_password_invalid", "密码无效"),
     LOGIN_USERNAME_PASSWORD_INVALID(HttpStatus.BAD_REQUEST, "login_username_password_invalid", "账号密码无效"),

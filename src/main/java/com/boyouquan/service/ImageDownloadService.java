@@ -6,8 +6,8 @@ public interface ImageDownloadService {
 
     ImageDownloadResult downloadImage(String imageURL);
 
-    byte[] getImageBytes(String filePath);
+    byte[] getImageBytes(String basePath, String filePath);
 
-    String getContentType(String filePath);
+    String getContentType(String basePath, String filePath);
 
 }

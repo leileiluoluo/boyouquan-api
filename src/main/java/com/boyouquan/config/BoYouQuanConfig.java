@@ -44,4 +44,7 @@ public class BoYouQuanConfig {
     @Value("${boyouquan.post-image-store.path}")
     private String postImageStorePath;
 
+    @Value("${boyouquan.image-upload-store.path}")
+    private String imageUploadStorePath;
+
 }

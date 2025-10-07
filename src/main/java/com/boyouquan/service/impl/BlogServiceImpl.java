@@ -193,6 +193,18 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public List<BlogInfo> listByAdminEmail(String adminEmail) {
+        List<Blog> blogs = blogDaoMapper.listByAdminEmail(adminEmail);
+        List<BlogInfo> blogInfos = new ArrayList<>();
+        for (Blog blog : blogs) {
+            // assemble
+            BlogInfo blogInfo = assembleBlogInfo(blog, true, CommonConstants.LATEST_POST_COUNT_LIMIT);
+            blogInfos.add(blogInfo);
+        }
+        return blogInfos;
+    }
+
+    @Override
     public Blog getByShortDomainName(String shortDomainName) {
         return blogDaoMapper.getByShortDomainName(shortDomainName);
     }

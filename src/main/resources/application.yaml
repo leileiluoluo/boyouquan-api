@@ -8,6 +8,10 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 15MB
   cache:
     jcache:
       config: classpath:ehcache.xml
@@ -54,3 +58,5 @@ boyouquan:
     key: ${ENCRYPTION_KEY:boyouquan}
   post-image-store:
     path: ${POST_IMAGE_STORE_PATH:./post-images}
+  image-upload-store:
+    path: ${IMAGE_UPLOAD_STORE_PATH:./image-upload}

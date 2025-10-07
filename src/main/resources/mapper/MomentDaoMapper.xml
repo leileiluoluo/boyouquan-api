@@ -1,0 +1,45 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boyouquan.dao.MomentDaoMapper">
+    <sql id="insert_columns">
+        blog_domain_name,
+        description,
+        image_url,
+        created_at,
+        updated_at,
+        deleted
+    </sql>
+    <sql id="select_columns">
+        blog_domain_name as blogDomainName,
+        description,
+        image_url as imageURL,
+        created_at as createdAt,
+        updated_at as updatedAt,
+        deleted
+    </sql>
+    <select id="count" resultType="java.lang.Long">
+        SELECT
+        COUNT(*)
+        FROM moment
+        WHERE deleted=false
+    </select>
+    <select id="list" resultType="com.boyouquan.model.Moment">
+        SELECT
+        <include refid="select_columns"/>
+        FROM moment
+        WHERE deleted=false
+        ORDER BY created_at DESC
+        LIMIT #{offset}, #{rows}
+    </select>
+    <insert id="save">
+        INSERT INTO moment (
+        <include refid="insert_columns"/>
+        ) VALUES (
+        #{blogDomainName},
+        #{description},
+        #{imageURL},
+        now(),
+        now(),
+        false
+        )
+    </insert>
+</mapper>

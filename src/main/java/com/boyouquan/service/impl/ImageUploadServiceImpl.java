@@ -1,6 +1,7 @@
 package com.boyouquan.service.impl;
 
 import com.boyouquan.config.BoYouQuanConfig;
+import com.boyouquan.model.ImageCompressResult;
 import com.boyouquan.service.ImageDownloadService;
 import com.boyouquan.service.ImageUploadService;
 import com.boyouquan.util.CommonUtils;
@@ -65,7 +66,13 @@ public class ImageUploadServiceImpl implements ImageUploadService {
 
         Files.write(outputFile, bytes);
 
-        return String.format("/images/uploads/%s/%s/%s", yearStr, monthStr, fileName);
+        ImageCompressResult compressResult = ImageFileUtils.compressToNewFile(outputPath.toString(), outputFile, bytes.length, fileExtension);
+        if (!compressResult.isSuccess()) {
+            LOGGER.error("compress failed");
+            throw new IOException("compress failed");
+        }
+
+        return String.format("/images/uploads/%s/%s/%s", yearStr, monthStr, compressResult.getFileName());
     }
 
     @Override

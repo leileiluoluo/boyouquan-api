@@ -1,5 +1,6 @@
 package com.boyouquan.service.impl;
 
+import com.boyouquan.config.BoYouQuanConfig;
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.PostImageDaoMapper;
 import com.boyouquan.model.ImageCompressResult;
@@ -23,6 +24,8 @@ public class PostImageServiceImpl implements PostImageService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostImageServiceImpl.class);
 
     @Autowired
+    private BoYouQuanConfig boYouQuanConfig;
+    @Autowired
     private PostImageDaoMapper postImageDaoMapper;
     @Autowired
     private ImageDownloadService imageDownloadService;
@@ -44,13 +47,13 @@ public class PostImageServiceImpl implements PostImageService {
     @Override
     public byte[] getImageBytes(String year, String month, String filename) {
         String filePath = year + File.separator + month + File.separator + filename;
-        return imageDownloadService.getImageBytes(filePath);
+        return imageDownloadService.getImageBytes(boYouQuanConfig.getPostImageStorePath(), filePath);
     }
 
     @Override
     public String getContentType(String year, String month, String filename) {
         String filePath = year + File.separator + month + File.separator + filename;
-        return imageDownloadService.getContentType(filePath);
+        return imageDownloadService.getContentType(boYouQuanConfig.getPostImageStorePath(), filePath);
     }
 
     @Override

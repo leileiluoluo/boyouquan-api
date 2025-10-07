@@ -169,6 +169,14 @@
         AND deleted=false
         AND domain_name=#{domainName}
     </select>
+    <select id="listByAdminEmail" resultType="com.boyouquan.model.Blog">
+        SELECT
+        <include refid="select_columns"/>
+        FROM blog
+        WHERE draft=false
+        AND deleted=false
+        AND admin_email=#{adminEmail}
+    </select>
     <select id="getByShortDomainName" resultType="com.boyouquan.model.Blog">
         SELECT
         <include refid="select_columns"/>

@@ -27,6 +27,8 @@ public interface BlogDaoMapper {
 
     Blog getByDomainName(String domainName);
 
+    List<Blog> listByAdminEmail(String adminEmail);
+
     Blog getByShortDomainName(String shortDomainName);
 
     Blog getByAddress(String address);

@@ -37,6 +37,8 @@ public interface BlogService {
 
     Blog getByDomainName(String domainName);
 
+    List<BlogInfo> listByAdminEmail(String adminEmail);
+
     Blog getByShortDomainName(String shortDomainName);
 
     Blog getByAddress(String address);

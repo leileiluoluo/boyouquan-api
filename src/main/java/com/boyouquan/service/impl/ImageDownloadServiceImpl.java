@@ -6,9 +6,9 @@ import com.boyouquan.model.ImageCompressResult;
 import com.boyouquan.model.ImageDownloadResult;
 import com.boyouquan.service.ImageDownloadService;
 import com.boyouquan.util.CommonUtils;
+import com.boyouquan.util.ImageFileUtils;
 import com.boyouquan.util.OkHttpUtil;
 import jakarta.annotation.PostConstruct;
-import net.coobird.thumbnailator.Thumbnails;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -20,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +29,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ImageDownloadServiceImpl implements ImageDownloadService {
@@ -82,7 +79,7 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                         .build();
             }
 
-            fileExtension = getFileExtension(imageURL);
+            fileExtension = ImageFileUtils.getFileExtension(imageURL);
             if (StringUtils.isBlank(fileExtension)) {
                 LOGGER.error("file extension unknown, imageURL: {}", imageURL);
                 return ImageDownloadResult.builder()
@@ -103,7 +100,7 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                 }
             }
 
-            fileName = generateFileName(fileExtension);
+            fileName = ImageFileUtils.generateFileName(fileExtension);
             String yearStr = CommonUtils.getYearStr(new Date());
             String monthStr = CommonUtils.getMonthStr(new Date());
             outputPath = Paths.get(boYouQuanConfig.getPostImageStorePath(), yearStr, monthStr);
@@ -131,7 +128,7 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                     .build();
         }
 
-        ImageCompressResult compressResult = compressToNewFile(outputPath.toString(), outputFile, totalBytes, fileExtension);
+        ImageCompressResult compressResult = ImageFileUtils.compressToNewFile(outputPath.toString(), outputFile, totalBytes, fileExtension);
         if (!compressResult.isSuccess()) {
             return ImageDownloadResult.builder()
                     .success(false)
@@ -148,31 +145,9 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                 .build();
     }
 
-    private long compressImage(String fileExtension, String inputPath, String outputPath, int width, int height) {
-        try {
-            File outputFile = new File(outputPath);
-
-            BufferedImage originalImage = ImageIO.read(new File(inputPath));
-            BufferedImage thumbnail = Thumbnails.of(originalImage)
-                    .size(width, height)
-                    .asBufferedImage();
-
-            String format = fileExtension.replace(".", "");
-            if ("webp".equals(format)) {
-                format = "jpg";
-            }
-            ImageIO.write(thumbnail, format, outputFile);
-
-            return outputFile.length();
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return 0L;
-        }
-    }
-
     @Override
-    public byte[] getImageBytes(String filePath) {
-        Path fileFullPath = Paths.get(boYouQuanConfig.getPostImageStorePath(), filePath);
+    public byte[] getImageBytes(String basePath, String filePath) {
+        Path fileFullPath = Paths.get(basePath, filePath);
         try {
             return Files.readAllBytes(fileFullPath);
         } catch (IOException e) {
@@ -182,32 +157,14 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
     }
 
     @Override
-    public String getContentType(String filePath) {
-        Path fileFullPath = Paths.get(boYouQuanConfig.getPostImageStorePath(), filePath);
+    public String getContentType(String basePath, String filePath) {
+        Path fileFullPath = Paths.get(basePath, filePath);
         try {
             return Files.probeContentType(fileFullPath);
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
             return null;
         }
-    }
-
-    private String getFileExtension(String imageURL) {
-        if (imageURL.contains(".")) {
-            String urlPath = imageURL.split("\\?")[0];
-            String[] parts = urlPath.split("\\.");
-            if (parts.length > 1) {
-                String potentialExt = "." + parts[parts.length - 1].toLowerCase();
-                if (potentialExt.matches("\\.(jpg|jpeg|png|svg|webp)$")) {
-                    return potentialExt;
-                }
-            }
-        }
-        return null;
-    }
-
-    private String generateFileName(String extension) {
-        return "image_" + UUID.randomUUID().toString().substring(0, 8) + extension;
     }
 
     private long writeFile(Path outputFile, ResponseBody body) {
@@ -246,72 +203,6 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
             } catch (IOException e) {
                 LOGGER.error(e.getMessage(), e);
             }
-        }
-    }
-
-    private ImageCompressResult compressToNewFile(String outputPath, Path sourceFile, long originalTotalBytes, String fileExtension) {
-        try {
-            String newFileName = generateFileName(fileExtension);
-            Path newOutputFile = Paths.get(outputPath, newFileName);
-            int originalImageWidth = getImageWidth(sourceFile.toString());
-            int originalImageHeight = getImageHeight(sourceFile.toString());
-            int imageWidth = originalImageWidth;
-            int imageHeight = originalImageHeight;
-            if (originalTotalBytes / 1000 > CommonConstants.POST_IMAGES_SIZE_LIMIT) {
-                if (originalImageWidth > CommonConstants.POST_IMAGES_WIDTH_LIMIT) {
-                    imageWidth = CommonConstants.POST_IMAGES_WIDTH_LIMIT;
-                    imageHeight = originalImageHeight * CommonConstants.POST_IMAGES_WIDTH_LIMIT / originalImageWidth;
-                }
-
-                long compressedTotalBytes = compressImage(fileExtension, sourceFile.toString(), newOutputFile.toString(), imageWidth, imageHeight);
-                if (compressedTotalBytes > 0L) {
-                    return ImageCompressResult.builder()
-                            .success(true)
-                            .originalFilePath(sourceFile.toString())
-                            .originalSizeKb(originalTotalBytes / 1000)
-                            .originalImageWidth(originalImageWidth)
-                            .originalImageHeight(originalImageHeight)
-                            .fileName(newFileName)
-                            .sizeKb(compressedTotalBytes / 1000)
-                            .imageWidth(imageWidth)
-                            .imageHeight(imageHeight)
-                            .build();
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-        } finally {
-            try {
-                if (Files.exists(sourceFile)) {
-                    Files.delete(sourceFile);
-                    LOGGER.info("original file has been deleted, file: {}", sourceFile);
-                }
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
-        return ImageCompressResult.builder().success(false).build();
-    }
-
-    private int getImageWidth(String filePath) {
-        try {
-            File file = new File(filePath);
-            BufferedImage image = ImageIO.read(file);
-            return image.getWidth();
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-            return 0;
-        }
-    }
-
-    private int getImageHeight(String filePath) {
-        try {
-            File file = new File(filePath);
-            BufferedImage image = ImageIO.read(file);
-            return image.getHeight();
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-            return 0;
         }
     }
 

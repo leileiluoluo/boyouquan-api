@@ -69,6 +69,13 @@ public class BlogController {
         return ResponseEntity.ok(blogInfos);
     }
 
+    @GetMapping("/by-admin-email")
+    public ResponseEntity<?> getBlogByAdminEmail(@RequestParam("adminEmail") String adminEmail) {
+        List<BlogInfo> blogInfos = blogService.listByAdminEmail(adminEmail);
+
+        return ResponseEntity.ok(blogInfos);
+    }
+
     @GetMapping("/posts")
     public ResponseEntity<List<Post>> getPostsUnderBlog(@RequestParam("domainName") String domainName) {
         List<Post> posts = postService.listByDraftAndBlogDomainName(false, domainName, 1, CommonConstants.ALL_POST_COUNT_LIMIT)

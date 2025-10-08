@@ -57,9 +57,9 @@ public class CommonConstants {
 
     public static final int POST_IMAGES_SCRAPER_SIZE = 20;
 
-    public static final int POST_IMAGES_SIZE_LIMIT = 200;
+    public static final int POST_IMAGES_SIZE_LIMIT = 400;
 
-    public static final int POST_IMAGES_WIDTH_LIMIT = 500;
+    public static final int POST_IMAGES_WIDTH_LIMIT = 800;
 
     public static final String POST_IMAGES_URL_PREFIX = "/images/";
 

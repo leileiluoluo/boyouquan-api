@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS moment;
 CREATE TABLE moment (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     blog_domain_name VARCHAR(100),
     description VARCHAR(300) NOT NULL,
     image_url VARCHAR(200) NOT NULL,

@@ -25,7 +25,7 @@
         ) VALUES (
         DATE_FORMAT(CURDATE(), '%Y/%m'),
         #{type},
-        #{entity_id},
+        #{entityId},
         1
         ) ON DUPLICATE KEY UPDATE amount=amount+1
     </insert>

@@ -31,6 +31,15 @@
         ORDER BY created_at DESC
         LIMIT #{offset}, #{rows}
     </select>
+    <select id="existsByBlogDomainNameAndDescription" resultType="boolean">
+        SELECT
+        EXISTS (
+        SELECT 1 FROM moment
+        WHERE deleted=false
+          AND blog_domain_name=#{blogDomainName}
+          AND description=#{description}
+        )
+    </select>
     <insert id="save">
         INSERT INTO moment (
         <include refid="insert_columns"/>

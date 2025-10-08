@@ -3,6 +3,8 @@ package com.boyouquan.controller;
 import com.boyouquan.model.Like;
 import com.boyouquan.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +18,10 @@ public class LikeController {
     private LikeService likeService;
 
     @PostMapping
-    public void like(@RequestBody Like like) {
+    public ResponseEntity<?> like(@RequestBody Like like) {
         likeService.addLike(like.getType(), like.getEntityId());
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }

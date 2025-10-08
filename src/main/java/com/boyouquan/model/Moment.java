@@ -9,6 +9,7 @@ import java.util.Date;
 @Data
 public class Moment {
 
+    private Long id;
     private String blogDomainName;
     private String description;
     private String imageURL;

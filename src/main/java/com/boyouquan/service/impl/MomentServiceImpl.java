@@ -58,6 +58,11 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
+    public boolean existsByBlogDomainNameAndDescription(String blogDomainName, String description) {
+        return momentDaoMapper.existsByBlogDomainNameAndDescription(blogDomainName, description);
+    }
+
+    @Override
     public void save(Moment moment) {
         momentDaoMapper.save(moment);
 

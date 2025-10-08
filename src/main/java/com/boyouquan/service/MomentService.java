@@ -8,6 +8,8 @@ public interface MomentService {
 
     Pagination<MomentInfo> listMomentInfos(int page, int size);
 
+    boolean existsByBlogDomainNameAndDescription(String blogDomainName, String description);
+
     void save(Moment moment);
 
 }

@@ -51,6 +51,12 @@ public class MomentsController {
             return ResponseUtil.errorResponse(ErrorCode.MOMENTS_PARAMS_INVALID);
         }
 
+        // exists?
+        boolean exists = momentService.existsByBlogDomainNameAndDescription(blogDomainName, description);
+        if (exists) {
+            return ResponseUtil.errorResponse(ErrorCode.MOMENTS_EXISTS);
+        }
+
         try {
             // upload file
             String imageURL = imageUploadService.upload(file.getOriginalFilename(), file.getBytes());

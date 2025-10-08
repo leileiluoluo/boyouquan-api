@@ -10,6 +10,8 @@ public interface MomentDaoMapper {
 
     Long count();
 
+    boolean existsByBlogDomainNameAndDescription(String blogDomainName, String description);
+
     void save(Moment moment);
 
 }

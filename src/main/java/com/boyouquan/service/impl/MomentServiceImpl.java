@@ -1,11 +1,11 @@
 package com.boyouquan.service.impl;
 
+import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.MomentDaoMapper;
-import com.boyouquan.model.BlogInfo;
-import com.boyouquan.model.Moment;
-import com.boyouquan.model.MomentInfo;
+import com.boyouquan.model.*;
 import com.boyouquan.service.BlogService;
 import com.boyouquan.service.MomentService;
+import com.boyouquan.service.WebSocketService;
 import com.boyouquan.util.Pagination;
 import com.boyouquan.util.PaginationBuilder;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +22,8 @@ public class MomentServiceImpl implements MomentService {
     private MomentDaoMapper momentDaoMapper;
     @Autowired
     private BlogService blogService;
+    @Autowired
+    private WebSocketService webSocketService;
 
     @Override
     public Pagination<MomentInfo> listMomentInfos(int page, int size) {
@@ -53,6 +55,16 @@ public class MomentServiceImpl implements MomentService {
     @Override
     public void save(Moment moment) {
         momentDaoMapper.save(moment);
+
+        // websocket broadcast
+        String blogDomainName = moment.getBlogDomainName();
+        Blog blog = blogService.getByDomainName(blogDomainName);
+        if (null != blog) {
+            WebSocketMessage message = new WebSocketMessage();
+            message.setMessage(String.format("「%s」刚刚发布了一条随手一拍，快来看看吧！", blog.getName()));
+            message.setGotoUrl(CommonConstants.MOMENTS_PAGE_ADDRESS);
+            webSocketService.broadcast(message);
+        }
     }
 
 }

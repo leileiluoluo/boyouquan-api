@@ -31,6 +31,7 @@ public enum ErrorCode implements RestErrorResponse {
     IMAGE_UPLOAD_FAILED(HttpStatus.BAD_REQUEST, "image_upload_failed", "图片文件上传失败"),
     MOMENTS_PARAMS_INVALID(HttpStatus.BAD_REQUEST, "moments_params_invalid", "参数无效，请检查"),
     MOMENTS_EXISTS(HttpStatus.BAD_REQUEST, "moments_exists", "您已发布过同名随拍，请勿重复发布！"),
+    LIKE_LIMIT_EXCEEDED(HttpStatus.BAD_REQUEST, "like_limit_exceeded", "您已喜欢过该条目，请勿重复点击！"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "internal_server_error", "服务器内部错误");
 
     private final HttpStatus httpStatus;

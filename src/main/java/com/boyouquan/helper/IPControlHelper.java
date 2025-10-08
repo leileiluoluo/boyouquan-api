@@ -1,5 +1,6 @@
 package com.boyouquan.helper;
 
+import com.boyouquan.model.Like;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -33,6 +34,16 @@ public class IPControlHelper {
 
     public void access(String ip, String link) {
         String key = ip + "#" + link;
+        ACCESS_MAP.put(key, 1);
+    }
+
+    public boolean alreadyLiked(String ip, Like.Type type, Long id) {
+        String key = ip + "#" + type + "#" + id;
+        return ACCESS_MAP.containsKey(key);
+    }
+
+    public void like(String ip, Like.Type type, Long id) {
+        String key = ip + "#" + type + "#" + id;
         ACCESS_MAP.put(key, 1);
     }
 

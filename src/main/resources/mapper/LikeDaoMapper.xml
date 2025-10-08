@@ -14,7 +14,7 @@
     </sql>
     <select id="countByTypeAndEntityId" resultType="java.lang.Long">
         SELECT
-        SUM(amount)
+        IFNULL(SUM(amount), 0)
         FROM likes
         WHERE type = #{type}
         AND entity_id = #{entityId}

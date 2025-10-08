@@ -9,6 +9,7 @@
         deleted
     </sql>
     <sql id="select_columns">
+        id,
         blog_domain_name as blogDomainName,
         description,
         image_url as imageURL,

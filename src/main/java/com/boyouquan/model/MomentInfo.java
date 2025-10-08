@@ -8,5 +8,6 @@ import lombok.Setter;
 public class MomentInfo extends Moment {
 
     private BlogInfo blogInfo;
+    private Long likeCount;
 
 }

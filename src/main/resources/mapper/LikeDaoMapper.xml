@@ -1,0 +1,32 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boyouquan.dao.LikeDaoMapper">
+    <sql id="insert_columns">
+        year_month_str,
+        type,
+        entity_id,
+        amount
+    </sql>
+    <sql id="select_columns">
+        year_month_str as yearMonthStr,
+        type,
+        entity_id as entityId,
+        amount
+    </sql>
+    <select id="countByTypeAndEntityId" resultType="java.lang.Long">
+        SELECT
+        SUM(amount)
+        FROM likes
+        WHERE type = #{type}
+        AND entity_id = #{entityId}
+    </select>
+    <insert id="add">
+        INSERT INTO likes (
+        <include refid="insert_columns"/>
+        ) VALUES (
+        DATE_FORMAT(CURDATE(), '%Y/%m'),
+        #{type},
+        #{entity_id},
+        1
+        ) ON DUPLICATE KEY UPDATE amount=amount+1
+    </insert>
+</mapper>

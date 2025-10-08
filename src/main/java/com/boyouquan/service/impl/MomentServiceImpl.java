@@ -4,6 +4,7 @@ import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.MomentDaoMapper;
 import com.boyouquan.model.*;
 import com.boyouquan.service.BlogService;
+import com.boyouquan.service.LikeService;
 import com.boyouquan.service.MomentService;
 import com.boyouquan.service.WebSocketService;
 import com.boyouquan.util.Pagination;
@@ -22,6 +23,8 @@ public class MomentServiceImpl implements MomentService {
     private MomentDaoMapper momentDaoMapper;
     @Autowired
     private BlogService blogService;
+    @Autowired
+    private LikeService likeService;
     @Autowired
     private WebSocketService webSocketService;
 
@@ -42,6 +45,8 @@ public class MomentServiceImpl implements MomentService {
             BeanUtils.copyProperties(moment, momentInfo);
             BlogInfo blogInfo = blogService.getBlogInfoByDomainName(moment.getBlogDomainName());
             momentInfo.setBlogInfo(blogInfo);
+            Long likeCount = likeService.countByTypeAndEntityId(Like.Type.MOMENTS, moment.getId());
+            momentInfo.setLikeCount(likeCount);
             momentInfos.add(momentInfo);
         }
 

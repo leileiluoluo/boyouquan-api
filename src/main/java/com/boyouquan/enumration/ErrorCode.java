@@ -29,6 +29,7 @@ public enum ErrorCode implements RestErrorResponse {
     POST_IMAGE_ADD_FAILED(HttpStatus.BAD_REQUEST, "post_image_add_failed", "文章配图添加失败"),
     IMAGE_UPLOAD_INVALID(HttpStatus.BAD_REQUEST, "image_upload_invalid", "图片文件无效"),
     IMAGE_UPLOAD_FAILED(HttpStatus.BAD_REQUEST, "image_upload_failed", "图片文件上传失败"),
+    MOMENTS_PARAMS_INVALID(HttpStatus.BAD_REQUEST, "moments_params_invalid", "参数无效，请检查"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "internal_server_error", "服务器内部错误");
 
     private final HttpStatus httpStatus;

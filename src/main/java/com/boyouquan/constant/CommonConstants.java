@@ -39,6 +39,7 @@ public class CommonConstants {
     public static final String GO_PAGE_ADDRESS = "https://www.boyouquan.com/go";
     public static final String FULL_BLOG_LIST_ADDRESS = "https://www.boyouquan.com/blogs";
     public static final String POST_ABSTRACT_ADDRESS = "https://www.boyouquan.com/abstract";
+    public static final String MOMENTS_PAGE_ADDRESS = "https://www.boyouquan.com/moments";
 
     public static final int FEED_POST_QUERY_PAGE_NO = 1;
     public static final int FEED_POST_QUERY_PAGE_SIZE = 100;

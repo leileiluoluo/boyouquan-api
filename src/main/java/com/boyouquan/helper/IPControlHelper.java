@@ -14,17 +14,17 @@ import java.util.Map;
 @EnableScheduling
 public class IPControlHelper {
 
-    private final Logger logger = LoggerFactory.getLogger(IPControlHelper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IPControlHelper.class);
 
     private static final Map<String, Integer> ACCESS_MAP = new HashMap<>();
 
     @Scheduled(cron = "0 0 0 * * ?")
     public void clearMap() {
-        logger.info("prepare to clear access map, keys: {}", ACCESS_MAP.keySet().size());
+        LOGGER.info("prepare to clear access map, keys: {}", ACCESS_MAP.keySet().size());
 
         ACCESS_MAP.clear();
 
-        logger.info("access map cleared!");
+        LOGGER.info("access map cleared!");
     }
 
     public boolean alreadyAccessed(String ip, String link) {

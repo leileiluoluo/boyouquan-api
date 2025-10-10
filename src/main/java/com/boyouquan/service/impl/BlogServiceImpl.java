@@ -141,11 +141,13 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<BlogInfo> listPopularBlogInfos(int limit) {
-        List<Blog> popularBlogs = listByRandom(Collections.emptyList(), true, limit);
+        List<PopularBlog> popularBlogs = blogDaoMapper.listPopularBlogs(limit);
 
         // list
         List<BlogInfo> blogInfos = new ArrayList<>();
-        for (Blog blog : popularBlogs) {
+        for (PopularBlog popularBlog : popularBlogs) {
+            Blog blog = getByDomainName(popularBlog.getBlogDomainName());
+
             // assemble
             BlogInfo blogInfo = new BlogInfo();
             BeanUtils.copyProperties(blog, blogInfo);

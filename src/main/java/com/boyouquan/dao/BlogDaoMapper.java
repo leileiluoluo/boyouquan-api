@@ -2,10 +2,13 @@ package com.boyouquan.dao;
 
 import com.boyouquan.model.Blog;
 import com.boyouquan.model.BlogCollectedAt;
+import com.boyouquan.model.PopularBlog;
 
 import java.util.List;
 
 public interface BlogDaoMapper {
+
+    List<PopularBlog> listPopularBlogs(int limit);
 
     List<Blog> listByRandom(List<String> excludedDomainNames, boolean gravatarValid, int limit);
 

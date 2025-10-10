@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,8 +20,9 @@ public class PopularBlogsController {
     private BlogService blogService;
 
     @GetMapping("")
-    public ResponseEntity<List<BlogInfo>> list() {
-        List<BlogInfo> blogInfos = blogService.listPopularBlogInfos(CommonConstants.POPULAR_BLOGGERS_SIZE);
+    public ResponseEntity<List<BlogInfo>> list(
+            @RequestParam(value = "size", required = false, defaultValue = CommonConstants.POPULAR_BLOGGERS_SIZE) int size) {
+        List<BlogInfo> blogInfos = blogService.listPopularBlogInfos(size);
         return ResponseEntity.ok(blogInfos);
     }
 

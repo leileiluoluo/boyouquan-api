@@ -29,6 +29,39 @@
         draft,
         deleted
     </sql>
+    <select id="listPopularBlogs" resultType="com.boyouquan.model.PopularBlog">
+        select distinct t.blog_domain_name as blogDomainName, max(t.active_time) as latestActiveTime from (
+
+        (select distinct m.blog_domain_name, max(m.created_at) as active_time from moment m
+        inner join blog b on m.blog_domain_name = b.domain_name
+        where m.deleted = false
+        and b.draft = false
+        and b.deleted = false
+        and b.valid = true
+        and b.gravatar_valid = true
+        group by m.blog_domain_name
+        order by max(m.created_at) desc
+        limit 20)
+
+        union all
+
+        (select distinct p.blog_domain_name, max(p.published_at) as active_time from post p
+        inner join blog b on p.blog_domain_name = b.domain_name
+        where p.deleted = false
+        and p.draft = false
+        and b.draft = false
+        and b.deleted = false
+        and b.valid = true
+        and b.gravatar_valid = true
+        group by p.blog_domain_name
+        order by max(p.published_at) desc
+        limit 20)
+
+        ) t
+        group by t.blog_domain_name
+        order by max(t.active_time) desc
+        limit #{limit}
+    </select>
     <select id="listByRandom" resultType="com.boyouquan.model.Blog">
         SELECT
         <include refid="select_columns"/>

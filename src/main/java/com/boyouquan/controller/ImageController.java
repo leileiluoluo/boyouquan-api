@@ -1,15 +1,19 @@
 package com.boyouquan.controller;
 
+import com.boyouquan.service.BlogService;
 import com.boyouquan.service.ImageUploadService;
 import com.boyouquan.service.PostImageService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 @RestController
 @RequestMapping("/images")
@@ -19,6 +23,29 @@ public class ImageController {
     private ImageUploadService imageUploadService;
     @Autowired
     private PostImageService postImageService;
+    @Autowired
+    private BlogService blogService;
+
+    @GetMapping(value = "/logo/performance.svg", produces = "image/svg+xml")
+    public void getPerformanceSvg(
+            @RequestParam(name = "domainName", defaultValue = "leileiluoluo.com") String domainName,
+            HttpServletResponse response) throws IOException {
+        response.setContentType("image/svg+xml;charset=UTF-8");
+
+        ClassPathResource resource = new ClassPathResource("logo/performance-logo.svg");
+        String svg = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+
+        // get joined years
+        String defaultLevel = "L0";
+        Integer years = blogService.getJoinYearsByDomainName(domainName);
+        if (null != years) {
+            defaultLevel = "L" + years;
+        }
+
+        svg = svg.replace("{{LEVEL}}", defaultLevel);
+
+        response.getWriter().write(svg);
+    }
 
     @GetMapping("/uploads/{year}/{month}/{filename}")
     public ResponseEntity<byte[]> getUploadedImage(@PathVariable String year, @PathVariable String month, @PathVariable String filename) {

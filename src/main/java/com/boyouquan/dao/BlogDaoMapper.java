@@ -40,6 +40,8 @@ public interface BlogDaoMapper {
 
     Blog getByMd5AdminEmail(String md5AdminEmail);
 
+    Integer getJoinYearsByDomainName(String domainName);
+
     void save(Blog blog);
 
     void update(Blog blog);

@@ -5,12 +5,17 @@
 <div class="email-container">
     <main layout:fragment="content">
         <h1>恭喜您</h1>
-        <p th:text="'您的博客「' + ${blogRequestInfo.name} + '」已通过审核，被博友圈收录啦！'"></p>
+        <p th:text="'您的博客「' + ${blogRequestInfo.name} + '」已通过审核，被博友圈收录啦！希望从此刻起，您能与博友圈一起携手谱写未来的 10 年、20 年，而不要中途断更或闭站！这是您加入这个圈子的意义所在！'"></p>
         <p>收录地址：<a th:text="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"
                        th:href="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"></a></p>
         <br/>
-        <p>此外，还希望您将博友圈链接添加到您博客的适当位置，以让更多的博客人发现我们这个圈子！</p>
+        <p>此外，还希望您能将博友圈链接添加到博客的适当位置；</p>
         <a href="https://www.boyouquan.com/about#add-link">https://www.boyouquan.com/about#add-link</a>
+        <br/>
+        <p>或将您在博友圈的「履约中」LOGO 嵌入到博客的底部（证书页面底部有相关代码）。</p>
+        <a th:text="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}" th:href="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}"></a>
+        <br/>
+        <p>非常感谢您的积极配合！祝您生活愉快！</p>
     </main>
 </div>
 </body>

@@ -227,6 +227,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public Integer getJoinYearsByDomainName(String domainName) {
+        return blogDaoMapper.getJoinYearsByDomainName(domainName);
+    }
+
+    @Override
     public void save(Blog blog) {
         blogDaoMapper.save(blog);
     }

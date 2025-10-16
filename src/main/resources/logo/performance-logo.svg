@@ -1,0 +1,69 @@
+<svg width="90" height="26" viewBox="0 0 90 26" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="0" width="90" height="26" rx="4" ry="4" fill="#fff" stroke="#ddd" />
+
+    <svg x="2" y="0" width="26" height="26" viewBox="0 0 240 240">
+        <defs>
+            <radialGradient id="goldGradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(205, 28, 28, 1)" />
+                <stop offset="100%" stop-color="rgba(126, 9, 184, 1)" />
+            </radialGradient>
+            <radialGradient id="outerGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(205, 28, 28, 1)" stop-opacity="0.25" />
+                <stop offset="100%" stop-color="rgba(126, 9, 184, 1)" stop-opacity="0" />
+            </radialGradient>
+            <pattern id="ringPattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                <path d="M5 0 L6 2 L8 2 L6 4 L7 6 L5 5 L3 6 L4 4 L2 2 L4 2 Z" fill="rgba(205, 28, 28, 1)" />
+            </pattern>
+            <radialGradient id="shine" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#fff" stop-opacity="0.4" />
+                <stop offset="100%" stop-color="#fff" stop-opacity="0" />
+            </radialGradient>
+            <filter id="textGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
+                <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+
+            <linearGradient id="goldGradientL1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFC700" />
+                <stop offset="50%" stop-color="#E6A800" />
+                <stop offset="100%" stop-color="#C49B0B" />
+            </linearGradient>
+        </defs>
+
+        <circle cx="120" cy="120" r="80" fill="url(#goldGradient)" />
+
+        <circle cx="120" cy="120" r="100" fill="url(#outerGlow)" />
+
+        <circle cx="120" cy="120" r="90" fill="url(#ringPattern)">
+            <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="20s" repeatCount="indefinite" />
+        </circle>
+
+        <g fill="#c822b0">
+        </g>
+
+        <circle cx="120" cy="120" r="80" fill="url(#shine)">
+            <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="40s" repeatCount="indefinite" />
+        </circle>
+
+        <text x="120" y="128" text-anchor="middle" dominant-baseline="middle"
+              font-family="微软雅黑, sans-serif" font-weight="bold"
+              fill="#f9f6f9ff" stroke="rgba(205, 28, 28, 1)" stroke-width="0.5"
+              filter="url(#textGlow)" font-size="100">
+            博
+        </text>
+    </svg>
+
+    <text x="48" y="14" text-anchor="middle" dominant-baseline="middle"
+          font-family="微软雅黑, sans-serif" font-size="12" fill="#333">
+        履约中
+    </text>
+
+    <text x="78" y="14" text-anchor="middle" dominant-baseline="middle"
+          font-family="微软雅黑, sans-serif" font-weight="bold"
+          font-size="12" fill="url(#goldGradientL1)" stroke="#B88800" stroke-width="0.3">
+        {{LEVEL}}
+    </text>
+</svg>

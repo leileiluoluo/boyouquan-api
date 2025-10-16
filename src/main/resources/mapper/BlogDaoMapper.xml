@@ -236,6 +236,14 @@
         FROM blog
         WHERE md5(admin_email)=#{md5AdminEmail}
     </select>
+    <select id="getJoinYearsByDomainName" resultType="java.lang.Integer">
+        SELECT
+        TIMESTAMPDIFF(YEAR, collected_at, CURDATE())
+        FROM blog
+        WHERE draft=false
+        AND deleted=false
+        AND domain_name=#{domainName}
+    </select>
     <insert id="save">
         INSERT INTO blog (
         <include refid="insert_columns"/>

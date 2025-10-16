@@ -47,6 +47,27 @@ public class ImageController {
         response.getWriter().write(svg);
     }
 
+    @GetMapping(value = "/logo/performance-dark.svg", produces = "image/svg+xml")
+    public void getPerformanceDarkSvg(
+            @RequestParam(name = "domainName", defaultValue = "leileiluoluo.com") String domainName,
+            HttpServletResponse response) throws IOException {
+        response.setContentType("image/svg+xml;charset=UTF-8");
+
+        ClassPathResource resource = new ClassPathResource("logo/performance-logo-dark.svg");
+        String svg = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+
+        // get joined years
+        String defaultLevel = "L0";
+        Integer years = blogService.getJoinYearsByDomainName(domainName);
+        if (null != years) {
+            defaultLevel = "L" + years;
+        }
+
+        svg = svg.replace("{{LEVEL}}", defaultLevel);
+
+        response.getWriter().write(svg);
+    }
+
     @GetMapping("/uploads/{year}/{month}/{filename}")
     public ResponseEntity<byte[]> getUploadedImage(@PathVariable String year, @PathVariable String month, @PathVariable String filename) {
         byte[] imageBytes = imageUploadService.getImageBytes(year, month, filename);

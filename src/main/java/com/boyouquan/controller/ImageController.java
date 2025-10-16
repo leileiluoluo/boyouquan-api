@@ -9,11 +9,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 @RestController
 @RequestMapping("/images")
@@ -33,7 +33,7 @@ public class ImageController {
         response.setContentType("image/svg+xml;charset=UTF-8");
 
         ClassPathResource resource = new ClassPathResource("logo/performance-logo.svg");
-        String svg = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+        String svg = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
         // get joined years
         String defaultLevel = "L0";

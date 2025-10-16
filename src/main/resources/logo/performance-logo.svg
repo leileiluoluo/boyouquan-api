@@ -5,11 +5,11 @@
         <defs>
             <radialGradient id="goldGradient" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="rgba(205, 28, 28, 1)" />
-                <stop offset="100%" stop-color="rgba(126, 9, 184, 1)" />
+                <stop offset="100%" stop-color="rgba(178, 21, 97, 1)" />
             </radialGradient>
             <radialGradient id="outerGlow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="rgba(205, 28, 28, 1)" stop-opacity="0.25" />
-                <stop offset="100%" stop-color="rgba(126, 9, 184, 1)" stop-opacity="0" />
+                <stop offset="100%" stop-color="rgba(178, 21, 97, 1)" stop-opacity="0" />
             </radialGradient>
             <pattern id="ringPattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
                 <path d="M5 0 L6 2 L8 2 L6 4 L7 6 L5 5 L3 6 L4 4 L2 2 L4 2 Z" fill="rgba(205, 28, 28, 1)" />
@@ -41,7 +41,7 @@
             <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="20s" repeatCount="indefinite" />
         </circle>
 
-        <g fill="#c822b0">
+        <g fill="rgba(178, 21, 97, 1)">
         </g>
 
         <circle cx="120" cy="120" r="80" fill="url(#shine)">

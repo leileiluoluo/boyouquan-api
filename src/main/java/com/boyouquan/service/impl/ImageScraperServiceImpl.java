@@ -1,5 +1,6 @@
 package com.boyouquan.service.impl;
 
+import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.service.ImageScraperService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +22,9 @@ public class ImageScraperServiceImpl implements ImageScraperService {
     public List<String> getImages(String url, int limit) {
         List<String> imageURLs = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect(url).get();
+            Document doc = Jsoup.connect(url)
+                    .header(CommonConstants.HEADER_USER_AGENT, CommonConstants.DATA_SPIDER_USER_AGENT)
+                    .get();
             Elements images = doc.select("img[src]");
             for (Element img : images) {
                 String imageURL = img.attr("abs:src");

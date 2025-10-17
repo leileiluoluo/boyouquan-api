@@ -32,7 +32,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     }
 
     @Override
-    public void detectFriendLinks(Set<String> blogAddresses, Blog blog) {
+    public void detectFriendLinks(Set<String> blogDomainNames, Blog blog) {
         List<String> internalLinks = Collections.emptyList();
 
         try {
@@ -47,7 +47,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                     .limit(200)
                     .toList();
         } catch (IOException e) {
-            log.error("connect failed", e);
+            log.error("connect failed, blogDomainName: {}", blog.getDomainName(), e);
         }
 
         List<String> shortestInternalLinks = internalLinks.stream()
@@ -63,17 +63,18 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                         .timeout(10000).get();
                 String title = Optional.of(page.title()).orElse("无标题");
 
-                for (String targetUrl : blogAddresses) {
-                    if (!targetUrl.equals(blog.getAddress())
-                            && !targetUrl.contains(blog.getDomainName())
-                            && page.outerHtml().contains(targetUrl)) {
-                        FriendLink link = new FriendLink();
-                        link.setSourceBlogDomainName(blog.getDomainName());
-                        link.setTargetBlogDomainName(targetUrl);
-                        link.setPageTitle(title);
-                        link.setPageUrl(internalLink);
+                for (String targetDomainName : blogDomainNames) {
+                    if (!blog.getAddress().contains(targetDomainName)
+                            && page.outerHtml().contains(targetDomainName)) {
+                        if (!blogDomainNames.contains(targetDomainName)) {
+                            FriendLink link = new FriendLink();
+                            link.setSourceBlogDomainName(blog.getDomainName());
+                            link.setTargetBlogDomainName(targetDomainName);
+                            link.setPageTitle(title);
+                            link.setPageUrl(internalLink);
 
-                        friendLinks.add(link);
+                            friendLinks.add(link);
+                        }
                     }
                 }
             } catch (Exception e) {

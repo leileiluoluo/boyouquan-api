@@ -1,0 +1,40 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boyouquan.dao.FriendLinkDaoMapper">
+    <sql id="insert_columns">
+        source_blog_domain_name,
+        target_blog_domain_name,
+        page_title,
+        page_url,
+        created_at
+    </sql>
+    <sql id="select_columns">
+        id,
+        source_blog_domain_name as sourceBlogDomainName,
+        target_blog_domain_name as targetBlogDomainName,
+        page_title as postTitle,
+        page_url as pageUrl,
+        created_at as createdAt
+    </sql>
+    <select id="listBySourceBlogDomainName" resultType="com.boyouquan.model.FriendLink">
+        SELECT
+        <include refid="select_columns"/>
+        FROM friend_link
+        WHERE source_blog_domain_name=#{domainName}
+    </select>
+    <insert id="save">
+        INSERT INTO friend_link (
+        <include refid="insert_columns"/>
+        ) VALUES (
+        #{sourceBlogDomainName},
+        #{targetBlogDomainName},
+        #{pageTitle},
+        #{pageUrl},
+        now()
+        )
+    </insert>
+    <delete id="deleteBySourceBlogDomainName">
+        DELETE
+        FROM friend_link
+        WHERE source_blog_domain_name=#{domainName}
+    </delete>
+</mapper>

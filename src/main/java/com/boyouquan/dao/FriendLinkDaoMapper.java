@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface FriendLinkDaoMapper {
 
+    List<FriendLink> listAll();
+
     List<FriendLink> listBySourceBlogDomainName(String domainName);
 
     void deleteBySourceBlogDomainName(String domainName);

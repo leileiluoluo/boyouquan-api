@@ -3,7 +3,9 @@ package com.boyouquan.service.impl;
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.FriendLinkDaoMapper;
 import com.boyouquan.model.Blog;
+import com.boyouquan.model.BlogIntimacy;
 import com.boyouquan.model.FriendLink;
+import com.boyouquan.service.BlogService;
 import com.boyouquan.service.FriendLinkService;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -21,6 +23,14 @@ public class FriendLinkServiceImpl implements FriendLinkService {
 
     @Autowired
     private FriendLinkDaoMapper friendLinkDaoMapper;
+    @Autowired
+    private BlogService blogService;
+
+    @Override
+    public BlogIntimacy computeBlogIntimacies(String sourceBlogDomainName, String targetBlogDomainName) {
+        Map<String, List<String>> graph = buildLinkGraph();
+        return bfsShortestPath(graph, sourceBlogDomainName, targetBlogDomainName);
+    }
 
     @Override
     public void detectFriendLinks(Set<String> blogAddresses, Blog blog) {
@@ -83,6 +93,45 @@ public class FriendLinkServiceImpl implements FriendLinkService {
         for (FriendLink link : friendLinks) {
             friendLinkDaoMapper.save(link);
         }
+    }
+
+    private BlogIntimacy bfsShortestPath(Map<String, List<String>> graph, String start, String target) {
+        Queue<List<String>> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        queue.add(List.of(start));
+        visited.add(start);
+
+        int maxDepth = 10;
+        while (!queue.isEmpty()) {
+            List<String> path = queue.poll();
+            String last = path.get(path.size() - 1);
+            if (last.equals(target)) return BlogIntimacy.builder().path(path).build();
+
+            if (path.size() > maxDepth) continue;
+            for (String next : graph.getOrDefault(last, List.of())) {
+                if (!visited.contains(next)) {
+                    visited.add(next);
+                    List<String> newPath = new ArrayList<>(path);
+                    newPath.add(next);
+                    queue.add(newPath);
+                }
+            }
+        }
+        return BlogIntimacy.builder()
+                .path(Collections.emptyList())
+                .build();
+    }
+
+    private Map<String, List<String>> buildLinkGraph() {
+        List<FriendLink> links = friendLinkDaoMapper.listAll();
+        Map<String, List<String>> graph = new HashMap<>();
+        for (FriendLink link : links) {
+            graph.computeIfAbsent(
+                            link.getSourceBlogDomainName(),
+                            k -> new ArrayList<>())
+                    .add(link.getTargetBlogDomainName());
+        }
+        return graph;
     }
 
 }

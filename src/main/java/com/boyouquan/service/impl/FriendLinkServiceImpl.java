@@ -44,6 +44,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
             internalLinks = doc.select("a[href]").stream()
                     .map(a -> a.absUrl("href"))
                     .filter(url -> url.startsWith(blog.getAddress()))
+                    .filter(url -> !url.endsWith(".xml"))
                     .limit(100)
                     .collect(Collectors.toSet());
         } catch (IOException e) {

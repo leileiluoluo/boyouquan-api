@@ -55,8 +55,11 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                 .limit(20)
                 .toList();
 
+        log.info("shortestInternalLinks size: {}", shortestInternalLinks.size());
+
         List<FriendLink> friendLinks = new ArrayList<>();
         for (String internalLink : shortestInternalLinks) {
+            log.info("detection for internalLink: {}", internalLink);
             try {
                 Document page = Jsoup.connect(internalLink)
                         .header(CommonConstants.HEADER_USER_AGENT, CommonConstants.DATA_SPIDER_USER_AGENT)

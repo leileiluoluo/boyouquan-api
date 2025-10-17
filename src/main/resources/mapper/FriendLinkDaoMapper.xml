@@ -15,6 +15,11 @@
         page_url as pageUrl,
         created_at as createdAt
     </sql>
+    <select id="listAll" resultType="com.boyouquan.model.FriendLink">
+        SELECT
+        <include refid="select_columns"/>
+        FROM friend_link
+    </select>
     <select id="listBySourceBlogDomainName" resultType="com.boyouquan.model.FriendLink">
         SELECT
         <include refid="select_columns"/>

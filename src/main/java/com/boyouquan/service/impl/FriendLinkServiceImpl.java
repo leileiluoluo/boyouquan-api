@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,7 +33,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
 
     @Override
     public void detectFriendLinks(Set<String> blogAddresses, Blog blog) {
-        Set<String> internalLinks = Collections.emptySet();
+        List<String> internalLinks = Collections.emptyList();
 
         try {
             Document doc = Jsoup.connect(blog.getAddress())
@@ -45,14 +44,19 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                     .map(a -> a.absUrl("href"))
                     .filter(url -> url.startsWith(blog.getAddress()))
                     .filter(url -> !url.endsWith(".xml"))
-                    .limit(100)
-                    .collect(Collectors.toSet());
+                    .limit(200)
+                    .toList();
         } catch (IOException e) {
             log.error("connect failed", e);
         }
 
+        List<String> shortestInternalLinks = internalLinks.stream()
+                .sorted(Comparator.comparingInt(String::length))
+                .limit(20)
+                .toList();
+
         List<FriendLink> friendLinks = new ArrayList<>();
-        for (String internalLink : internalLinks) {
+        for (String internalLink : shortestInternalLinks) {
             try {
                 Document page = Jsoup.connect(internalLink)
                         .header(CommonConstants.HEADER_USER_AGENT, CommonConstants.DATA_SPIDER_USER_AGENT)

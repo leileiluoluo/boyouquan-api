@@ -10,6 +10,8 @@ public interface FriendLinkDaoMapper {
 
     List<FriendLink> listBySourceBlogDomainName(String domainName);
 
+    FriendLink getBySourceAndTargetBlogDomainName(String sourceDomainName, String targetDomainName);
+
     void deleteBySourceBlogDomainName(String domainName);
 
     void save(FriendLink friendLink);

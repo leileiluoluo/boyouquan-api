@@ -2,14 +2,13 @@ package com.boyouquan.service.impl;
 
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.FriendLinkDaoMapper;
-import com.boyouquan.model.Blog;
-import com.boyouquan.model.BlogIntimacy;
-import com.boyouquan.model.FriendLink;
+import com.boyouquan.model.*;
 import com.boyouquan.service.BlogService;
 import com.boyouquan.service.FriendLinkService;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,11 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     @Override
     public BlogIntimacy computeBlogIntimacies(String sourceBlogDomainName, String targetBlogDomainName) {
         Map<String, List<String>> graph = buildLinkGraph();
-        return bfsShortestPath(graph, sourceBlogDomainName, targetBlogDomainName);
+        List<String> path = bfsShortestPath(graph, sourceBlogDomainName, targetBlogDomainName);
+
+        // assemble
+        List<FriendLinkInfo> pathDetails = assemblePathDetails(path);
+        return BlogIntimacy.builder().path(pathDetails).build();
     }
 
     @Override
@@ -44,6 +47,8 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                     .map(a -> a.absUrl("href"))
                     .filter(url -> url.startsWith(blog.getAddress()))
                     .filter(url -> !url.endsWith(".xml"))
+                    .filter(url -> !url.endsWith(".txt"))
+                    .distinct()
                     .limit(200)
                     .toList();
         } catch (IOException e) {
@@ -69,7 +74,11 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                 for (String targetDomainName : blogDomainNames) {
                     if (!blog.getAddress().contains(targetDomainName)
                             && page.outerHtml().contains(targetDomainName)) {
-                        if (!blogDomainNames.contains(targetDomainName)) {
+                        List<String> targetDomainNames = friendLinks.stream()
+                                .map(FriendLink::getTargetBlogDomainName)
+                                .toList();
+
+                        if (!targetDomainNames.contains(targetDomainName)) {
                             FriendLink link = new FriendLink();
                             link.setSourceBlogDomainName(blog.getDomainName());
                             link.setTargetBlogDomainName(targetDomainName);
@@ -104,7 +113,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
         }
     }
 
-    private BlogIntimacy bfsShortestPath(Map<String, List<String>> graph, String start, String target) {
+    private List<String> bfsShortestPath(Map<String, List<String>> graph, String start, String target) {
         Queue<List<String>> queue = new LinkedList<>();
         Set<String> visited = new HashSet<>();
         queue.add(List.of(start));
@@ -114,7 +123,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
         while (!queue.isEmpty()) {
             List<String> path = queue.poll();
             String last = path.get(path.size() - 1);
-            if (last.equals(target)) return BlogIntimacy.builder().path(path).build();
+            if (last.equals(target)) return path;
 
             if (path.size() > maxDepth) continue;
             for (String next : graph.getOrDefault(last, List.of())) {
@@ -126,9 +135,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                 }
             }
         }
-        return BlogIntimacy.builder()
-                .path(Collections.emptyList())
-                .build();
+        return Collections.emptyList();
     }
 
     private Map<String, List<String>> buildLinkGraph() {
@@ -141,6 +148,32 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                     .add(link.getTargetBlogDomainName());
         }
         return graph;
+    }
+
+    private List<FriendLinkInfo> assemblePathDetails(List<String> path) {
+        if (path.isEmpty() || path.size() < 2) {
+            return Collections.emptyList();
+        }
+
+        List<FriendLinkInfo> friendLinks = new ArrayList<>();
+        for (int i = 0, j = 1; j < path.size(); i++, j++) {
+            String source = path.get(i);
+            String target = path.get(j);
+
+            FriendLink link = friendLinkDaoMapper.getBySourceAndTargetBlogDomainName(source, target);
+            FriendLinkInfo linkInfo = new FriendLinkInfo();
+            BeanUtils.copyProperties(link, linkInfo);
+
+            BlogInfo sourceBlog = blogService.getBlogInfoByDomainName(source);
+            linkInfo.setSourceBlog(sourceBlog);
+
+            BlogInfo targetBlog = blogService.getBlogInfoByDomainName(target);
+            linkInfo.setTargetBlog(targetBlog);
+
+            friendLinks.add(linkInfo);
+        }
+
+        return friendLinks;
     }
 
 }

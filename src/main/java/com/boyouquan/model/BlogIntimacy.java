@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 public class BlogIntimacy {
 
-    List<String> path;
+    List<FriendLinkInfo> path;
 
 }

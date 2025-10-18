@@ -11,7 +11,7 @@
         id,
         source_blog_domain_name as sourceBlogDomainName,
         target_blog_domain_name as targetBlogDomainName,
-        page_title as postTitle,
+        page_title as pageTitle,
         page_url as pageUrl,
         created_at as createdAt
     </sql>
@@ -25,6 +25,13 @@
         <include refid="select_columns"/>
         FROM friend_link
         WHERE source_blog_domain_name=#{domainName}
+    </select>
+    <select id="getBySourceAndTargetBlogDomainName" resultType="com.boyouquan.model.FriendLink">
+        SELECT
+        <include refid="select_columns"/>
+        FROM friend_link
+        WHERE source_blog_domain_name=#{sourceDomainName}
+        AND target_blog_domain_name=#{targetDomainName}
     </select>
     <insert id="save">
         INSERT INTO friend_link (

@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class FriendLinkInfo extends FriendLink {
 
-    private Blog sourceBlog;
-    private Blog targetBlog;
+    private BlogInfo sourceBlog;
+    private BlogInfo targetBlog;
 
 }

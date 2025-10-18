@@ -11,7 +11,7 @@ public interface FriendLinkService {
 
     BlogIntimacy computeBlogIntimacies(String sourceBlogDomainName, String targetBlogDomainName);
 
-    void detectFriendLinks(Set<String> blogAddresses, Blog blog);
+    void detectFriendLinks(Set<String> blogDomainNames, Blog blog);
 
     void saveOrUpdate(String sourceBlogDomainName, List<FriendLink> friendLinks);
 

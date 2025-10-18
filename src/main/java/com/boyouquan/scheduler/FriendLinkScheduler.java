@@ -25,7 +25,7 @@ public class FriendLinkScheduler {
     @Autowired
     private FriendLinkService friendLinkService;
 
-    @Scheduled(cron = "0 30 20 ? * FRI")
+    @Scheduled(cron = "0 40 07 ? * SAT")
     public void processBlogs() {
         logger.info("friend link scheduler start!");
 
@@ -37,13 +37,15 @@ public class FriendLinkScheduler {
     private void detectFriendLinks() {
         List<Blog> blogs = blogService.listAll();
 
-        Set<String> blogAddresses = blogs.stream()
-                .map(Blog::getAddress)
+        Set<String> blogDomainNames = blogs.stream()
+                .map(Blog::getDomainName)
                 .collect(Collectors.toSet());
 
         for (Blog blog : blogs) {
             try {
-                friendLinkService.detectFriendLinks(blogAddresses, blog);
+                logger.info("friend link detection, blogDomainName: {}", blog.getDomainName());
+
+                friendLinkService.detectFriendLinks(blogDomainNames, blog);
             } catch (Exception e) {
                 logger.error("friend link process failed", e);
             }

@@ -5,7 +5,10 @@ import com.boyouquan.model.MyFriendLinks;
 import com.boyouquan.service.FriendLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/blog-intimacies")
@@ -23,9 +26,9 @@ public class BlogIntimacyController {
         return ResponseEntity.ok(blogIntimacy);
     }
 
-    @GetMapping("/{blogDomainName}")
+    @GetMapping("/my-friend-links")
     public ResponseEntity<?> getMyFriendLinks(
-            @PathVariable("blogDomainName") String blogDomainName) {
+            @RequestParam("blogDomainName") String blogDomainName) {
         MyFriendLinks myFriendLinks = friendLinkService.getMyFriendLinks(blogDomainName);
 
         return ResponseEntity.ok(myFriendLinks);

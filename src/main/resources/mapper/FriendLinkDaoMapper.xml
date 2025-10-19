@@ -33,6 +33,18 @@
         WHERE source_blog_domain_name=#{sourceDomainName}
         AND target_blog_domain_name=#{targetDomainName}
     </select>
+    <select id="getDirectTargetBlogDomainNames" resultType="java.lang.String">
+        SELECT
+        DISTINCT target_blog_domain_name
+        FROM friend_link
+        WHERE source_blog_domain_name=#{domainName}
+    </select>
+    <select id="getDirectSourceBlogDomainNames" resultType="java.lang.String">
+        SELECT
+        DISTINCT source_blog_domain_name
+        FROM friend_link
+        WHERE target_blog_domain_name=#{domainName}
+    </select>
     <insert id="save">
         INSERT INTO friend_link (
         <include refid="insert_columns"/>

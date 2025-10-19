@@ -1,6 +1,7 @@
 package com.boyouquan.controller;
 
 import com.boyouquan.model.BlogIntimacy;
+import com.boyouquan.model.MyFriendLinks;
 import com.boyouquan.service.FriendLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,14 @@ public class BlogIntimacyController {
         BlogIntimacy blogIntimacy = friendLinkService.computeBlogIntimacies(sourceDomainName, targetDomainName);
 
         return ResponseEntity.ok(blogIntimacy);
+    }
+
+    @GetMapping("/my-friend-links")
+    public ResponseEntity<?> getMyFriendLinks(
+            @RequestParam("blogDomainName") String blogDomainName) {
+        MyFriendLinks myFriendLinks = friendLinkService.getMyFriendLinks(blogDomainName);
+
+        return ResponseEntity.ok(myFriendLinks);
     }
 
 }

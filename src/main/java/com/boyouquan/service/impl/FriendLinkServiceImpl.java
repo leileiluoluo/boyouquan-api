@@ -35,6 +35,30 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     }
 
     @Override
+    public MyFriendLinks getMyFriendLinks(String blogDomainName) {
+        List<String> directSourceBlogDomainNames = friendLinkDaoMapper.getDirectSourceBlogDomainNames(blogDomainName);
+        List<String> directTargetBlogDomainNames = friendLinkDaoMapper.getDirectTargetBlogDomainNames(blogDomainName);
+
+        List<Blog> directSourceBlogs = new ArrayList<>();
+        List<Blog> directTargetBlogs = new ArrayList<>();
+
+        for (String domainName : directSourceBlogDomainNames) {
+            Blog blog = blogService.getByDomainName(domainName);
+            directSourceBlogs.add(blog);
+        }
+
+        for (String domainName : directTargetBlogDomainNames) {
+            Blog blog = blogService.getByDomainName(domainName);
+            directTargetBlogs.add(blog);
+        }
+
+        return MyFriendLinks.builder()
+                .linksFromMe(directTargetBlogs)
+                .linksToMe(directSourceBlogs)
+                .build();
+    }
+
+    @Override
     public void detectFriendLinks(Set<String> blogDomainNames, Blog blog) {
         List<String> internalLinks = Collections.emptyList();
 

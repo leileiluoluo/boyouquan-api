@@ -3,6 +3,7 @@ package com.boyouquan.service;
 import com.boyouquan.model.Blog;
 import com.boyouquan.model.BlogIntimacy;
 import com.boyouquan.model.FriendLink;
+import com.boyouquan.model.MyFriendLinks;
 
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,8 @@ import java.util.Set;
 public interface FriendLinkService {
 
     BlogIntimacy computeBlogIntimacies(String sourceBlogDomainName, String targetBlogDomainName);
+
+    MyFriendLinks getMyFriendLinks(String blogDomainName);
 
     void detectFriendLinks(Set<String> blogDomainNames, Blog blog);
 

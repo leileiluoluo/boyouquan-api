@@ -1,7 +1,7 @@
 package com.boyouquan.controller;
 
 import com.boyouquan.constant.CommonConstants;
-import com.boyouquan.model.BlogInfo;
+import com.boyouquan.model.PopularBlogInfo;
 import com.boyouquan.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ public class PopularBlogsController {
     private BlogService blogService;
 
     @GetMapping("")
-    public ResponseEntity<List<BlogInfo>> list(
+    public ResponseEntity<List<PopularBlogInfo>> list(
             @RequestParam(value = "size", required = false, defaultValue = CommonConstants.POPULAR_BLOGGERS_SIZE) int size) {
-        List<BlogInfo> blogInfos = blogService.listPopularBlogInfos(size);
+        List<PopularBlogInfo> blogInfos = blogService.listPopularBlogInfos(size);
         return ResponseEntity.ok(blogInfos);
     }
 

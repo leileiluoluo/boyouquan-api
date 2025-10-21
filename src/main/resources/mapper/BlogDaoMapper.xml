@@ -30,9 +30,9 @@
         deleted
     </sql>
     <select id="listPopularBlogs" resultType="com.boyouquan.model.PopularBlog">
-        select distinct t.blog_domain_name as blogDomainName, max(t.active_time) as latestActiveTime from (
+        select distinct t.blog_domain_name as blogDomainName, max(t.active_time) as latestActiveTime, type from (
 
-        (select distinct m.blog_domain_name, max(m.created_at) as active_time from moment m
+        (select distinct m.blog_domain_name, max(m.created_at) as active_time, 'moment' as type from moment m
         inner join blog b on m.blog_domain_name = b.domain_name
         where m.deleted = false
         and b.draft = false
@@ -45,7 +45,7 @@
 
         union all
 
-        (select distinct p.blog_domain_name, max(p.published_at) as active_time from post p
+        (select distinct p.blog_domain_name, max(p.published_at) as active_time, 'post' as type from post p
         inner join blog b on p.blog_domain_name = b.domain_name
         where p.deleted = false
         and p.draft = false

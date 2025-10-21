@@ -140,22 +140,23 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogInfo> listPopularBlogInfos(int limit) {
+    public List<PopularBlogInfo> listPopularBlogInfos(int limit) {
         List<PopularBlog> popularBlogs = blogDaoMapper.listPopularBlogs(limit);
 
         // list
-        List<BlogInfo> blogInfos = new ArrayList<>();
+        List<PopularBlogInfo> popularBlogInfos = new ArrayList<>();
         for (PopularBlog popularBlog : popularBlogs) {
             Blog blog = getByDomainName(popularBlog.getBlogDomainName());
 
             // assemble
-            BlogInfo blogInfo = new BlogInfo();
-            BeanUtils.copyProperties(blog, blogInfo);
-            blogInfo.setBlogAdminLargeImageURL(getBlogAdminLargeImageURLByDomainName(blog.getDomainName()));
+            PopularBlogInfo popularBlogInfo = new PopularBlogInfo();
+            BeanUtils.copyProperties(popularBlog, popularBlogInfo);
+            popularBlogInfo.setBlogName(blog.getName());
+            popularBlogInfo.setBlogAdminLargeImageURL(getBlogAdminLargeImageURLByDomainName(blog.getDomainName()));
 
-            blogInfos.add(blogInfo);
+            popularBlogInfos.add(popularBlogInfo);
         }
-        return blogInfos;
+        return popularBlogInfos;
     }
 
     @Override

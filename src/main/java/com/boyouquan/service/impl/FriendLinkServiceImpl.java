@@ -269,7 +269,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
             BlogInfo targetBlog = pathDetails.get(pathDetails.size() - 1).getTargetBlog();
 
             WebSocketMessage message = new WebSocketMessage();
-            message.setMessage(String.format("刚刚有人探索了「%s」和「%s」的连接系数！", sourceBlog.getName(), targetBlog.getName()));
+            message.setMessage(String.format("刚刚有人探索了「%s」和「%s」的连接系数，快来看看吧！", sourceBlog.getName(), targetBlog.getName()));
             message.setGotoUrl(String.format(CommonConstants.GRAPH_LINKS_ADDRESS, sourceBlog.getDomainName(), targetBlog.getDomainName()));
             webSocketService.broadcast(message);
         }

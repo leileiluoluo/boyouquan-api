@@ -25,7 +25,7 @@ public interface BlogService {
 
     Pagination<BlogInfo> listBlogInfosWithKeyWord(BlogSortType sort, String keyword, int page, int size);
 
-    List<BlogInfo> listPopularBlogInfos(int limit);
+    List<PopularBlogInfo> listPopularBlogInfos(int limit);
 
     Pagination<Blog> listWithKeyWord(BlogSortType sort, String keyword, int page, int size);
 

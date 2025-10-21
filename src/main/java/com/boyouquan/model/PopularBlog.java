@@ -9,5 +9,6 @@ public class PopularBlog {
 
     private String blogDomainName;
     private Date latestActiveTime;
+    private String type;
 
 }

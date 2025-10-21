@@ -1,18 +1,19 @@
 package com.boyouquan.service;
 
-import com.boyouquan.model.Blog;
-import com.boyouquan.model.BlogIntimacy;
-import com.boyouquan.model.FriendLink;
-import com.boyouquan.model.MyFriendLinks;
+import com.boyouquan.model.*;
 
 import java.util.List;
 import java.util.Set;
 
 public interface FriendLinkService {
 
-    BlogIntimacy computeBlogIntimacies(String sourceBlogDomainName, String targetBlogDomainName);
+    BlogIntimacy computeBlogIntimacies(String ip, String sourceBlogDomainName, String targetBlogDomainName);
 
     MyFriendLinks getMyFriendLinks(String blogDomainName);
+
+    List<BlogShortInfo> listAllSourceBlogs();
+
+    List<BlogShortInfo> listAllTargetBlogs();
 
     void detectFriendLinks(Set<String> blogDomainNames, Blog blog);
 

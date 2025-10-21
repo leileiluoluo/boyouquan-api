@@ -37,6 +37,16 @@ public class IPControlHelper {
         ACCESS_MAP.put(key, 1);
     }
 
+    public boolean alreadyPublishBroadcast(String ip, String messageType) {
+        String key = ip + "#broadcase#" + messageType;
+        return ACCESS_MAP.containsKey(key);
+    }
+
+    public void publishBroadcast(String ip, String messageType) {
+        String key = ip + "#broadcase#" + messageType;
+        ACCESS_MAP.put(key, 1);
+    }
+
     public boolean alreadyLiked(String ip, Like.Type type, Long id) {
         String key = ip + "#" + type + "#" + id;
         return ACCESS_MAP.containsKey(key);

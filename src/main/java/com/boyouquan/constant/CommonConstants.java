@@ -40,6 +40,7 @@ public class CommonConstants {
     public static final String FULL_BLOG_LIST_ADDRESS = "https://www.boyouquan.com/blogs";
     public static final String POST_ABSTRACT_ADDRESS = "https://www.boyouquan.com/abstract";
     public static final String MOMENTS_PAGE_ADDRESS = "https://www.boyouquan.com/moments";
+    public static final String GRAPH_LINKS_ADDRESS = "https://www.boyouquan.com/link-graphs?source=%s&target=%s";
 
     public static final int FEED_POST_QUERY_PAGE_NO = 1;
     public static final int FEED_POST_QUERY_PAGE_SIZE = 100;
@@ -62,6 +63,8 @@ public class CommonConstants {
     public static final int POST_IMAGES_WIDTH_LIMIT = 800;
 
     public static final String POST_IMAGES_URL_PREFIX = "/images/";
+
+    public static final String BROADCAST_TYPE_LINK_GRAPHS = "link-graphs";
 
 }
 

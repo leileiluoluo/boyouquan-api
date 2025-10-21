@@ -1,5 +1,6 @@
 package com.boyouquan.dao;
 
+import com.boyouquan.model.BlogShortInfo;
 import com.boyouquan.model.FriendLink;
 
 import java.util.List;
@@ -15,6 +16,10 @@ public interface FriendLinkDaoMapper {
     List<String> getDirectTargetBlogDomainNames(String domainName);
 
     List<String> getDirectSourceBlogDomainNames(String domainName);
+
+    List<BlogShortInfo> listAllSourceBlogs();
+
+    List<BlogShortInfo> listAllTargetBlogs();
 
     void deleteBySourceBlogDomainName(String domainName);
 

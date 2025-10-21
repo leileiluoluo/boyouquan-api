@@ -45,6 +45,28 @@
         FROM friend_link
         WHERE target_blog_domain_name=#{domainName}
     </select>
+    <select id="listAllSourceBlogs" resultType="com.boyouquan.model.BlogShortInfo">
+        SELECT name as blogName, domain_name as domainName
+        FROM blog b
+        WHERE b.draft = false
+        AND b.deleted = false
+        AND EXISTS (
+        SELECT 1
+        FROM friend_link fl
+        WHERE fl.source_blog_domain_name = b.domain_name
+        )
+    </select>
+    <select id="listAllTargetBlogs" resultType="com.boyouquan.model.BlogShortInfo">
+        SELECT name as blogName, domain_name as domainName
+        FROM blog b
+        WHERE b.draft = false
+        AND b.deleted = false
+        AND EXISTS (
+        SELECT 1
+        FROM friend_link fl
+        WHERE fl.target_blog_domain_name = b.domain_name
+        )
+    </select>
     <insert id="save">
         INSERT INTO friend_link (
         <include refid="insert_columns"/>

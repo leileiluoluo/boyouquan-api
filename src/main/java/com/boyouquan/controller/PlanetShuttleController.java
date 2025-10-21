@@ -11,14 +11,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/planet-shuttle")
@@ -30,7 +27,7 @@ public class PlanetShuttleController {
     private PlanetShuttleService planetShuttleService;
 
     @GetMapping("")
-    public ResponseEntity<PlanetShuttleGo> shuttle(HttpServletRequest request, Model model) {
+    public ResponseEntity<PlanetShuttleGo> shuttle(HttpServletRequest request) {
         String referer = request.getHeader("From");
         Blog fromBlog = null;
         if (StringUtils.isNotBlank(referer)) {

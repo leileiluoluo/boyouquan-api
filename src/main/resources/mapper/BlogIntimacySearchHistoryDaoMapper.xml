@@ -16,14 +16,15 @@
         searched_at as searchedAt
     </sql>
     <select id="listLatest" resultType="com.boyouquan.model.BlogIntimacySearchHistory">
-        SELECT t.* FROM (
         SELECT
-        source_blog_domain_name, target_blog_domain_name, max(path_length) as path_length, max(ip_address) as ip_address, max(searched_at) as searched_at
+        <include refid="select_columns"/>
+        FROM (
+        SELECT
+        source_blog_domain_name, target_blog_domain_name, max(id) as id, max(path_length) as path_length, max(ip_address) as ip_address, max(searched_at) as searched_at
         FROM blog_intimacy_search_history
         GROUP BY source_blog_domain_name, target_blog_domain_name
         ORDER BY source_blog_domain_name, target_blog_domain_name, max(searched_at) DESC
-        ) t ORDER BY t.searched_at DESC
-        LIMIT #{size}
+        ) t ORDER BY t.searched_at DESC LIMIT #{size}
     </select>
     <insert id="save">
         INSERT INTO blog_intimacy_search_history (

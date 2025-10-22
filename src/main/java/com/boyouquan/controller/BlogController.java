@@ -77,11 +77,13 @@ public class BlogController {
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<List<Post>> getPostsUnderBlog(@RequestParam("domainName") String domainName) {
-        List<Post> posts = postService.listByDraftAndBlogDomainName(false, domainName, 1, CommonConstants.ALL_POST_COUNT_LIMIT)
-                .getResults();
+    public ResponseEntity<Pagination<Post>> getPostsUnderBlog(
+            @RequestParam("domainName") String domainName,
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+        Pagination<Post> pagination = postService.listByDraftAndBlogDomainName(false, domainName, page, size);
 
-        return ResponseEntity.ok(posts);
+        return ResponseEntity.ok(pagination);
     }
 
     @GetMapping("/charts")

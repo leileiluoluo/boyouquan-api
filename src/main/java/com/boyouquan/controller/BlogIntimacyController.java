@@ -1,8 +1,10 @@
 package com.boyouquan.controller;
 
 import com.boyouquan.model.BlogIntimacy;
+import com.boyouquan.model.BlogIntimacySearchHistoryInfo;
 import com.boyouquan.model.BlogShortInfo;
 import com.boyouquan.model.MyFriendLinks;
+import com.boyouquan.service.BlogIntimacySearchHistoryService;
 import com.boyouquan.service.FriendLinkService;
 import com.boyouquan.util.IPUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +23,8 @@ public class BlogIntimacyController {
 
     @Autowired
     private FriendLinkService friendLinkService;
+    @Autowired
+    private BlogIntimacySearchHistoryService blogIntimacySearchHistoryService;
 
     @GetMapping("/all-source-blogs")
     public List<BlogShortInfo> listAllSourceBlogs() {
@@ -50,6 +54,14 @@ public class BlogIntimacyController {
         MyFriendLinks myFriendLinks = friendLinkService.getMyFriendLinks(blogDomainName);
 
         return ResponseEntity.ok(myFriendLinks);
+    }
+
+    @GetMapping("/search-histories")
+    public ResponseEntity<?> getBlogIntimacySearchHistories(
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
+        List<BlogIntimacySearchHistoryInfo> histories = blogIntimacySearchHistoryService.listLatestMessages(size);
+
+        return ResponseEntity.ok(histories);
     }
 
 }

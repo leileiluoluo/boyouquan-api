@@ -4,6 +4,7 @@ import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.FriendLinkDaoMapper;
 import com.boyouquan.helper.IPControlHelper;
 import com.boyouquan.model.*;
+import com.boyouquan.service.BlogIntimacySearchHistoryService;
 import com.boyouquan.service.BlogService;
 import com.boyouquan.service.FriendLinkService;
 import com.boyouquan.service.WebSocketService;
@@ -32,6 +33,8 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     @Autowired
     private BlogService blogService;
     @Autowired
+    private BlogIntimacySearchHistoryService blogIntimacySearchHistoryService;
+    @Autowired
     private WebSocketService webSocketService;
 
     @Scheduled(cron = "0 0 22 18 * ?")
@@ -53,6 +56,8 @@ public class FriendLinkServiceImpl implements FriendLinkService {
 
         // send broadcast
         if (!pathDetails.isEmpty()) {
+            saveBlogIntimacySearchHistory(ip, sourceBlogDomainName, targetBlogDomainName, pathDetails.size());
+
             if (!ipControlHelper.alreadyPublishBroadcast(ip, CommonConstants.BROADCAST_TYPE_LINK_GRAPHS)) {
                 sendBroadCast(pathDetails);
                 ipControlHelper.publishBroadcast(ip, CommonConstants.BROADCAST_TYPE_LINK_GRAPHS);
@@ -260,6 +265,15 @@ public class FriendLinkServiceImpl implements FriendLinkService {
         }
 
         return friendLinks;
+    }
+
+    private void saveBlogIntimacySearchHistory(String ipAddress, String sourceBlogDomainName, String targetBlogDomainName, int pathLength) {
+        BlogIntimacySearchHistory history = new BlogIntimacySearchHistory();
+        history.setSourceBlogDomainName(sourceBlogDomainName);
+        history.setTargetBlogDomainName(targetBlogDomainName);
+        history.setPathLength(pathLength);
+        history.setIpAddress(ipAddress);
+        blogIntimacySearchHistoryService.save(history);
     }
 
     private void sendBroadCast(List<FriendLinkInfo> pathDetails) {

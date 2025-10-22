@@ -30,16 +30,10 @@
         deleted
     </sql>
     <select id="listPopularBlogs" resultType="com.boyouquan.model.PopularBlog">
-        WITH ranked_data AS (
-        SELECT
-        blog_domain_name,
-        active_time,
-        type,
-        ROW_NUMBER() OVER (PARTITION BY blog_domain_name ORDER BY active_time DESC) as rn
-        FROM (
+        WITH moment_activities AS (
         SELECT
         m.blog_domain_name,
-        m.created_at as active_time,
+        MAX(m.created_at) as latest_active_time,
         'moment' as type
         FROM moment m
         INNER JOIN blog b ON m.blog_domain_name = b.domain_name
@@ -48,12 +42,12 @@
         AND b.deleted = false
         AND b.valid = true
         AND b.gravatar_valid = true
-
-        UNION ALL
-
+        GROUP BY m.blog_domain_name
+        ),
+        post_activities AS (
         SELECT
         p.blog_domain_name,
-        p.published_at as active_time,
+        MAX(p.published_at) as latest_active_time,
         'post' as type
         FROM post p
         INNER JOIN blog b ON p.blog_domain_name = b.domain_name
@@ -63,18 +57,31 @@
         AND b.deleted = false
         AND b.valid = true
         AND b.gravatar_valid = true
-        ) all_activities
+        GROUP BY p.blog_domain_name
         ),
-        latest_activities AS (
+        combined_activities AS (
+        SELECT blog_domain_name, latest_active_time, type
+        FROM moment_activities
+
+        UNION ALL
+
+        SELECT blog_domain_name, latest_active_time, type
+        FROM post_activities
+        ),
+        ranked_activities AS (
         SELECT
         blog_domain_name as blogDomainName,
-        MAX(active_time) as latestActiveTime,
-        MAX(CASE WHEN rn = 1 THEN type END) as type
-        FROM ranked_data
-        GROUP BY blog_domain_name
+        latest_active_time as latestActiveTime,
+        type,
+        ROW_NUMBER() OVER (
+        PARTITION BY blog_domain_name
+        ORDER BY latest_active_time DESC
+        ) as rn
+        FROM combined_activities
         )
         SELECT blogDomainName, latestActiveTime, type
-        FROM latest_activities
+        FROM ranked_activities
+        WHERE rn = 1
         ORDER BY latestActiveTime DESC
         LIMIT #{limit}
     </select>

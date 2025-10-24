@@ -38,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
         }
 
         if (null != blogRequest) {
-            String siteManagerEmail = "contact@boyouquan.com";
+            String siteManagerEmail = boYouQuanConfig.getEmailUsername();
             String subject = String.format("[博友圈] 新提交的博客「%s」需要审核！", blogRequest.getName());
 
             Context context = new Context();
@@ -276,7 +276,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(content, html);
-            message.setFrom("contact@boyouquan.com");
+            message.setFrom(boYouQuanConfig.getEmailUsername());
 
             // send
             javaMailSender.send(message);

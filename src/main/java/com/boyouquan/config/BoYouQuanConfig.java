@@ -17,6 +17,9 @@ public class BoYouQuanConfig {
     @Value("${boyouquan.email.enable}")
     private Boolean emailEnabled;
 
+    @Value("${spring.mail.username}")
+    private String emailUsername;
+
     @Value("${boyouquan.gravatar-url}")
     private String gravatarUrl;
 

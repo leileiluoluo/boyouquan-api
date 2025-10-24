@@ -18,7 +18,7 @@ spring:
   mail:
     host: ${EMAIL_HOST:smtp.exmail.qq.com}
     port: ${EMAIL_PORT:465}
-    username: ${EMAIL_USERNAME:contact@boyouquan.com}
+    username: ${EMAIL_USERNAME:support@boyouquan.com}
     password: ${EMAIL_PASSWORD:fake}
     default-encoding: UTF-8
     properties:

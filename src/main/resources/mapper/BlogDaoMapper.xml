@@ -321,14 +321,14 @@
     <update id="markAsInvalid">
         UPDATE blog
         SET
-        valid=false
+        valid=false,
         updated_at=now()
         WHERE domain_name=#{domainName}
     </update>
     <update id="deleteByDomainName">
         UPDATE blog
         SET
-        deleted=true
+        deleted=true,
         updated_at=now()
         WHERE domain_name=#{domainName}
     </update>

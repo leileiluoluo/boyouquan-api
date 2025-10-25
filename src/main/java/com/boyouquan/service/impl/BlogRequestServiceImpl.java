@@ -260,9 +260,9 @@ public class BlogRequestServiceImpl implements BlogRequestService {
                     blogLocationService.deleteByDomainName(blog.getDomainName());
                     logger.info("blog locations deleted");
 
-                    // delete blog
-                    blogService.deleteByDomainName(blog.getDomainName());
-                    logger.info("blog deleted");
+                    // mark as invalid
+                    blogService.markAsInvalid(blog.getDomainName());
+                    logger.info("blog has been marked as invalid");
                 }
 
                 // send email

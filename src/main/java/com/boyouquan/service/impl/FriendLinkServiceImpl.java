@@ -252,16 +252,19 @@ public class FriendLinkServiceImpl implements FriendLinkService {
             String target = path.get(j);
 
             FriendLink link = friendLinkDaoMapper.getBySourceAndTargetBlogDomainName(source, target);
-            FriendLinkInfo linkInfo = new FriendLinkInfo();
-            BeanUtils.copyProperties(link, linkInfo);
+            if (null != link) {
+                FriendLinkInfo linkInfo = new FriendLinkInfo();
+                BeanUtils.copyProperties(link, linkInfo);
 
-            BlogInfo sourceBlog = blogService.getBlogInfoByDomainName(source);
-            linkInfo.setSourceBlog(sourceBlog);
+                BlogInfo sourceBlog = blogService.getBlogInfoByDomainName(source);
+                BlogInfo targetBlog = blogService.getBlogInfoByDomainName(target);
+                if (null != sourceBlog && null != targetBlog) {
+                    linkInfo.setSourceBlog(sourceBlog);
+                    linkInfo.setTargetBlog(targetBlog);
 
-            BlogInfo targetBlog = blogService.getBlogInfoByDomainName(target);
-            linkInfo.setTargetBlog(targetBlog);
-
-            friendLinks.add(linkInfo);
+                    friendLinks.add(linkInfo);
+                }
+            }
         }
 
         return friendLinks;

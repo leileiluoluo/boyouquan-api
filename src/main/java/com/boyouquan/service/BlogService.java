@@ -53,6 +53,8 @@ public interface BlogService {
 
     void update(Blog blog);
 
+    void markAsInvalid(String domainName);
+
     void updateGravatarValidFlag(String domainName, boolean gravatarValid);
 
     void deleteByDomainName(String domainName);

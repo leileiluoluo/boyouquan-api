@@ -91,6 +91,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
+        AND valid=true
         AND gravatar_valid=#{gravatarValid}
         <if test="excludedDomainNames != null and excludedDomainNames.size() > 0">
             AND domain_name NOT IN
@@ -106,6 +107,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
+        AND valid=true
     </select>
     <select id="listAll" resultType="com.boyouquan.model.Blog">
         SELECT
@@ -113,6 +115,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
+        AND valid=true
     </select>
     <select id="listRecentCollected" resultType="com.boyouquan.model.Blog">
         SELECT
@@ -120,6 +123,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
+        AND valid=true
         ORDER BY collected_at DESC
         LIMIT #{limit}
     </select>
@@ -129,6 +133,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
+        AND valid=true
         <if test="keyword != null and keyword !=''">
             AND
             (
@@ -145,6 +150,7 @@
                 FROM blog
                 WHERE draft=false
                 AND deleted=false
+                AND valid=true
                 <if test="keyword != null and keyword != ''">
                     AND
                     (
@@ -167,6 +173,7 @@
                 ON b.domain_name=a.blog_domain_name
                 WHERE b.draft=false
                 AND b.deleted=false
+                AND b.valid=true
                 <if test="keyword != null and keyword != ''">
                     AND
                     (
@@ -185,6 +192,7 @@
                 ON b.domain_name=d.blog_domain_name
                 WHERE b.draft=false
                 AND b.deleted=false
+                AND b.valid=true
                 <if test="keyword != null and keyword != ''">
                     AND
                     (
@@ -223,6 +231,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
+        AND valid=true
         AND domain_name=#{domainName}
     </select>
     <select id="listByAdminEmail" resultType="com.boyouquan.model.Blog">
@@ -231,6 +240,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
+        AND valid=true
         AND admin_email=#{adminEmail}
     </select>
     <select id="getByShortDomainName" resultType="com.boyouquan.model.Blog">
@@ -239,6 +249,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
+        AND valid=true
         AND domain_name LIKE CONCAT(#{shortDomainName}, '%')
     </select>
     <select id="getByAddress" resultType="com.boyouquan.model.Blog">
@@ -265,6 +276,7 @@
         FROM blog
         WHERE draft=false
         AND deleted=false
+        AND valid=true
         AND domain_name=#{domainName}
     </select>
     <insert id="save">

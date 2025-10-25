@@ -246,6 +246,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public void markAsInvalid(String domainName) {
+        blogDaoMapper.markAsInvalid(domainName);
+    }
+
+    @Override
     public void updateGravatarValidFlag(String domainName, boolean gravatarValid) {
         blogDaoMapper.updateGravatarValidFlag(domainName, gravatarValid);
     }

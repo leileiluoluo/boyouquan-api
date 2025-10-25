@@ -50,4 +50,6 @@ public interface BlogDaoMapper {
 
     void deleteByDomainName(String domainName);
 
+    void markAsInvalid(String domainName);
+
 }

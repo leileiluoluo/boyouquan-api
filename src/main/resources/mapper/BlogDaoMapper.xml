@@ -306,6 +306,12 @@
         gravatar_valid=#{gravatarValid}
         WHERE domain_name=#{domainName}
     </update>
+    <update id="markAsInvalid">
+        UPDATE blog
+        SET
+        valid=false
+        WHERE domain_name=#{domainName}
+    </update>
     <delete id="deleteByDomainName">
         DELETE
         FROM blog

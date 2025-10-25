@@ -310,11 +310,14 @@
         UPDATE blog
         SET
         valid=false
+        updated_at=now()
         WHERE domain_name=#{domainName}
     </update>
-    <delete id="deleteByDomainName">
-        DELETE
-        FROM blog
+    <update id="deleteByDomainName">
+        UPDATE blog
+        SET
+        deleted=true
+        updated_at=now()
         WHERE domain_name=#{domainName}
-    </delete>
+    </update>
 </mapper>

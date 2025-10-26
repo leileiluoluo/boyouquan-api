@@ -83,4 +83,9 @@
         FROM friend_link
         WHERE source_blog_domain_name=#{domainName}
     </delete>
+    <delete id="deleteByTargetBlogDomainName">
+        DELETE
+        FROM friend_link
+        WHERE target_blog_domain_name=#{domainName}
+    </delete>
 </mapper>

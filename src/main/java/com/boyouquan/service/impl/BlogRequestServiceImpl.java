@@ -41,6 +41,8 @@ public class BlogRequestServiceImpl implements BlogRequestService {
     @Autowired
     private BlogLocationService blogLocationService;
     @Autowired
+    private FriendLinkService friendLinkService;
+    @Autowired
     private DomainNameInfoService domainNameInfoService;
     @Autowired
     private PostHelper postHelper;
@@ -248,6 +250,10 @@ public class BlogRequestServiceImpl implements BlogRequestService {
 
                 Blog blog = blogService.getByRSSAddress(rssAddress);
                 if (null != blog) {
+                    // delete friend links
+                    friendLinkService.deleteBySourceBlogDomainName(blog.getDomainName());
+                    friendLinkService.deleteByTargetBlogDomainName(blog.getDomainName());
+
                     // delete posts
                     postService.deleteByBlogDomainName(blog.getDomainName());
                     logger.info("blog posts deleted");
@@ -285,6 +291,10 @@ public class BlogRequestServiceImpl implements BlogRequestService {
             if (null != blogRequest) {
                 Blog blog = blogService.getByRSSAddress(rssAddress);
                 if (null != blog) {
+                    // delete friend links
+                    friendLinkService.deleteBySourceBlogDomainName(blog.getDomainName());
+                    friendLinkService.deleteByTargetBlogDomainName(blog.getDomainName());
+
                     // delete posts
                     postService.deleteByBlogDomainName(blog.getDomainName());
                     logger.info("blog posts deleted");

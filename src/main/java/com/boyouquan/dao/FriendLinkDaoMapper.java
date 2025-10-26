@@ -23,6 +23,8 @@ public interface FriendLinkDaoMapper {
 
     void deleteBySourceBlogDomainName(String domainName);
 
+    void deleteByTargetBlogDomainName(String domainName);
+
     void save(FriendLink friendLink);
 
 }

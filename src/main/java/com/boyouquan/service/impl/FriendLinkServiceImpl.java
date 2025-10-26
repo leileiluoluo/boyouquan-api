@@ -166,6 +166,16 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     }
 
     @Override
+    public void deleteBySourceBlogDomainName(String domainName) {
+        friendLinkDaoMapper.deleteBySourceBlogDomainName(domainName);
+    }
+
+    @Override
+    public void deleteByTargetBlogDomainName(String domainName) {
+        friendLinkDaoMapper.deleteByTargetBlogDomainName(domainName);
+    }
+
+    @Override
     public void saveOrUpdate(String sourceBlogDomainName, List<FriendLink> friendLinks) {
         if (friendLinks.isEmpty()) {
             return;

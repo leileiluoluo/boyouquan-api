@@ -3,10 +3,7 @@ package com.boyouquan.service.impl;
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.MomentDaoMapper;
 import com.boyouquan.model.*;
-import com.boyouquan.service.BlogService;
-import com.boyouquan.service.LikeService;
-import com.boyouquan.service.MomentService;
-import com.boyouquan.service.WebSocketService;
+import com.boyouquan.service.*;
 import com.boyouquan.util.Pagination;
 import com.boyouquan.util.PaginationBuilder;
 import org.springframework.beans.BeanUtils;
@@ -23,6 +20,8 @@ public class MomentServiceImpl implements MomentService {
     private MomentDaoMapper momentDaoMapper;
     @Autowired
     private BlogService blogService;
+    @Autowired
+    private DomainNameChangeService domainNameChangeService;
     @Autowired
     private LikeService likeService;
     @Autowired
@@ -43,7 +42,15 @@ public class MomentServiceImpl implements MomentService {
             // assemble
             MomentInfo momentInfo = new MomentInfo();
             BeanUtils.copyProperties(moment, momentInfo);
-            BlogInfo blogInfo = blogService.getBlogInfoByDomainName(moment.getBlogDomainName());
+
+            String domainName = moment.getBlogDomainName();
+            // FIXME: special case
+            DomainNameChange domainNameChange = domainNameChangeService.getByOldDomainName(domainName);
+            if (null != domainNameChange) {
+                domainName = domainNameChange.getNewDomainName();
+            }
+
+            BlogInfo blogInfo = blogService.getBlogInfoByDomainName(domainName);
             momentInfo.setBlogInfo(blogInfo);
             Long likeCount = likeService.countByTypeAndEntityId(Like.Type.MOMENTS, moment.getId());
             momentInfo.setLikeCount(likeCount);

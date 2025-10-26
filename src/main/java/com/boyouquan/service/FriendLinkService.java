@@ -17,6 +17,10 @@ public interface FriendLinkService {
 
     void detectFriendLinks(Set<String> blogDomainNames, Blog blog);
 
+    void deleteBySourceBlogDomainName(String domainName);
+
+    void deleteByTargetBlogDomainName(String domainName);
+
     void saveOrUpdate(String sourceBlogDomainName, List<FriendLink> friendLinks);
 
 }

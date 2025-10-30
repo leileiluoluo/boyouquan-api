@@ -53,22 +53,21 @@ public class FeedServiceImpl implements FeedService {
                     .map(post -> {
                         SyndEntry entry = new SyndEntryImpl();
                         entry.setTitle(post.getTitle());
-
                         String postLink = CommonUtils.urlEncode(post.getLink());
                         String link = String.format("%s?from=feed&link=%s", CommonConstants.GO_PAGE_ADDRESS, postLink);
                         entry.setLink(link);
-
-                        Blog blog = blogService.getByDomainName(post.getBlogDomainName());
-                        if (null != blog) {
-                            entry.setAuthor(blog.getName());
-                        }
 
                         SyndContent description = new SyndContentImpl();
                         description.setType("text/plain");
                         description.setValue(post.getDescription());
                         entry.setDescription(description);
-
                         entry.setPublishedDate(post.getPublishedAt());
+
+                        Blog blog = blogService.getByDomainName(post.getBlogDomainName());
+                        if (null != blog) {
+                            entry.setAuthor(blog.getName());
+                            entry.setTitle(String.format("%s：%s", blog.getName(), post.getTitle()));
+                        }
 
                         return entry;
                     }).toList();

@@ -102,6 +102,11 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     }
 
     @Override
+    public Date getMaxCreatedAt() {
+        return friendLinkDaoMapper.getMaxCreatedAt();
+    }
+
+    @Override
     public void detectFriendLinks(Set<String> blogDomainNames, Blog blog) {
         List<String> internalLinks = Collections.emptyList();
 

@@ -67,6 +67,10 @@
         WHERE fl.target_blog_domain_name = b.domain_name
         )
     </select>
+    <select id="getMaxCreatedAt" resultType="java.util.Date">
+        SELECT max(created_at)
+        FROM friend_link
+    </select>
     <insert id="save">
         INSERT INTO friend_link (
         <include refid="insert_columns"/>

@@ -3,6 +3,7 @@ package com.boyouquan.dao;
 import com.boyouquan.model.BlogShortInfo;
 import com.boyouquan.model.FriendLink;
 
+import java.util.Date;
 import java.util.List;
 
 public interface FriendLinkDaoMapper {
@@ -20,6 +21,8 @@ public interface FriendLinkDaoMapper {
     List<BlogShortInfo> listAllSourceBlogs();
 
     List<BlogShortInfo> listAllTargetBlogs();
+
+    Date getMaxCreatedAt();
 
     void deleteBySourceBlogDomainName(String domainName);
 

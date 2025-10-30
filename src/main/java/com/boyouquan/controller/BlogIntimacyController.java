@@ -1,9 +1,6 @@
 package com.boyouquan.controller;
 
-import com.boyouquan.model.BlogIntimacy;
-import com.boyouquan.model.BlogIntimacySearchHistoryInfo;
-import com.boyouquan.model.BlogShortInfo;
-import com.boyouquan.model.MyFriendLinks;
+import com.boyouquan.model.*;
 import com.boyouquan.service.BlogIntimacySearchHistoryService;
 import com.boyouquan.service.FriendLinkService;
 import com.boyouquan.util.IPUtil;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -34,6 +32,14 @@ public class BlogIntimacyController {
     @GetMapping("/all-target-blogs")
     public List<BlogShortInfo> listAllTargetBlogs() {
         return friendLinkService.listAllTargetBlogs();
+    }
+
+    @GetMapping("/dataset-created-time")
+    public FriendLinkMaxCreatedAt getDatasetMaxCreatedAt() {
+        Date maxCreatedAt = friendLinkService.getMaxCreatedAt();
+        return FriendLinkMaxCreatedAt.builder()
+                .maxCreatedAt(maxCreatedAt)
+                .build();
     }
 
     @GetMapping("")

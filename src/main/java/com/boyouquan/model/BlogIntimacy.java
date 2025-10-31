@@ -9,6 +9,8 @@ import java.util.List;
 @Data
 public class BlogIntimacy {
 
+    private BlogInfo sourceBlog;
+    private BlogInfo targetBlog;
     List<FriendLinkInfo> path;
 
 }

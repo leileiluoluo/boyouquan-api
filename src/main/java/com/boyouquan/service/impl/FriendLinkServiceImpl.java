@@ -49,6 +49,9 @@ public class FriendLinkServiceImpl implements FriendLinkService {
 
     @Override
     public BlogIntimacy computeBlogIntimacies(String ip, String sourceBlogDomainName, String targetBlogDomainName) {
+        BlogInfo sourceBlog = blogService.getBlogInfoByDomainName(sourceBlogDomainName);
+        BlogInfo targetBlog = blogService.getBlogInfoByDomainName(targetBlogDomainName);
+
         List<String> path = getShortestPath(sourceBlogDomainName, targetBlogDomainName);
 
         // assemble
@@ -64,7 +67,11 @@ public class FriendLinkServiceImpl implements FriendLinkService {
             }
         }
 
-        return BlogIntimacy.builder().path(pathDetails).build();
+        return BlogIntimacy.builder()
+                .sourceBlog(sourceBlog)
+                .targetBlog(targetBlog)
+                .path(pathDetails)
+                .build();
     }
 
     @Override

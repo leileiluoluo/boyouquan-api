@@ -92,7 +92,7 @@ public class BlogRequestServiceImpl implements BlogRequestService {
             }
 
             // query domain name info
-            String blogDomainName = CommonUtils.getNoSchemeDomainName(rssInfo.getBlogAddress());
+            String blogDomainName = CommonUtils.getDomainName(rssInfo.getBlogAddress());
             domainNameInfoService.refreshDomainNameInfo(blogDomainName);
 
             // success
@@ -326,7 +326,7 @@ public class BlogRequestServiceImpl implements BlogRequestService {
     }
 
     private boolean saveDraftBlogAndPosts(BlogRequest blogRequest, RSSInfo rssInfo) {
-        String blogDomainName = CommonUtils.getNoSchemeDomainName(rssInfo.getBlogAddress());
+        String blogDomainName = CommonUtils.getDomainName(rssInfo.getBlogAddress());
 
         boolean exists = blogService.existsByDomainName(blogDomainName);
         if (!exists && !rssInfo.getBlogPosts().isEmpty()) {

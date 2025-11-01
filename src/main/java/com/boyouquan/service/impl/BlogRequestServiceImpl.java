@@ -191,12 +191,18 @@ public class BlogRequestServiceImpl implements BlogRequestService {
                 blogLocationService.refreshLocation(blog.getDomainName());
             }
 
-            // send email
-            if (blogRequest.getSelfSubmitted()) {
-                emailService.sendBlogRequestApprovedNotice(blogRequest, blog);
-            } else {
-                emailService.sendBlogSystemCollectedNotice(blogRequest, blog);
-            }
+            // async call
+            executorService.execute(() -> {
+                // send email
+                if (blogRequest.getSelfSubmitted()) {
+                    emailService.sendBlogRequestApprovedNotice(blogRequest, blog);
+                } else {
+                    emailService.sendBlogSystemCollectedNotice(blogRequest, blog);
+                }
+
+                // detect friend links
+                friendLinkService.detectFriendLinks(blog);
+            });
         }
     }
 

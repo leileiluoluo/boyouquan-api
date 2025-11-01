@@ -4,7 +4,6 @@ import com.boyouquan.model.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 public interface FriendLinkService {
 
@@ -18,7 +17,7 @@ public interface FriendLinkService {
 
     Date getMaxCreatedAt();
 
-    void detectFriendLinks(Set<String> blogDomainNames, Blog blog);
+    void detectFriendLinks(Blog blog);
 
     void deleteBySourceBlogDomainName(String domainName);
 

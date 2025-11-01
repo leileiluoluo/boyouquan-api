@@ -16,6 +16,8 @@ public interface BlogDaoMapper {
 
     List<Blog> listAll();
 
+    List<String> listAllDomainNames();
+
     List<Blog> listRecentCollected(int limit);
 
     Long countWithKeyword(String keyword);

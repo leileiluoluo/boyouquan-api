@@ -19,6 +19,8 @@ public interface BlogService {
 
     List<Blog> listAll();
 
+    List<String> listAllDomainNames();
+
     List<Blog> listRecentCollected(int limit);
 
     BlogInfo getBlogInfoByDomainName(String domainName);

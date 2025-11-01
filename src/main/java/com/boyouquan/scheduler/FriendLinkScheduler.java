@@ -11,8 +11,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @EnableScheduling
@@ -37,15 +35,11 @@ public class FriendLinkScheduler {
     private void detectFriendLinks() {
         List<Blog> blogs = blogService.listAll();
 
-        Set<String> blogDomainNames = blogs.stream()
-                .map(Blog::getDomainName)
-                .collect(Collectors.toSet());
-
         for (Blog blog : blogs) {
             try {
                 logger.info("friend link detection, blogDomainName: {}", blog.getDomainName());
 
-                friendLinkService.detectFriendLinks(blogDomainNames, blog);
+                friendLinkService.detectFriendLinks(blog);
             } catch (Exception e) {
                 logger.error("friend link process failed", e);
             }

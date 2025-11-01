@@ -114,7 +114,14 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     }
 
     @Override
-    public void detectFriendLinks(Set<String> blogDomainNames, Blog blog) {
+    public void detectFriendLinks(Blog blog) {
+        if (null == blog) {
+            log.error("blog not found");
+            return;
+        }
+
+        List<String> allBlogDomainNames = blogService.listAllDomainNames();
+
         List<String> internalLinks = Collections.emptyList();
 
         try {
@@ -150,7 +157,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                         .timeout(10000).get();
                 String title = Optional.of(page.title()).orElse("无标题");
 
-                for (String targetDomainName : blogDomainNames) {
+                for (String targetDomainName : allBlogDomainNames) {
                     if (!blog.getAddress().contains(targetDomainName)
                             && page.outerHtml().contains(targetDomainName)) {
                         List<String> targetDomainNames = friendLinks.stream()

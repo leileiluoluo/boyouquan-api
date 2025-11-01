@@ -117,6 +117,14 @@
         AND deleted=false
         AND valid=true
     </select>
+    <select id="listAllDomainNames" resultType="java.lang.String">
+        SELECT
+        DISTINCT domain_name
+        FROM blog
+        WHERE draft=false
+        AND deleted=false
+        AND valid=true
+    </select>
     <select id="listRecentCollected" resultType="com.boyouquan.model.Blog">
         SELECT
         <include refid="select_columns"/>

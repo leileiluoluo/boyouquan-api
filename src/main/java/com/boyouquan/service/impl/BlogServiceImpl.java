@@ -102,6 +102,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public List<String> listAllDomainNames() {
+        return blogDaoMapper.listAllDomainNames();
+    }
+
+    @Override
     public List<Blog> listRecentCollected(int limit) {
         return blogDaoMapper.listRecentCollected(limit);
     }

@@ -7,9 +7,11 @@ import com.boyouquan.service.*;
 import com.boyouquan.util.CommonUtils;
 import com.boyouquan.util.Pagination;
 import com.boyouquan.util.PaginationBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,8 +19,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Service
 public class BlogServiceImpl implements BlogService {
+
+    private static List<String> ALL_DOMAIN_NAME_CACHE = Collections.emptyList();
 
     @Autowired
     private BlogDaoMapper blogDaoMapper;
@@ -32,6 +37,15 @@ public class BlogServiceImpl implements BlogService {
     private BlogLocationService blogLocationService;
     @Autowired
     private DomainNameInfoService domainNameInfoService;
+
+    @Scheduled(cron = "0 0 0 1 * ?")
+    public void clearCache() {
+        log.info("prepare to clear all domain name cache");
+
+        ALL_DOMAIN_NAME_CACHE = Collections.emptyList();
+
+        log.info("all domain name cache cleared!");
+    }
 
     @Override
     public List<BlogLatestPublishedAt> listBlogLatestPublishedAt() {
@@ -103,7 +117,14 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<String> listAllDomainNames() {
-        return blogDaoMapper.listAllDomainNames();
+        if (!ALL_DOMAIN_NAME_CACHE.isEmpty()) {
+            log.info("all domain names fetched from cache");
+            return ALL_DOMAIN_NAME_CACHE;
+        }
+
+        log.info("all domain names fetched from database");
+        ALL_DOMAIN_NAME_CACHE = blogDaoMapper.listAllDomainNames();
+        return ALL_DOMAIN_NAME_CACHE;
     }
 
     @Override

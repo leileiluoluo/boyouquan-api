@@ -6,14 +6,11 @@ import com.boyouquan.service.BlogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-@EnableScheduling
 public class AnnualReportScheduler {
 
     private final Logger logger = LoggerFactory.getLogger(AnnualReportScheduler.class);
@@ -23,7 +20,7 @@ public class AnnualReportScheduler {
     @Autowired
     private AnnualReportService annualReportService;
 
-//    @Scheduled(cron = "0 0 17 30 12 ?")
+    //    @Scheduled(cron = "0 0 17 30 12 ?")
     public void sendAnnualReports() {
         logger.info("annual report scheduler start!");
 

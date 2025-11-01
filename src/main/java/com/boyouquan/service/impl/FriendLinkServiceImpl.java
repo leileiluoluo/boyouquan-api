@@ -37,7 +37,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     @Autowired
     private WebSocketService webSocketService;
 
-    @Scheduled(cron = "0 0 22 18 * ?")
+    @Scheduled(cron = "0 0 22 * * ?")
     public void clearMap() {
         log.info("prepare to clear static graph maps, keys: {}", STATIC_GRAPH.keySet().size());
 
@@ -159,7 +159,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
 
                 for (String targetDomainName : allBlogDomainNames) {
                     if (!blog.getAddress().contains(targetDomainName)
-                            && page.outerHtml().contains(targetDomainName)) {
+                            && (page.outerHtml().contains("http://" + targetDomainName) || page.outerHtml().contains("https://" + targetDomainName))) {
                         List<String> targetDomainNames = friendLinks.stream()
                                 .map(FriendLink::getTargetBlogDomainName)
                                 .toList();

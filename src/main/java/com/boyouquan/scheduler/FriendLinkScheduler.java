@@ -21,7 +21,7 @@ public class FriendLinkScheduler {
     @Autowired
     private FriendLinkService friendLinkService;
 
-    @Scheduled(cron = "0 0 1 1 * ?")
+    @Scheduled(cron = "0 0 1 ? * SUN")
     public void processBlogs() {
         logger.info("friend link scheduler start!");
 

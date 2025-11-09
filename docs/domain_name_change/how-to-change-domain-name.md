@@ -1,7 +1,11 @@
 ## How to change domain name?
 
 ```sql
-update blog set domain_name='blog.lhasa.icu' where domain_name='lhasa.icu';
+-- additional
+update blog_request set rss_address='xxx' where rss_address like '%lhasa.icu%';
+update blog set domain_name='blog.lhasa.icu', address='xxx', rss_address='xxx' where domain_name='lhasa.icu';
+
+-- main
 update post set blog_domain_name='blog.lhasa.icu' where blog_domain_name='lhasa.icu';
 update domain_name_info set blog_domain_name='blog.lhasa.icu' where blog_domain_name='lhasa.icu';
 update access set blog_domain_name='blog.lhasa.icu' where blog_domain_name='lhasa.icu';

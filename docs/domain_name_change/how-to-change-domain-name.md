@@ -12,8 +12,9 @@ update access set blog_domain_name='blog.lhasa.icu' where blog_domain_name='lhas
 update moment set blog_domain_name='blog.lhasa.icu' where blog_domain_name='lhasa.icu';
 update pin_history set blog_domain_name='blog.lhasa.icu' where blog_domain_name='lhasa.icu';
 update planet_shuttle set blog_domain_name='blog.lhasa.icu' where blog_domain_name='lhasa.icu';
-update blog_status set blog_domain_name='blog.lhasa.icu' where blog_domain_name='lhasa.icu';
 update blog_location set domain_name='blog.lhasa.icu' where domain_name='lhasa.icu';
+
+delete from blog_status where blog_domain_name='lhasa.icu';
 delete from friend_link where source_blog_domain_name='lhasa.icu';
 delete from friend_link where target_blog_domain_name='lhasa.icu';
 delete from blog_intimacy_search_history where source_blog_domain_name='lhasa.icu';

@@ -12,17 +12,23 @@ import com.boyouquan.util.Pagination;
 import com.rometools.rome.feed.synd.*;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class FeedServiceImpl implements FeedService {
 
     private static final Logger logger = LoggerFactory.getLogger(FeedServiceImpl.class);
+
+    private static final Pattern ILLEGAL_XML_CHARS =
+            Pattern.compile("[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]");
 
     @Autowired
     private PostService postService;
@@ -50,27 +56,7 @@ public class FeedServiceImpl implements FeedService {
             Pagination<Post> posts = postService.listWithKeyWord(sortType, "", CommonConstants.FEED_POST_QUERY_PAGE_NO, CommonConstants.FEED_POST_QUERY_PAGE_SIZE);
 
             List<SyndEntry> entries = posts.getResults().stream()
-                    .map(post -> {
-                        SyndEntry entry = new SyndEntryImpl();
-                        entry.setTitle(post.getTitle());
-                        String postLink = CommonUtils.urlEncode(post.getLink());
-                        String link = String.format("%s?from=feed&link=%s", CommonConstants.GO_PAGE_ADDRESS, postLink);
-                        entry.setLink(link);
-
-                        SyndContent description = new SyndContentImpl();
-                        description.setType("text/plain");
-                        description.setValue(post.getDescription());
-                        entry.setDescription(description);
-                        entry.setPublishedDate(post.getPublishedAt());
-
-                        Blog blog = blogService.getByDomainName(post.getBlogDomainName());
-                        if (null != blog) {
-                            entry.setAuthor(blog.getName());
-                            entry.setTitle(String.format("%s：%s", blog.getName(), post.getTitle()));
-                        }
-
-                        return entry;
-                    }).toList();
+                    .map(this::getEntry).toList();
 
             feed.setEntries(entries);
 
@@ -80,6 +66,37 @@ public class FeedServiceImpl implements FeedService {
         }
 
         return "";
+    }
+
+    private SyndEntry getEntry(Post post) {
+        SyndEntry entry = new SyndEntryImpl();
+        entry.setTitle(post.getTitle());
+        String postLink = CommonUtils.urlEncode(post.getLink());
+        String link = String.format("%s?from=feed&link=%s", CommonConstants.GO_PAGE_ADDRESS, postLink);
+        entry.setLink(link);
+
+        SyndContent description = new SyndContentImpl();
+        description.setType("text/plain");
+        String cleanDescription = sanitizeXmlContent(post.getDescription());
+        description.setValue(cleanDescription);
+        entry.setDescription(description);
+        entry.setPublishedDate(post.getPublishedAt());
+
+        Blog blog = blogService.getByDomainName(post.getBlogDomainName());
+        if (null != blog) {
+            entry.setAuthor(blog.getName());
+            entry.setTitle(String.format("%s：%s", blog.getName(), post.getTitle()));
+        }
+
+        return entry;
+    }
+
+    private String sanitizeXmlContent(String content) {
+        if (StringUtils.isBlank(content)) {
+            return content;
+        }
+        String cleaned = ILLEGAL_XML_CHARS.matcher(content).replaceAll("");
+        return StringEscapeUtils.escapeXml11(cleaned);
     }
 
 }

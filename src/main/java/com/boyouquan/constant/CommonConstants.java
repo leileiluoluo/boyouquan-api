@@ -43,7 +43,7 @@ public class CommonConstants {
     public static final String GRAPH_LINKS_ADDRESS = "https://www.boyouquan.com/link-graphs?source=%s&target=%s";
 
     public static final int FEED_POST_QUERY_PAGE_NO = 1;
-    public static final int FEED_POST_QUERY_PAGE_SIZE = 50;
+    public static final int FEED_POST_QUERY_PAGE_SIZE = 100;
 
     public static final int RANDOM_BLOG_MAX_TRY_TIMES = 3;
 

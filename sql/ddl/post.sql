@@ -14,3 +14,5 @@ CREATE TABLE post (
 CREATE INDEX idx_post_domain_name ON post (blog_domain_name);
 CREATE INDEX idx_post_recommended ON post (recommended);
 CREATE INDEX idx_post_pinned ON post (pinned);
+CREATE INDEX idx_post_domain_published_status ON post(blog_domain_name, published_at DESC, draft, deleted);
+CREATE INDEX idx_post_latest_posts ON post(blog_domain_name, draft, deleted, published_at DESC);

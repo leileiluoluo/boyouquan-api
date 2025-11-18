@@ -22,7 +22,7 @@ public interface FriendLinkDaoMapper {
 
     List<BlogShortInfo> listAllTargetBlogs();
 
-    Date getMaxCreatedAt();
+    Date getJobMaxCreatedAt();
 
     void deleteBySourceBlogDomainName(String domainName);
 

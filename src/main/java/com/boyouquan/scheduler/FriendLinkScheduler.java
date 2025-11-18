@@ -37,7 +37,7 @@ public class FriendLinkScheduler {
             try {
                 logger.info("friend link detection, blogDomainName: {}", blog.getDomainName());
 
-                friendLinkService.detectFriendLinks(blog);
+                friendLinkService.detectFriendLinks(blog, true);
             } catch (Exception e) {
                 logger.error("friend link process failed", e);
             }

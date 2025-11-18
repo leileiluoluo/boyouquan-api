@@ -15,9 +15,9 @@ public interface FriendLinkService {
 
     List<BlogShortInfo> listAllTargetBlogs();
 
-    Date getMaxCreatedAt();
+    Date getJobMaxCreatedAt();
 
-    void detectFriendLinks(Blog blog);
+    void detectFriendLinks(Blog blog, boolean triggeredByJob);
 
     void deleteBySourceBlogDomainName(String domainName);
 

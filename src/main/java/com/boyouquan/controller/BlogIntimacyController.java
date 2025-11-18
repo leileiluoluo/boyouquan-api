@@ -36,7 +36,7 @@ public class BlogIntimacyController {
 
     @GetMapping("/dataset-created-time")
     public FriendLinkMaxCreatedAt getDatasetMaxCreatedAt() {
-        Date maxCreatedAt = friendLinkService.getMaxCreatedAt();
+        Date maxCreatedAt = friendLinkService.getJobMaxCreatedAt();
         return FriendLinkMaxCreatedAt.builder()
                 .maxCreatedAt(maxCreatedAt)
                 .build();

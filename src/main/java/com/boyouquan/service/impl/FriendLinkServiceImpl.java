@@ -109,12 +109,12 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     }
 
     @Override
-    public Date getMaxCreatedAt() {
-        return friendLinkDaoMapper.getMaxCreatedAt();
+    public Date getJobMaxCreatedAt() {
+        return friendLinkDaoMapper.getJobMaxCreatedAt();
     }
 
     @Override
-    public void detectFriendLinks(Blog blog) {
+    public void detectFriendLinks(Blog blog, boolean triggeredByJob) {
         if (null == blog) {
             log.error("blog not found");
             return;
@@ -170,6 +170,7 @@ public class FriendLinkServiceImpl implements FriendLinkService {
                             link.setTargetBlogDomainName(targetDomainName);
                             link.setPageTitle(title);
                             link.setPageUrl(internalLink);
+                            link.setCreatedByJob(triggeredByJob);
 
                             friendLinks.add(link);
                         }

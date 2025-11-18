@@ -5,6 +5,7 @@
         target_blog_domain_name,
         page_title,
         page_url,
+        created_by_job,
         created_at
     </sql>
     <sql id="select_columns">
@@ -13,6 +14,7 @@
         target_blog_domain_name as targetBlogDomainName,
         page_title as pageTitle,
         page_url as pageUrl,
+        created_by_job as createdByJob,
         created_at as createdAt
     </sql>
     <select id="listAll" resultType="com.boyouquan.model.FriendLink">
@@ -67,9 +69,10 @@
         WHERE fl.target_blog_domain_name = b.domain_name
         )
     </select>
-    <select id="getMaxCreatedAt" resultType="java.util.Date">
+    <select id="getJobMaxCreatedAt" resultType="java.util.Date">
         SELECT max(created_at)
         FROM friend_link
+        WHERE created_by_job = true
     </select>
     <insert id="save">
         INSERT INTO friend_link (
@@ -79,6 +82,7 @@
         #{targetBlogDomainName},
         #{pageTitle},
         #{pageUrl},
+        #{createdByJob},
         now()
         )
     </insert>

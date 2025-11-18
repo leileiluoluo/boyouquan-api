@@ -201,7 +201,7 @@ public class BlogRequestServiceImpl implements BlogRequestService {
                 }
 
                 // detect friend links
-                friendLinkService.detectFriendLinks(blog);
+                friendLinkService.detectFriendLinks(blog, false);
             });
         }
     }

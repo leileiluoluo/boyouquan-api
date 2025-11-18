@@ -5,9 +5,11 @@ CREATE TABLE friend_link (
     target_blog_domain_name VARCHAR(100) NOT NULL,
     page_title VARCHAR(200) NOT NULL,
     page_url VARCHAR(500) NOT NULL,
+    created_by_job BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT '2023-07-01 00:00:00',
     UNIQUE KEY uni_friend_link (source_blog_domain_name, target_blog_domain_name, page_url)
 );
 
 CREATE INDEX idx_friend_link_src_domain ON friend_link (source_blog_domain_name);
 CREATE INDEX idx_friend_link_tar_domain ON friend_link (target_blog_domain_name);
+CREATE INDEX idx_friend_link_created_by ON friend_link (created_by_job);

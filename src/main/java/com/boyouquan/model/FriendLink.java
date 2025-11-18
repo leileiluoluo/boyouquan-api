@@ -15,6 +15,7 @@ public class FriendLink {
     private String targetBlogDomainName;
     private String pageTitle;
     private String pageUrl;
+    private Boolean createdByJob;
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date createdAt;
 

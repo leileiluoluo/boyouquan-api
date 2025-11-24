@@ -12,9 +12,6 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 15MB
-  cache:
-    jcache:
-      config: classpath:ehcache.xml
   mail:
     host: ${EMAIL_HOST:smtp.exmail.qq.com}
     port: ${EMAIL_PORT:465}
@@ -38,8 +35,6 @@ spring:
     username: ${DATABASE_USER}
     password: ${DATABASE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-mybatis:
-  mapper-locations: classpath*:mapper/*Mapper.xml
 
 # self defined
 boyouquan:

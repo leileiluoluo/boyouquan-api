@@ -1,9 +1,9 @@
 package com.boyouquan.model;
 
 import com.boyouquan.util.CustomDateSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Date;
 

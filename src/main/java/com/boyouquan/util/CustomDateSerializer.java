@@ -1,15 +1,16 @@
 package com.boyouquan.util;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ValueSerializer;
 
-import java.io.IOException;
 import java.util.Date;
 
-public class CustomDateSerializer extends JsonSerializer<Date> {
+public class CustomDateSerializer extends ValueSerializer<Date> {
 
     @Override
-    public void serialize(Date date, JsonGenerator gen, com.fasterxml.jackson.databind.SerializerProvider serializers) throws IOException {
+    public void serialize(Date date, JsonGenerator gen, SerializationContext ctxt) throws JacksonException {
         gen.writeString(CommonUtils.dateHourSecondCommonFormatDisplay(date));
     }
 

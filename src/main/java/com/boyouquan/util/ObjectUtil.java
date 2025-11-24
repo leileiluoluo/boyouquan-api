@@ -1,9 +1,9 @@
 package com.boyouquan.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 public class ObjectUtil {
 
@@ -14,7 +14,7 @@ public class ObjectUtil {
     public static <T> T jsonToObject(String json, Class<T> objectType) {
         try {
             return mapper.readValue(json, objectType);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             logger.error(e.getMessage(), e);
         }
         return null;

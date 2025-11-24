@@ -1,12 +1,11 @@
 package com.boyouquan.model;
 
 import com.boyouquan.util.CustomDateSerializer;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serial;
 import java.io.Serializable;

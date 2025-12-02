@@ -1,6 +1,7 @@
 package com.boyouquan.service;
 
 import com.boyouquan.model.*;
+import com.boyouquan.model.entity.Access;
 
 import java.util.Date;
 import java.util.List;

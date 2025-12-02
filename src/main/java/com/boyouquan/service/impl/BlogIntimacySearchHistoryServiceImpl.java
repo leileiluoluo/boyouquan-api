@@ -2,7 +2,6 @@ package com.boyouquan.service.impl;
 
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.BlogIntimacySearchHistoryDaoMapper;
-import com.boyouquan.model.Blog;
 import com.boyouquan.model.BlogIntimacySearchHistory;
 import com.boyouquan.model.BlogIntimacySearchHistoryInfo;
 import com.boyouquan.service.BlogIntimacySearchHistoryService;

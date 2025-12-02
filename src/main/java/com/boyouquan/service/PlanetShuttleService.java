@@ -1,6 +1,5 @@
 package com.boyouquan.service;
 
-import com.boyouquan.model.Blog;
 import com.boyouquan.model.BlogDomainNameInitiated;
 import com.boyouquan.model.MonthInitiated;
 import com.boyouquan.model.PlanetShuttle;

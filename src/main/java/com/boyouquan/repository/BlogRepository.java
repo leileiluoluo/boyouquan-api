@@ -1,18 +1,19 @@
 package com.boyouquan.repository;
 
-import com.boyouquan.model.Blog;
+import com.boyouquan.entity.Blog;
+import com.boyouquan.entity.PopularBlog;
 import com.boyouquan.model.BlogCollectedAt;
-import com.boyouquan.model.PopularBlog;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface BlogRepository extends CrudRepository<Blog, Long> {
+public interface BlogRepository extends CrudRepository<Blog, String> {
 
     @Query(value = """
             WITH moment_activities AS (
@@ -91,35 +92,20 @@ public interface BlogRepository extends CrudRepository<Blog, Long> {
             LIMIT
               :limit
             """, nativeQuery = true)
-    List<PopularBlog> listPopularBlogs(@Param("limit") int limit);
+    List<PopularBlog> listPopularBlogs(int limit);
 
     @Query(value = """
             SELECT
-              domain_name as domainName,
-              admin_email as adminEmail,
-              name,
-              address,
-              rss_address as rssAddress,
-              description,
-              self_submitted as selfSubmitted,
-              collected_at as collectedAt,
-              updated_at as updatedAt,
-              valid,
-              gravatar_valid as gravatarValid,
-              draft,
-              deleted
+              *
             FROM blog
             WHERE draft=false
               AND deleted=false
               AND valid=true
               AND gravatar_valid=:gravatarValid
-              AND (:excludedEmpty = true OR domain_name NOT IN (:excludedDomainNames))
+              AND (:excludedEmpty = true OR domain_name NOT IN :excludedDomainNames)
             ORDER BY RAND() LIMIT :limit
             """, nativeQuery = true)
-    List<Blog> listByRandom(@Param("excludedDomainNames") List<String> excludedDomainNames,
-                            @Param("gravatarValid") boolean gravatarValid,
-                            @Param("limit") int limit,
-                            @Param("excludedEmpty") boolean excludedEmpty);
+    List<Blog> listByRandom(List<String> excludedDomainNames, boolean gravatarValid, int limit, boolean excludedEmpty);
 
     @Query(value = """
             SELECT COUNT(1)
@@ -130,19 +116,7 @@ public interface BlogRepository extends CrudRepository<Blog, Long> {
 
     @Query(value = """
             SELECT
-              domain_name as domainName,
-              admin_email as adminEmail,
-              name,
-              address,
-              rss_address as rssAddress,
-              description,
-              self_submitted as selfSubmitted,
-              collected_at as collectedAt,
-              updated_at as updatedAt,
-              valid,
-              gravatar_valid as gravatarValid,
-              draft,
-              deleted
+              *
             FROM blog
             WHERE draft=false AND deleted=false AND valid=true
             """, nativeQuery = true)
@@ -157,25 +131,13 @@ public interface BlogRepository extends CrudRepository<Blog, Long> {
 
     @Query(value = """
             SELECT
-              domain_name as domainName,
-              admin_email as adminEmail,
-              name,
-              address,
-              rss_address as rssAddress,
-              description,
-              self_submitted as selfSubmitted,
-              collected_at as collectedAt,
-              updated_at as updatedAt,
-              valid,
-              gravatar_valid as gravatarValid,
-              draft,
-              deleted
+              *
             FROM blog
             WHERE draft=false AND deleted=false AND valid=true
             ORDER BY collected_at DESC
             LIMIT :limit
             """, nativeQuery = true)
-    List<Blog> listRecentCollected(@Param("limit") int limit);
+    List<Blog> listRecentCollected(int limit);
 
     @Query(value = """
             SELECT COUNT(*)
@@ -186,23 +148,11 @@ public interface BlogRepository extends CrudRepository<Blog, Long> {
                 OR address LIKE CONCAT('%', :keyword, '%')
               ))
             """, nativeQuery = true)
-    Long countWithKeyword(@Param("keyword") String keyword);
+    Long countWithKeyword(String keyword);
 
     @Query(value = """
             SELECT
-              domain_name as domainName,
-              admin_email as adminEmail,
-              name,
-              address,
-              rss_address as rssAddress,
-              description,
-              self_submitted as selfSubmitted,
-              collected_at as collectedAt,
-              updated_at as updatedAt,
-              valid,
-              gravatar_valid as gravatarValid,
-              draft,
-              deleted
+              *
             FROM blog
             WHERE draft=false AND deleted=false AND valid=true
               AND (:keyword IS NULL OR :keyword = '' OR (
@@ -212,10 +162,7 @@ public interface BlogRepository extends CrudRepository<Blog, Long> {
             ORDER BY collected_at DESC
             LIMIT :offset, :rows
             """, nativeQuery = true)
-    List<Blog> listWithKeyWord(@Param("sort") String sort,
-                               @Param("keyword") String keyword,
-                               @Param("offset") int offset,
-                               @Param("rows") int rows);
+    List<Blog> listWithKeyWord(String sort, String keyword, int offset, int rows);
 
     @Query(value = """
             SELECT
@@ -227,127 +174,57 @@ public interface BlogRepository extends CrudRepository<Blog, Long> {
             """, nativeQuery = true)
     List<BlogCollectedAt> listBlogCollectedAt();
 
-    @Query(value = """
-            SELECT EXISTS (SELECT 1 FROM blog WHERE domain_name=:domainName)
-            """, nativeQuery = true)
-    boolean existsByDomainName(@Param("domainName") String domainName);
+    @Query(value = "SELECT EXISTS (SELECT 1 FROM blog WHERE domain_name=:domainName)", nativeQuery = true)
+    boolean existsByDomainName(String domainName);
 
-    @Query(value = """
-            SELECT EXISTS (SELECT 1 FROM blog WHERE rss_address=:rssAddress)
-            """, nativeQuery = true)
-    boolean existsByRssAddress(@Param("rssAddress") String rssAddress);
+    @Query(value = "SELECT EXISTS (SELECT 1 FROM blog WHERE rss_address=:rssAddress)", nativeQuery = true)
+    boolean existsByRssAddress(String rssAddress);
 
     @Query(value = """
             SELECT
-              domain_name as domainName,
-              admin_email as adminEmail,
-              name,
-              address,
-              rss_address as rssAddress,
-              description,
-              self_submitted as selfSubmitted,
-              collected_at as collectedAt,
-              updated_at as updatedAt,
-              valid,
-              gravatar_valid as gravatarValid,
-              draft,
-              deleted
+              *
             FROM blog
             WHERE draft=false AND deleted=false AND valid=true
               AND domain_name=:domainName
             """, nativeQuery = true)
-    Blog getByDomainName(@Param("domainName") String domainName);
+    Blog getByDomainName(String domainName);
 
     @Query(value = """
             SELECT
-              domain_name as domainName,
-              admin_email as adminEmail,
-              name,
-              address,
-              rss_address as rssAddress,
-              description,
-              self_submitted as selfSubmitted,
-              collected_at as collectedAt,
-              updated_at as updatedAt,
-              valid,
-              gravatar_valid as gravatarValid,
-              draft,
-              deleted
+              *
             FROM blog
             WHERE draft=false AND deleted=false AND valid=true
               AND admin_email=:adminEmail
             """, nativeQuery = true)
-    List<Blog> listByAdminEmail(@Param("adminEmail") String adminEmail);
+    List<Blog> listByAdminEmail(String adminEmail);
 
     @Query(value = """
             SELECT
-              domain_name as domainName,
-              admin_email as adminEmail,
-              name,
-              address,
-              rss_address as rssAddress,
-              description,
-              self_submitted as selfSubmitted,
-              collected_at as collectedAt,
-              updated_at as updatedAt,
-              valid,
-              gravatar_valid as gravatarValid,
-              draft,
-              deleted
+              *
             FROM blog
             WHERE draft=false AND deleted=false AND valid=true
               AND domain_name LIKE CONCAT(:shortDomainName, '%')
             """, nativeQuery = true)
-    Blog getByShortDomainName(@Param("shortDomainName") String shortDomainName);
+    Blog getByShortDomainName(String shortDomainName);
 
     Blog findByAddress(String address);
 
-    @Query(value = """
-            SELECT
-              domain_name as domainName,
-              admin_email as adminEmail,
-              name,
-              address,
-              rss_address as rssAddress,
-              description,
-              self_submitted as selfSubmitted,
-              collected_at as collectedAt,
-              updated_at as updatedAt,
-              valid,
-              gravatar_valid as gravatarValid,
-              draft,
-              deleted
-            FROM blog
-            WHERE rss_address=:rssAddress
-            """, nativeQuery = true)
-    Blog getByRSSAddress(@Param("rssAddress") String rssAddress);
+    Blog findByRSSAddress(String rssAddress);
 
     @Query(value = """
             SELECT
-              domain_name as domainName,
-              admin_email as adminEmail,
-              name,
-              address,
-              rss_address as rssAddress,
-              description,
-              self_submitted as selfSubmitted,
-              collected_at as collectedAt,
-              updated_at as updatedAt,
-              valid,
-              gravatar_valid as gravatarValid,
-              draft,
-              deleted
+              *
             FROM blog
             WHERE md5(admin_email)=:md5AdminEmail
             """, nativeQuery = true)
-    Blog getByMd5AdminEmail(@Param("md5AdminEmail") String md5AdminEmail);
+    Blog getByMd5AdminEmail(String md5AdminEmail);
 
     @Query(value = """
             SELECT TIMESTAMPDIFF(YEAR, collected_at, CURDATE())
             FROM blog
             WHERE draft=false AND deleted=false AND valid=true AND domain_name=:domainName
             """, nativeQuery = true)
-    Integer getJoinYearsByDomainName(@Param("domainName") String domainName);
+    Integer getJoinYearsByDomainName(String domainName);
 
     @Modifying
     @Query(value = """
@@ -379,16 +256,16 @@ public interface BlogRepository extends CrudRepository<Blog, Long> {
               false
             )
             """, nativeQuery = true)
-    void save(@Param("domainName") String domainName,
-              @Param("adminEmail") String adminEmail,
-              @Param("name") String name,
-              @Param("address") String address,
-              @Param("rssAddress") String rssAddress,
-              @Param("description") String description,
-              @Param("selfSubmitted") boolean selfSubmitted,
-              @Param("collectedAt") java.sql.Timestamp collectedAt,
-              @Param("updatedAt") java.sql.Timestamp updatedAt,
-              @Param("draft") boolean draft);
+    void save(String domainName,
+              String adminEmail,
+              String name,
+              String address,
+              String rssAddress,
+              String description,
+              boolean selfSubmitted,
+              Date collectedAt,
+              Date updatedAt,
+              boolean draft);
 
     @Modifying
     @Query(value = """

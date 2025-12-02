@@ -2,7 +2,6 @@ package com.boyouquan.service.impl;
 
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.MonthlySelectedDaoMapper;
-import com.boyouquan.model.Blog;
 import com.boyouquan.model.MonthlySelectedPost;
 import com.boyouquan.model.Post;
 import com.boyouquan.model.SelectedPostAccess;

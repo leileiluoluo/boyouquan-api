@@ -2,7 +2,6 @@ package com.boyouquan.service.impl;
 
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.BlogStatusDaoMapper;
-import com.boyouquan.model.Blog;
 import com.boyouquan.model.BlogStatus;
 import com.boyouquan.service.BlogStatusService;
 import com.boyouquan.util.CommonUtils;

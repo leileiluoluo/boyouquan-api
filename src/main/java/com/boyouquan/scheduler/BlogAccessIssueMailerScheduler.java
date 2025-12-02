@@ -1,7 +1,6 @@
 package com.boyouquan.scheduler;
 
 import com.boyouquan.constant.CommonConstants;
-import com.boyouquan.model.Blog;
 import com.boyouquan.model.BlogStatus;
 import com.boyouquan.model.EmailLog;
 import com.boyouquan.service.BlogService;

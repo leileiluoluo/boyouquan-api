@@ -1,6 +1,5 @@
 package com.boyouquan.service;
 
-import com.boyouquan.model.Blog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

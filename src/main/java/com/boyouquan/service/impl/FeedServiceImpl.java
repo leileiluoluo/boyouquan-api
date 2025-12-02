@@ -1,7 +1,6 @@
 package com.boyouquan.service.impl;
 
 import com.boyouquan.constant.CommonConstants;
-import com.boyouquan.model.Blog;
 import com.boyouquan.model.Post;
 import com.boyouquan.model.PostSortType;
 import com.boyouquan.service.BlogService;

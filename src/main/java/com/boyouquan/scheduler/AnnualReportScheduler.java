@@ -1,6 +1,5 @@
 package com.boyouquan.scheduler;
 
-import com.boyouquan.model.Blog;
 import com.boyouquan.service.AnnualReportService;
 import com.boyouquan.service.BlogService;
 import org.slf4j.Logger;

@@ -1,8 +1,7 @@
 package com.boyouquan.service.impl;
 
-import com.boyouquan.dao.AccessDaoMapper;
 import com.boyouquan.helper.IPControlHelper;
-import com.boyouquan.model.*;
+import com.boyouquan.model.entity.Access;
 import com.boyouquan.service.AccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

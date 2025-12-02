@@ -2,7 +2,6 @@ package com.boyouquan.service.impl;
 
 import com.boyouquan.config.BoYouQuanConfig;
 import com.boyouquan.constant.CommonConstants;
-import com.boyouquan.model.Blog;
 import com.boyouquan.service.BlogService;
 import com.boyouquan.service.GravatarService;
 import com.boyouquan.util.OkHttpUtil;

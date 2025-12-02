@@ -1,8 +1,6 @@
 package com.boyouquan.dao;
 
-import com.boyouquan.model.Blog;
 import com.boyouquan.model.BlogCollectedAt;
-import com.boyouquan.model.PopularBlog;
 
 import java.util.List;
 

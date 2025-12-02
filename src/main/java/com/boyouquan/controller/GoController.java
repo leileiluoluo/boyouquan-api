@@ -2,8 +2,7 @@ package com.boyouquan.controller;
 
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.enumration.BotUserAgent;
-import com.boyouquan.model.Access;
-import com.boyouquan.model.Blog;
+import com.boyouquan.model.entity.Access;
 import com.boyouquan.model.GoLink;
 import com.boyouquan.model.Post;
 import com.boyouquan.service.AccessService;
@@ -22,9 +21,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/go")

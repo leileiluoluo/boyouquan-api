@@ -2,7 +2,6 @@ package com.boyouquan.scheduler;
 
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.helper.PostHelper;
-import com.boyouquan.model.Blog;
 import com.boyouquan.model.RSSInfo;
 import com.boyouquan.model.WebSocketMessage;
 import com.boyouquan.service.*;

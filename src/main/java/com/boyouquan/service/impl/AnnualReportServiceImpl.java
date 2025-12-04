@@ -37,7 +37,7 @@ public class AnnualReportServiceImpl implements AnnualReportService {
     private final int[] THRESHOLDS = {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95};
     private final String[] PERCENTAGES = {"95%", "90%", "85%", "80%", "75%", "70%", "65%", "60%", "65%", "50%", "45%", "40%", "35%", "30%", "25%", "20%", "15%", "10%", "5%"};
 
-    private List<String> SPONSORS_2024 = List.of(
+    private final List<String> SPONSORS_2024 = List.of(
             "blog.cuger.cn",
             "www.evan.xin",
             "blog.goodboyboy.top",

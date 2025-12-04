@@ -6,7 +6,7 @@
 <main layout:fragment="content">
     <h1 th:text="'您的 ' + ${report.year} + ' 年度报告'"></h1>
 
-    <p>时光荏苒，岁月如梭，转眼间，已步入岁末。回首过去的 2024 年，博友圈感恩有您！</p>
+    <p>时光荏苒，岁月如梭，转眼间，已步入岁末。回首过去的 2025 年，博友圈感恩有您！</p>
 
     <p>
         您的博客「<a th:text="${report.blogName}" th:href="'https://www.boyouquan.com/blogs/' + ${report.blogDomainName}"></a>」于 <strong style="color: red" th:text="${report.blogCollectedAt}"></strong> 被博友圈收录，到今天我们已一起走过了 <strong style="color: red" th:text="${report.joinDaysTillNow}"></strong> 个日夜！超过了 <strong style="color: red" th:text="${report.collectedAtExceedPercent}"></strong> 的博友！
@@ -14,7 +14,7 @@
 
     <p>
         <strong th:if="${report.joinedAfterYearStartDay}">自加入博友圈起到现在，</strong>
-        <strong th:unless="${report.joinedAfterYearStartDay}">2024 这一年，</strong>
+        <strong th:unless="${report.joinedAfterYearStartDay}">2025 这一年，</strong>
     </p>
 
     <p th:if="${report.postCountTillNow} > 0">
@@ -66,12 +66,12 @@
     </p>
 
     <p th:if="${report.isSponsor}">
-        此外，最应该感谢的是您在 2024 对我们的赞助，使得博友圈网站又平稳运行了一年！
+        此外，最应该感谢的是您在 2025 对我们的赞助，使得博友圈网站又平稳运行了一年！
     </p>
 
-    <p>除了您的个人年度报告已揭晓外，博友圈网站的「<a href="https://www.boyouquan.com/annual-reports/2024">2024 年度报告</a>」也已出炉，快来一睹为快吧！</p>
+    <p>除了您的个人年度报告已揭晓外，博友圈网站的「<a href="https://www.boyouquan.com/annual-reports/2025">2025 年度报告</a>」也已出炉，快来一睹为快吧！</p>
 
-    <p>最后，博友圈在这里祝您 2025 喜乐安康、万事顺意！</p>
+    <p>最后，博友圈在这里祝您 2026 喜乐安康、万事顺意！</p>
 </main>
 </div>
 </body>

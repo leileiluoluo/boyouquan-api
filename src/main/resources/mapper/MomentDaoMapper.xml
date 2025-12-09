@@ -36,9 +36,37 @@
         EXISTS (
         SELECT 1 FROM moment
         WHERE deleted=false
-          AND blog_domain_name=#{blogDomainName}
-          AND description=#{description}
+        AND blog_domain_name=#{blogDomainName}
+        AND description=#{description}
         )
+    </select>
+    <select id="listByBlogDomainNameAndStartDate" resultType="com.boyouquan.model.Moment">
+        SELECT
+        <include refid="select_columns"/>
+        FROM moment
+        WHERE deleted=false
+        AND blog_domain_name=#{blogDomainName}
+        AND created_at >= #{startDate}
+        ORDER BY created_at DESC
+    </select>
+    <select id="countByBlogDomainNameAndStartDate" resultType="java.lang.Long">
+        SELECT
+        COUNT(*)
+        FROM moment
+        WHERE deleted=false
+        AND blog_domain_name=#{blogDomainName}
+        AND created_at >= #{startDate}
+    </select>
+    <select id="countLikesByBlogDomainNameAndStartDate" resultType="java.lang.Long">
+        SELECT
+        SUM(l.amount)
+        FROM moment m,
+        likes l
+        WHERE m.id = l.entity_id
+        AND l.type = 'MOMENTS'
+        AND m.deleted=false
+        AND m.blog_domain_name=#{blogDomainName}
+        AND m.created_at >= #{startDate}
     </select>
     <insert id="save">
         INSERT INTO moment (

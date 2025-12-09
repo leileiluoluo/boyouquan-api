@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -67,6 +68,21 @@ public class MomentServiceImpl implements MomentService {
     @Override
     public boolean existsByBlogDomainNameAndDescription(String blogDomainName, String description) {
         return momentDaoMapper.existsByBlogDomainNameAndDescription(blogDomainName, description);
+    }
+
+    @Override
+    public List<Moment> listByBlogDomainName(String blogDomainName, Date startDate) {
+        return momentDaoMapper.listByBlogDomainNameAndStartDate(blogDomainName, startDate);
+    }
+
+    @Override
+    public Long countByBlogDomainName(String blogDomainName, Date startDate) {
+        return momentDaoMapper.countByBlogDomainNameAndStartDate(blogDomainName, startDate);
+    }
+
+    @Override
+    public Long countLikesByBlogDomainName(String blogDomainName, Date startDate) {
+        return momentDaoMapper.countLikesByBlogDomainNameAndStartDate(blogDomainName, startDate);
     }
 
     @Override

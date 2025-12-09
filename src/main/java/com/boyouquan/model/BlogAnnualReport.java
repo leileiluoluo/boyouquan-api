@@ -18,6 +18,7 @@ public class BlogAnnualReport {
 
     private boolean joinedAfterYearStartDay;
     private long postCountTillNow;
+    private String postSummary;
     private String postCountExceedPercent;
     private long accessCountTillNow;
     private String accessCountExceedPercent;
@@ -34,6 +35,11 @@ public class BlogAnnualReport {
 
     private List<Post> recommendedPosts = Collections.emptyList();
     private List<Post> pinnedPosts = Collections.emptyList();
+
+    private long momentsCountTillNow;
+    private long momentsLikeCountTillNow;
+
+    private List<Moment> moments = Collections.emptyList();
 
     private long planetShuttleInitiatedCount;
 

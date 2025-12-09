@@ -3,17 +3,21 @@ package com.boyouquan.service.impl;
 import com.boyouquan.model.*;
 import com.boyouquan.service.*;
 import com.boyouquan.util.CommonUtils;
+import com.boyouquan.util.ObjectUtil;
 import com.boyouquan.util.Pagination;
+import com.boyouquan.util.ResourceFileHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.type.TypeReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AnnualReportServiceImpl implements AnnualReportService {
@@ -34,10 +38,13 @@ public class AnnualReportServiceImpl implements AnnualReportService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private MomentService momentService;
+
     private final int[] THRESHOLDS = {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95};
     private final String[] PERCENTAGES = {"95%", "90%", "85%", "80%", "75%", "70%", "65%", "60%", "65%", "50%", "45%", "40%", "35%", "30%", "25%", "20%", "15%", "10%", "5%"};
 
-    private final List<String> SPONSORS_2024 = List.of(
+    private final List<String> SPONSORS_2025 = List.of(
             "blog.cuger.cn",
             "www.evan.xin",
             "blog.goodboyboy.top",
@@ -50,6 +57,8 @@ public class AnnualReportServiceImpl implements AnnualReportService {
             "inkcodes.com",
             "www.feinews.com"
     );
+
+    private final String SUMMARY_FILE_2025 = "annual-reports/2025/summary.json";
 
     @Override
     public String getAnnualReport(String domainName) {
@@ -109,6 +118,10 @@ public class AnnualReportServiceImpl implements AnnualReportService {
         long postCountTillNow = postService.countByBlogDomainName(domainName, startDate);
         report.setPostCountTillNow(postCountTillNow);
 
+        // postSummary
+        String postSummary = getPostSummary(domainName);
+        report.setPostSummary(postSummary);
+
         // postCountExceedPercent
         String postCountExceedPercent = getPostCountExceedPercent(currentYearFirstDay, postCountTillNow);
         report.setPostCountExceedPercent(postCountExceedPercent);
@@ -160,12 +173,22 @@ public class AnnualReportServiceImpl implements AnnualReportService {
         List<Post> pinnedPosts = getPinnedPosts(domainName, startDate);
         report.setPinnedPosts(pinnedPosts);
 
+        // momentsCount
+        long momentsCount = momentService.countByBlogDomainName(domainName, startDate);
+        report.setMomentsCountTillNow(momentsCount);
+        long momentsLikeCount = momentService.countLikesByBlogDomainName(domainName, startDate);
+        report.setMomentsLikeCountTillNow(momentsLikeCount);
+
+        // moments
+        List<Moment> moments = momentService.listByBlogDomainName(domainName, startDate);
+        report.setMoments(moments);
+
         // planetShuttleInitiatedCount
         long planetShuttleInitiatedCount = getPlanetShuttleInitiatedCount(domainName, startDate);
         report.setPlanetShuttleInitiatedCount(planetShuttleInitiatedCount);
 
         // isSponsor
-        report.setSponsor(isSponsor(domainName, SPONSORS_2024));
+        report.setSponsor(isSponsor(domainName, SPONSORS_2025));
 
         return report;
     }
@@ -324,6 +347,17 @@ public class AnnualReportServiceImpl implements AnnualReportService {
 
     private int getIndex(int size, int percent) {
         return size * percent / 100;
+    }
+
+    private String getPostSummary(String domainName) {
+        String summaryFile = ResourceFileHelper.readResourceFileAsString(SUMMARY_FILE_2025);
+        List<PostSummary> postSummaries = ObjectUtil.jsonToList(summaryFile, new TypeReference<>() {
+        });
+
+        Map<String, String> domainSummaryMap = postSummaries.stream()
+                .collect(Collectors.toMap(PostSummary::getDomainName, PostSummary::getSummary));
+
+        return domainSummaryMap.get(domainName);
     }
 
 }

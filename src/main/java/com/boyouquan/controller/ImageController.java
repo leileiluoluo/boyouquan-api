@@ -3,6 +3,7 @@ package com.boyouquan.controller;
 import com.boyouquan.service.BlogService;
 import com.boyouquan.service.ImageUploadService;
 import com.boyouquan.service.PostImageService;
+import com.boyouquan.util.ResourceFileHelper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -32,8 +33,7 @@ public class ImageController {
             HttpServletResponse response) throws IOException {
         response.setContentType("image/svg+xml;charset=UTF-8");
 
-        ClassPathResource resource = new ClassPathResource("logo/performance-logo.svg");
-        String svg = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+        String svg = ResourceFileHelper.readResourceFileAsString("logo/performance-logo.svg");
 
         // get joined years
         String defaultLevel = "L0";

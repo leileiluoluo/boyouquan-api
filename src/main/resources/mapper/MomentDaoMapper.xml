@@ -59,7 +59,7 @@
     </select>
     <select id="countLikesByBlogDomainNameAndStartDate" resultType="java.lang.Long">
         SELECT
-        SUM(l.amount)
+        IFNULL(SUM(l.amount), 0)
         FROM moment m,
         likes l
         WHERE m.id = l.entity_id

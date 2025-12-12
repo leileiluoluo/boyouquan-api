@@ -57,7 +57,8 @@
     </svg>
 
     <text x="48" y="14" text-anchor="middle" dominant-baseline="middle"
-          font-family="微软雅黑, sans-serif" font-size="12" fill="#333">
+          font-family="微软雅黑, sans-serif" font-size="12" fill="#333"
+          font-weight="bold">
         履约中
     </text>
 

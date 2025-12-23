@@ -45,17 +45,27 @@ public class AnnualReportServiceImpl implements AnnualReportService {
     private final String[] PERCENTAGES = {"95%", "90%", "85%", "80%", "75%", "70%", "65%", "60%", "65%", "50%", "45%", "40%", "35%", "30%", "25%", "20%", "15%", "10%", "5%"};
 
     private final List<String> SPONSORS_2025 = List.of(
-            "blog.cuger.cn",
-            "www.evan.xin",
-            "blog.goodboyboy.top",
-            "pinaland.cn",
-            "www.xiangshitan.com",
-            "pwsz.com",
+            "ncnccn.cn",
+            "www.xcbtmw.com",
+            "suiyan.cc",
+            "wiki.eryajf.net",
+            "aloner.ink",
+            "uuanqin.top",
+            "xyzbz.cn",
+            "blog.shi.wiki",
+            "vindlog.com",
+            "blog.yzlog.top",
+            "blog.1edg.cn",
+            "zhoutian.com",
+            "www.kulafan.com",
             "vrast.cn",
-            "www.dao.js.cn",
-            "www.dolingou.com",
-            "inkcodes.com",
-            "www.feinews.com"
+            "blog.lichenghao.cn",
+            "www.yingyu5658.me",
+            "www.edzbe.com",
+            "ddbzhou.com",
+            "wxsnote.cn",
+            "lhasa.icu",
+            "www.memxb.top"
     );
 
     private final String SUMMARY_FILE_2025 = "annual-reports/2025/summary.json";

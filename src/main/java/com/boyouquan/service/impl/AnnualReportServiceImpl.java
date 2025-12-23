@@ -34,6 +34,8 @@ public class AnnualReportServiceImpl implements AnnualReportService {
     private PinHistoryService pinHistoryService;
     @Autowired
     private PlanetShuttleService planetShuttleService;
+    @Autowired
+    private FriendLinkService friendLinkService;
 
     @Autowired
     private EmailService emailService;
@@ -123,6 +125,20 @@ public class AnnualReportServiceImpl implements AnnualReportService {
 
         // startDate
         Date startDate = joinedAfterStartDay ? blog.getCollectedAt() : currentYearFirstDay;
+
+        // friend links
+        MyFriendLinks myFriendLinks = friendLinkService.getMyFriendLinks(domainName);
+        if (null != myFriendLinks) {
+            List<Blog> fromBlogs = myFriendLinks.getLinksFromMe();
+            if (null != fromBlogs) {
+                report.setTotalLinksFromMe(fromBlogs.size());
+            }
+
+            List<Blog> toBlogs = myFriendLinks.getLinksToMe();
+            if (null != toBlogs) {
+                report.setTotalLinksToMe(toBlogs.size());
+            }
+        }
 
         // postCountTillNow
         long postCountTillNow = postService.countByBlogDomainName(domainName, startDate);

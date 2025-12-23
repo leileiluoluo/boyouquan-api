@@ -16,9 +16,19 @@
                 style="color: red" th:text="${report.collectedAtExceedPercent}"></strong> 的博友！
         </p>
 
+        <p th:if="${report.totalLinksFromMe} > 0">
+            您的友链页面指向的博友中，有 <strong
+                style="color: red" th:text="${report.totalLinksFromMe}"></strong> 个博友也在博友圈。
+        </p>
+
+        <p th:if="${report.totalLinksToMe} > 0">
+            博友圈中，有 <strong
+                style="color: red" th:text="${report.totalLinksToMe}"></strong> 个博友的友链页面指向了您。
+        </p>
+
         <p>
-            <strong th:if="${report.joinedAfterYearStartDay}">自加入博友圈起到现在，</strong>
-            <strong th:unless="${report.joinedAfterYearStartDay}">2025 这一年，</strong>
+            <strong th:if="${report.joinedAfterYearStartDay}">自加入博友圈起到现在：</strong>
+            <strong th:unless="${report.joinedAfterYearStartDay}">2025 这一年：</strong>
         </p>
 
         <p th:if="${report.postCountTillNow} > 0">

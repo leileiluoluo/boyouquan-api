@@ -227,7 +227,7 @@ public class EmailServiceImpl implements EmailService {
             String text = templateEngine.process("email/blog_annual_report_template", context);
 
             // send
-            send("leileiluoluo@leileiluoluo.com", subject, text, true);
+            send(adminEmail, subject, text, true);
         }
     }
 

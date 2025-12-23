@@ -218,7 +218,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendBlogAnnualReport(Blog blog, BlogAnnualReport blogAnnualReport) {
         if (null != blog && null != blogAnnualReport) {
             String adminEmail = blog.getAdminEmail();
-            String subject = "[博友圈] 您的 2024 年度报告已揭晓！";
+            String subject = "[博友圈] 您的 2025 年度报告已揭晓！";
 
             Context context = new Context();
 
@@ -227,7 +227,7 @@ public class EmailServiceImpl implements EmailService {
             String text = templateEngine.process("email/blog_annual_report_template", context);
 
             // send
-            send(adminEmail, subject, text, true);
+            send("leileiluoluo@leileiluoluo.com", subject, text, true);
         }
     }
 

@@ -12,6 +12,9 @@ select count(*) from post where draft=false and deleted=false and recommended=tr
 -- pinned
 select count(distinct link) from pin_history where pinned_at >= '2025-01-01';
 
+-- total moments
+select count(*) from moment where deleted=false;
+
 -- total access
 select sum(amount) from access where year_month_str >= '2025/01';
 -- most accessed blog

@@ -11,9 +11,9 @@
         <p>
             您的博客「<a th:text="${report.blogName}"
                         th:href="'https://www.boyouquan.com/blogs/' + ${report.blogDomainName}"></a>」于 <strong
-                style="color: darkred" th:text="${report.blogCollectedAt}"></strong> 被博友圈收录，到今天我们已一起走过了
-            <strong style="color: darkred" th:text="${report.joinDaysTillNow}"></strong> 个日夜！超过了 <strong
-                style="color: darkred" th:text="${report.collectedAtExceedPercent}"></strong> 的博友！
+                style="color: red" th:text="${report.blogCollectedAt}"></strong> 被博友圈收录，到今天我们已一起走过了
+            <strong style="color: red" th:text="${report.joinDaysTillNow}"></strong> 个日夜！超过了 <strong
+                style="color: red" th:text="${report.collectedAtExceedPercent}"></strong> 的博友！
         </p>
 
         <p>
@@ -22,47 +22,47 @@
         </p>
 
         <p th:if="${report.postCountTillNow} > 0">
-            您共发布了 <strong style="color: darkred" th:text="${report.postCountTillNow}"></strong> 篇文章，超过了
-            <strong style="color: darkred" th:text="${report.postCountExceedPercent}"></strong> 的博友。
+            您共发布了 <strong style="color: red" th:text="${report.postCountTillNow}"></strong> 篇文章，超过了
+            <strong style="color: red" th:text="${report.postCountExceedPercent}"></strong> 的博友。
         </p>
 
         <p th:if="${report.postSummary} != null" th:text="${report.postSummary}"></p>
 
         <p th:if="${report.accessCountTillNow} > 0">
-            您共从博友圈获得 <strong style="color: darkred" th:text="${report.accessCountTillNow}"></strong> 个独立 IP
-            访问，超过了 <strong style="color: darkred" th:text="${report.accessCountExceedPercent}"></strong> 的博友。
+            您共从博友圈获得 <strong style="color: red" th:text="${report.accessCountTillNow}"></strong> 个独立 IP
+            访问，超过了 <strong style="color: red" th:text="${report.accessCountExceedPercent}"></strong> 的博友。
         </p>
 
         <p th:if="${report.maxMonthPublish} != null">
-            您发布文章最多的月份是 <strong style="color: darkred" th:text="${report.maxMonthPublish.month}"></strong>
-            月，发布了 <strong style="color: darkred" th:text="${report.maxMonthPublish.count}"></strong> 篇文章。
+            您发布文章最多的月份是 <strong style="color: red" th:text="${report.maxMonthPublish.month}"></strong>
+            月，发布了 <strong style="color: red" th:text="${report.maxMonthPublish.count}"></strong> 篇文章。
         </p>
 
         <p th:if="${report.maxMonthAccess} != null">
-            从博友圈获得访问最多的月份是 <strong style="color: darkred"
+            从博友圈获得访问最多的月份是 <strong style="color: red"
                                                  th:text="${report.maxMonthAccess.month}"></strong> 月，获得了 <strong
-                style="color: darkred" th:text="${report.maxMonthAccess.count}"></strong> 个独立 IP 访问。
+                style="color: red" th:text="${report.maxMonthAccess.count}"></strong> 个 IP 访问。
         </p>
 
         <p th:if="${report.mostAccessedPost} != null">
             您获得访问最多的一篇文章是「<a th:text="${report.mostAccessedPost.title}"
                                           th:href="@{'https://www.boyouquan.com/go?from=email&link={link}'(link=${report.mostAccessedPost.link})}"></a>」，获得了
-            <strong style="color: darkred" th:text="${report.mostAccessedPostAccessCount}"></strong> 个独立 IP 访问。
+            <strong style="color: red" th:text="${report.mostAccessedPostAccessCount}"></strong> 个 IP 访问。
         </p>
 
         <p th:if="${report.latestUpdatedAt} != null">
-            您最近一次更新博客是在 <strong style="color: darkred" th:text="${report.latestUpdatedAt}"></strong>。
+            您最近一次更新博客是在 <strong style="color: red" th:text="${report.latestUpdatedAt}"></strong>。
         </p>
 
         <p th:if="${report.mostLatePublishedPost} != null">
-            您夜深人静更新的一次博客是在 <strong style="color: darkred"
+            您夜深人静更新的一次博客是在 <strong style="color: red"
                                                  th:text="${report.mostLatePublishedPostPublishedAt}"></strong>，写下的文章是「<a
                 th:text="${report.mostLatePublishedPost.title}"
                 th:href="@{'https://www.boyouquan.com/go?from=email&link={link}'(link=${report.mostLatePublishedPost.link})}"></a>」。
         </p>
 
         <p th:if="${#lists.size(report.recommendedPosts)} > 0">
-            您有 <strong style="color: darkred" th:text="${#lists.size(report.recommendedPosts)}"></strong>
+            您有 <strong style="color: red" th:text="${#lists.size(report.recommendedPosts)}"></strong>
             篇文章被博友圈加入到了首页推荐：
 
         <ul th:each="post, stat : ${report.recommendedPosts}">
@@ -72,7 +72,7 @@
         </p>
 
         <p th:if="${#lists.size(report.pinnedPosts)} > 0">
-            更幸运的是，您有 <strong style="color: darkred" th:text="${#lists.size(report.pinnedPosts)}"></strong>
+            更幸运的是，您有 <strong style="color: red" th:text="${#lists.size(report.pinnedPosts)}"></strong>
             篇文章被博友圈置顶过：
 
         <ul th:each="post, stat : ${report.pinnedPosts}">
@@ -82,8 +82,8 @@
         </p>
 
         <p th:if="${report.momentsCountTillNow} > 0">
-            您共发布了 <strong style="color: darkred" th:text="${report.momentsCountTillNow}"></strong> 次随拍，收获
-            <strong style="color: darkred" th:text="${report.momentsLikeCountTillNow}"></strong> 个喜欢！
+            您共发布了 <strong style="color: red" th:text="${report.momentsCountTillNow}"></strong> 次随拍，收获
+            <strong style="color: red" th:text="${report.momentsLikeCountTillNow}"></strong> 个喜欢！
 
         <ul th:each="moment, stat : ${report.moments}">
             <li><a th:text="${moment.description}" href="https://www.boyouquan.com/moments"></a></li>
@@ -92,7 +92,7 @@
 
         <p th:if="${report.planetShuttleInitiatedCount} > 0">
             此外，还要感谢您加入了博友圈「<a href="https://www.boyouquan.com/planet-shuttle">星球穿梭</a>」助力计划，给博友们带来了
-            <strong style="color: darkred" th:text="${report.planetShuttleInitiatedCount}"></strong> 次助力！
+            <strong style="color: red" th:text="${report.planetShuttleInitiatedCount}"></strong> 次助力！
         </p>
 
         <p th:if="${report.isSponsor}">

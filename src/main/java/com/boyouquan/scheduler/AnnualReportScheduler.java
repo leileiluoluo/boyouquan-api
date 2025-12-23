@@ -21,7 +21,7 @@ public class AnnualReportScheduler {
     @Autowired
     private AnnualReportService annualReportService;
 
-    @Scheduled(cron = "0 0 13 23 12 ?")
+//    @Scheduled(cron = "0 0 13 23 12 ?")
     public void sendAnnualReports() {
         logger.info("annual report scheduler start!");
 

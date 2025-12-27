@@ -19,4 +19,7 @@ delete from friend_link where source_blog_domain_name='lhasa.icu';
 delete from friend_link where target_blog_domain_name='lhasa.icu';
 delete from blog_intimacy_search_history where source_blog_domain_name='lhasa.icu';
 delete from blog_intimacy_search_history where target_blog_domain_name='lhasa.icu';
+
+-- optional
+-- insert into domain_name_change(old_domain_name, new_domain_name, changed_at, deleted) values ('lhasa.icu', 'blog.lhasa.icu', now(), false);
 ```

@@ -64,8 +64,9 @@ public class GoController {
                         saveAccessInfo(ip, link, blogDomainName);
                     }
 
-                    // FIXME: important, use this way to solve path wth chinese character issue
-                    link = CommonUtils.repairURL(link);
+                    // FIXME: important, use this way to solve path with chinese character issue
+                    // FIXME: no need to fix
+                    // link = CommonUtils.repairURL(link);
                     goLink.setLink(link);
                 }
             }

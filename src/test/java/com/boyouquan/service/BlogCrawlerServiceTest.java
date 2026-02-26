@@ -13,7 +13,7 @@ public class BlogCrawlerServiceTest {
 
     @Test
     public void testGetRSSInfoByRSSAddress() {
-        String rssAddress = "https://www.jfsay.com/feed";
+        String rssAddress = "https://blog.songzixian.com/rss.xml";
         blogCrawlerService.getRSSInfoByRSSAddress(rssAddress, CommonConstants.RSS_POST_COUNT_READ_LIMIT);
     }
 

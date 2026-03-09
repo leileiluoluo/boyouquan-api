@@ -10,7 +10,8 @@ public enum BotUserAgent {
     SMT_BOT("SMTBot"),
     RU_BOT("RU_Bot"),
     DIFF_BOT("Diffbot"),
-    LIVELAP_BOT("LivelapBot");
+    LIVELAP_BOT("LivelapBot"),
+    YISOU_BOT("YisouSpider");
 
     private String name;
 

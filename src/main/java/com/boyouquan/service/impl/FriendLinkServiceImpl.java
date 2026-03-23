@@ -84,12 +84,16 @@ public class FriendLinkServiceImpl implements FriendLinkService {
 
         for (String domainName : directSourceBlogDomainNames) {
             Blog blog = blogService.getByDomainName(domainName);
-            directSourceBlogs.add(blog);
+            if (null != blog) {
+                directSourceBlogs.add(blog);
+            }
         }
 
         for (String domainName : directTargetBlogDomainNames) {
             Blog blog = blogService.getByDomainName(domainName);
-            directTargetBlogs.add(blog);
+            if (null != blog) {
+                directTargetBlogs.add(blog);
+            }
         }
 
         return MyFriendLinks.builder()

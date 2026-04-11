@@ -56,8 +56,8 @@ public class PostController {
             boolean isStatusOk = blogStatusService.isStatusOkByBlogDomainName(blog.getDomainName());
             postInfo.setBlogStatusOk(isStatusOk);
 
-            String blogAdminMediumImageURL = blogService.getBlogAdminMediumImageURLByDomainName(blog.getDomainName());
-            postInfo.setBlogAdminMediumImageURL(blogAdminMediumImageURL);
+            String blogAdminLargeImageURL = blogService.getBlogAdminLargeImageURLByDomainName(blog.getDomainName());
+            postInfo.setBlogAdminLargeImageURL(blogAdminLargeImageURL);
 
             Long linkAccessCount = accessService.countByLink(post.getLink());
             postInfo.setLinkAccessCount(linkAccessCount);

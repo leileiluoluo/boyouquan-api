@@ -22,5 +22,7 @@ public class PostInfo extends Post {
     private Long linkAccessCount;
     private String blogAdminMediumImageURL;
     private String blogAdminLargeImageURL;
+    private Long blogTotalAccessCount;
+    private Integer blogJoinYears;
 
 }

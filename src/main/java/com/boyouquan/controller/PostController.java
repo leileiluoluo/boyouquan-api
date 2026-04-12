@@ -61,6 +61,12 @@ public class PostController {
 
             Long linkAccessCount = accessService.countByLink(post.getLink());
             postInfo.setLinkAccessCount(linkAccessCount);
+
+            Integer joinYears = blogService.getJoinYearsByDomainName(blog.getDomainName());
+            postInfo.setBlogJoinYears(joinYears);
+
+            Long totalAccessCount = accessService.countByBlogDomainName(blog.getDomainName());
+            postInfo.setBlogTotalAccessCount(totalAccessCount);
             postInfos.add(postInfo);
         }
 

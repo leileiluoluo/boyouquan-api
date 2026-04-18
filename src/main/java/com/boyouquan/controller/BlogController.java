@@ -39,7 +39,8 @@ public class BlogController {
             @RequestParam(value = "domainName", required = false) String domainName,
             @RequestParam(value = "sort", required = false, defaultValue = "collect_time") String sort,
             @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
         // single blog
         if (StringUtils.isNotBlank(domainName)) {
             BlogInfo blogInfo = blogService.getBlogInfoByDomainName(domainName);
@@ -55,7 +56,7 @@ public class BlogController {
         }
         keyword = StringUtils.trim(keyword);
 
-        Pagination<BlogInfo> blogs = blogService.listBlogInfosWithKeyWord(BlogSortType.of(sort), keyword, page, CommonConstants.DEFAULT_PAGE_SIZE);
+        Pagination<BlogInfo> blogs = blogService.listBlogInfosWithKeyWord(BlogSortType.of(sort), keyword, page, size);
         return ResponseEntity.ok(blogs);
     }
 

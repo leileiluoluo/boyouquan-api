@@ -59,6 +59,9 @@ public class PostController {
             String blogAdminLargeImageURL = blogService.getBlogAdminLargeImageURLByDomainName(blog.getDomainName());
             postInfo.setBlogAdminLargeImageURL(blogAdminLargeImageURL);
 
+            String blogAdminMediumImageURL = blogService.getBlogAdminMediumImageURLByDomainName(blog.getDomainName());
+            postInfo.setBlogAdminMediumImageURL(blogAdminMediumImageURL);
+
             Long linkAccessCount = accessService.countByLink(post.getLink());
             postInfo.setLinkAccessCount(linkAccessCount);
 

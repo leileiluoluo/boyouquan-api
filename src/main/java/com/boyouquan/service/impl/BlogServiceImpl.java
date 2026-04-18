@@ -154,7 +154,7 @@ public class BlogServiceImpl implements BlogService {
         Pagination<Blog> blogPagination = listWithKeyWord(sort, keyword, page, size);
         for (Blog blog : blogPagination.getResults()) {
             // assemble
-            BlogInfo blogInfo = assembleBlogInfo(blog, true, CommonConstants.LATEST_POST_COUNT_LIMIT);
+            BlogInfo blogInfo = assembleBlogInfo(blog, false, CommonConstants.LATEST_POST_COUNT_LIMIT);
             blogInfos.add(blogInfo);
         }
         long total = blogPagination.getTotal();

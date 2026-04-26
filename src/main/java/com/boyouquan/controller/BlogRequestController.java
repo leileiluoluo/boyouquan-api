@@ -9,7 +9,6 @@ import com.boyouquan.service.BlogRequestService;
 import com.boyouquan.service.EmailValidationService;
 import com.boyouquan.util.*;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,15 +38,18 @@ public class BlogRequestController {
     public ResponseEntity<Pagination<BlogRequestInfo>> listBlogRequests(
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "onlySelfSubmitted", required = false, defaultValue = "true") boolean onlySelfSubmitted) {
-        List<BlogRequest.Status> statuses = Arrays.asList(
-                BlogRequest.Status.submitted,
-                BlogRequest.Status.system_check_valid,
-                BlogRequest.Status.system_check_invalid,
-                BlogRequest.Status.approved,
-                BlogRequest.Status.rejected,
-                BlogRequest.Status.uncollected
-        );
+            @RequestParam(value = "onlySelfSubmitted", required = false, defaultValue = "true") boolean onlySelfSubmitted,
+            @RequestParam(value = "statuses", required = false) List<BlogRequest.Status> statuses) {
+        if (statuses == null || statuses.isEmpty()) {
+            statuses = Arrays.asList(
+                    BlogRequest.Status.submitted,
+                    BlogRequest.Status.system_check_valid,
+                    BlogRequest.Status.system_check_invalid,
+                    BlogRequest.Status.approved,
+                    BlogRequest.Status.rejected,
+                    BlogRequest.Status.uncollected
+            );
+        }
 
         Pagination<BlogRequestInfo> blogRequestInfo = PaginationBuilder.buildEmptyResults();
         if (onlySelfSubmitted) {

@@ -3,55 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>博友圈</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fdf5d7; /* 黄色信纸背景 */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-        .email-container {
-            width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border: 1px solid #f0e68c; /* 信纸的浅黄色边框 */
-            border-radius: 8px;
-        }
-        h1 {
-            font-size: 24px;
-            color: #d2691e; /* 深橙色文字 */
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 16px;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #FEF6D8;
+            padding: 20px 15px;
             color: #333;
             line-height: 1.6;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px 35px;
+            border-radius: 12px;
+            border: 1px solid #F0E68C;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .email-header {
+            margin-bottom: 25px;
+        }
+        .email-header img {
+            display: block;
+        }
+        h1, h2, h3 {
+            color: #D2691E;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+        h1 { font-size: 24px; }
+        h2 { font-size: 22px; }
+        p {
+            font-size: 15px;
+            margin-bottom: 16px;
+            color: #333;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 15px;
+        }
+        thead {
+            background-color: #FFF9E6;
+        }
+        th, td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #F6F0D0;
+        }
+        th {
+            color: #D2691E;
+            font-weight: 600;
         }
         .footer-operation {
             font-size: 14px;
             color: #777;
             text-align: center;
-            margin-top: 40px;
+            margin: 35px 0 20px;
         }
-        .footer {
-            font-size: 14px;
-            color: #777;
+        .email-footer {
+            font-size: 13px;
+            color: #999;
             text-align: center;
-            margin-top: 30px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .email-footer a {
+            color: #999;
+        }
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                padding: 22px 20px;
+            }
+            h1 { font-size: 22px; }
         }
     </style>
 </head>
 <body>
 <div class="email-container">
-    <header style="margin-bottom: 18px">
-        <img width="65px" height="26px" src="https://www.boyouquan.com/assets/images/sites/logo/logo.png" alt="博友圈"/>
+    <header class="email-header">
+        <img height="28" src="https://www.boyouquan.com/assets/images/sites/logo/logo-blue.svg" alt="博友圈">
     </header>
-    <main layout:fragment="content">
 
-    </main>
-    <footer class="footer" layout:fragment="footer">
+    <main layout:fragment="content"></main>
+
+    <footer class="email-footer" layout:fragment="footer">
         <p>Copyright © 2023-2026 <a href="https://www.boyouquan.com">博友圈</a></p>
     </footer>
 </div>

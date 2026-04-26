@@ -4,23 +4,49 @@
 <body>
 <div class="email-container">
     <main layout:fragment="content">
-        <h1>恭喜您</h1>
+        <h1 style="color: #d2691e; font-size: 24px; margin: 0 0 22px 0;">恭喜您 🎉</h1>
+
         <p th:text="'您的博客「' + ${blogRequestInfo.name} + '」已通过审核，被博友圈收录啦！希望从此刻起，您能与博友圈一起携手谱写未来的 10 年、20 年，而不要中途断更或闭站！这是您加入这个圈子的意义所在，也是您和博友圈之间的重要约定！'"></p>
-        <p>收录地址：<a th:text="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"
-                       th:href="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"></a></p>
-        <br/>
-        <p>此外，还希望您能将博友圈链接添加到博客的适当位置；</p>
-        <p>LOGO 获取：<a href="https://www.boyouquan.com/about#add-link">https://www.boyouquan.com/about#add-link</a></p>
-        <br/>
-        <p>或将您在博友圈的「履约中」LOGO 嵌入到博客的底部（证书页面底部有相关代码）。</p>
-        <p>证书页面：<a th:text="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}" th:href="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}"></a></p>
-        <br/>
+
+        <p style="margin: 20px 0;">
+            收录地址：<br>
+            <a
+                    th:text="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"
+                    th:href="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"
+                    style="color: #007bff; word-break: break-all; text-decoration: none;">
+            </a>
+        </p>
+
+        <div style="margin: 24px 0; padding: 12px 16px; background: #fff9e6; border-left: 4px solid #f0e68c; border-radius: 4px;">
+            <p style="margin:0 0 6px 0;">此外，还希望您能将博友圈链接添加到博客的适当位置；</p>
+            <p style="margin:0;">LOGO 获取：
+                <a href="https://www.boyouquan.com/about#add-link" style="color: #007bff; text-decoration: none;">
+                    https://www.boyouquan.com/about#add-link
+                </a>
+            </p>
+        </div>
+
+        <div style="margin: 24px 0; padding: 12px 16px; background: #fff9e6; border-left: 4px solid #f0e68c; border-radius: 4px;">
+            <p style="margin:0 0 6px 0;">或将您在博友圈的「履约中」LOGO 嵌入到博客的底部（证书页面底部有相关代码）。</p>
+            <p style="margin:0;">证书页面：
+                <a
+                        th:text="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}"
+                        th:href="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}"
+                        style="color: #007bff; word-break: break-all; text-decoration: none;">
+                </a>
+            </p>
+        </div>
+
         <p>非常感谢您的积极配合！</p>
-        <br/>
-        <p>最后，如果您不想错过博友圈里的新鲜事，欢迎您使用邮箱订阅「每月精选文章」。</p>
-        <p>每月精选：<a href="https://www.boyouquan.com/monthly-selected">https://www.boyouquan.com/monthly-selected</a></p>
-        <br/>
-        <p>祝您工作顺利、生活愉快！</p>
+
+        <p style="margin-top: 16px;">最后，如果您不想错过博友圈里的新鲜事，欢迎您使用邮箱订阅「每月精选文章」。</p>
+        <p>每月精选：
+            <a href="https://www.boyouquan.com/monthly-selected" style="color: #007bff; text-decoration: none;">
+                https://www.boyouquan.com/monthly-selected
+            </a>
+        </p>
+
+        <p style="margin-top: 24px;">祝您工作顺利、生活愉快！</p>
     </main>
 </div>
 </body>

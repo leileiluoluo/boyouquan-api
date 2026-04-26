@@ -1,26 +1,130 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout::layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客审核通过 - 博友圈</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f6f7f9;
+            color: #333;
+            line-height: 1.7;
+        }
+        .email-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+        .email-header {
+            padding: 24px 32px;
+            background-color: #2d3748;
+            color: #fff;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .email-body {
+            padding: 32px;
+            font-size: 15px;
+            color: #333;
+        }
+        .email-body h2 {
+            font-size: 20px;
+            color: #2d3748;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .email-body p {
+            margin: 0 0 16px 0;
+        }
+        .email-body a {
+            color: #3182ce;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .email-body a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            margin: 24px 0;
+            padding-left: 12px;
+            border-left: 3px solid #e2e8f0;
+        }
+        .email-footer {
+            padding: 24px 32px;
+            background-color: #f8f9fa;
+            font-size: 13px;
+            color: #718096;
+            text-align: center;
+        }
+        .email-footer a {
+            color: #718096;
+            text-decoration: none;
+            margin: 0 6px;
+        }
+        @media only screen and (max-width: 600px) {
+            .email-header, .email-body, .email-footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+    </style>
+</head>
 <body>
 <div class="email-container">
     <main layout:fragment="content">
-        <h1>恭喜您</h1>
-        <p th:text="'您的博客「' + ${blogRequestInfo.name} + '」已通过审核，被博友圈收录啦！希望从此刻起，您能与博友圈一起携手谱写未来的 10 年、20 年，而不要中途断更或闭站！这是您加入这个圈子的意义所在，也是您和博友圈之间的重要约定！'"></p>
-        <p>收录地址：<a th:text="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"
-                       th:href="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"></a></p>
-        <br/>
-        <p>此外，还希望您能将博友圈链接添加到博客的适当位置；</p>
-        <p>LOGO 获取：<a href="https://www.boyouquan.com/about#add-link">https://www.boyouquan.com/about#add-link</a></p>
-        <br/>
-        <p>或将您在博友圈的「履约中」LOGO 嵌入到博客的底部（证书页面底部有相关代码）。</p>
-        <p>证书页面：<a th:text="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}" th:href="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}"></a></p>
-        <br/>
-        <p>非常感谢您的积极配合！</p>
-        <br/>
-        <p>最后，如果您不想错过博友圈里的新鲜事，欢迎您使用邮箱订阅「每月精选文章」。</p>
-        <p>每月精选：<a href="https://www.boyouquan.com/monthly-selected">https://www.boyouquan.com/monthly-selected</a></p>
-        <br/>
-        <p>祝您工作顺利、生活愉快！</p>
+        <!-- 头部 -->
+        <div class="email-header">
+            <h1>博客审核通知 - 博友圈</h1>
+        </div>
+
+        <!-- 内容区 -->
+        <div class="email-body">
+            <h2>恭喜您 🎉</h2>
+
+            <p th:text="'您的博客「' + ${blogRequestInfo.name} + '」已通过审核，被博友圈收录啦！希望从此刻起，您能与博友圈一起携手谱写未来的 10 年、20 年，而不要中途断更或闭站！这是您加入这个圈子的意义所在，也是您和博友圈之间的重要约定！'"></p>
+
+            <p>
+                收录地址：
+                <a th:text="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"
+                   th:href="'https://www.boyouquan.com/blogs?keyword=' + ${blogRequestInfo.domainName}"></a>
+            </p>
+
+            <div class="section">
+                <p>此外，还希望您能将博友圈链接添加到博客的适当位置；</p>
+                <p>LOGO 获取：<a href="https://www.boyouquan.com/about#add-link">https://www.boyouquan.com/about#add-link</a></p>
+            </div>
+
+            <div class="section">
+                <p>或将您在博友圈的「履约中」LOGO 嵌入到博客的底部（证书页面底部有相关代码）。</p>
+                <p>
+                    证书页面：
+                    <a th:text="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}"
+                       th:href="'https://www.boyouquan.com/certificates/' + ${blogRequestInfo.domainName}"></a>
+                </p>
+            </div>
+
+            <p>非常感谢您的积极配合！</p>
+
+            <p>最后，如果您不想错过博友圈里的新鲜事，欢迎您使用邮箱订阅「每月精选文章」。</p>
+            <p>每月精选：<a href="https://www.boyouquan.com/monthly-selected">https://www.boyouquan.com/monthly-selected</a></p>
+
+            <p>祝您工作顺利、生活愉快！</p>
+        </div>
+
+        <!-- 底部 -->
+        <div class="email-footer">
+            <p><a href="https://www.boyouquan.com/">博友圈首页</a></p>
+        </div>
     </main>
 </div>
 </body>

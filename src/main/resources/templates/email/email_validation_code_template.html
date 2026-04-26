@@ -1,13 +1,103 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout::layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>验证码 - 博友圈</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f6f7f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .email-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+        .email-header {
+            padding: 24px 32px;
+            background-color: #2d3748;
+            color: #fff;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .email-body {
+            padding: 40px 32px;
+            text-align: center;
+        }
+        .verify-title {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .verify-code {
+            font-size: 28px;
+            font-weight: bold;
+            color: #e53e3e;
+            letter-spacing: 4px;
+            margin: 20px 0;
+        }
+        .verify-tip {
+            font-size: 14px;
+            color: #999;
+            margin-top: 12px;
+        }
+        .email-footer {
+            padding: 24px 32px;
+            background-color: #f8f9fa;
+            font-size: 13px;
+            color: #718096;
+            text-align: center;
+        }
+        .email-footer a {
+            color: #718096;
+            text-decoration: none;
+            margin: 0 6px;
+        }
+        @media only screen and (max-width: 600px) {
+            .email-header, .email-body, .email-footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .verify-code {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
 <body>
 <div class="email-container">
-<main layout:fragment="content">
-    <p>
-        验证码：<strong style="color: red" th:text="${code}"></strong>
-    </p>
-</main>
+    <main layout:fragment="content">
+        <!-- 头部 -->
+        <div class="email-header">
+            <h1>博友圈 - 验证码</h1>
+        </div>
+
+        <!-- 验证码主体 -->
+        <div class="email-body">
+            <p class="verify-title">您好，您本次操作的验证码为：</p>
+            <div class="verify-code" th:text="${code}"></div>
+            <p class="verify-tip">5 分钟内有效，请勿泄露给他人</p>
+        </div>
+
+        <!-- 底部 -->
+        <div class="email-footer">
+            <p>
+                <a href="https://www.boyouquan.com/">博友圈首页</a>
+            </p>
+        </div>
+    </main>
 </div>
 </body>
 </html>

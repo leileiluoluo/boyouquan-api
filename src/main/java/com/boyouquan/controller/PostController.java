@@ -100,11 +100,17 @@ public class PostController {
         boolean isStatusOk = blogStatusService.isStatusOkByBlogDomainName(blog.getDomainName());
         postInfo.setBlogStatusOk(isStatusOk);
 
-        String blogAdminMediumImageURL = blogService.getBlogAdminMediumImageURLByDomainName(blog.getDomainName());
-        postInfo.setBlogAdminMediumImageURL(blogAdminMediumImageURL);
+        String blogAdminLargeImageURL = blogService.getBlogAdminLargeImageURLByDomainName(blog.getDomainName());
+        postInfo.setBlogAdminLargeImageURL(blogAdminLargeImageURL);
 
         Long linkAccessCount = accessService.countByLink(post.getLink());
         postInfo.setLinkAccessCount(linkAccessCount);
+
+        Integer joinYears = blogService.getJoinYearsByDomainName(blog.getDomainName());
+        postInfo.setBlogJoinYears(joinYears);
+
+        Long totalAccessCount = accessService.countByBlogDomainName(blog.getDomainName());
+        postInfo.setBlogTotalAccessCount(totalAccessCount);
 
         return ResponseEntity.ok(postInfo);
     }

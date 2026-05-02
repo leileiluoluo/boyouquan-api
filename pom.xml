@@ -87,6 +87,12 @@
             <artifactId>jsoup</artifactId>
             <version>1.22.2</version>
         </dependency>
+        <dependency>
+            <groupId>net.dankito.readability4j</groupId>
+            <artifactId>readability4j</artifactId>
+            <version>1.0.8</version>
+            <scope>compile</scope>
+        </dependency>
 
         <dependency>
             <groupId>net.coobird</groupId>

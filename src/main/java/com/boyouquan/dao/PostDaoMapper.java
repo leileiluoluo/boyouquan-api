@@ -14,9 +14,9 @@ public interface PostDaoMapper {
 
     List<MonthPublish> getBlogPostPublishSeriesInLatestOneYear(String blogDomainName);
 
-    Long countWithKeyWord(String sort, String keyword);
+    Long countWithKeyWord(String sort, String keyword, boolean skipContentInvalid);
 
-    List<Post> listWithKeyWord(String sort, String keyword, int offset, int rows);
+    List<Post> listWithKeyWord(String sort, String keyword, boolean skipContentInvalid, int offset, int rows);
 
     Long countAll();
 
@@ -55,5 +55,7 @@ public interface PostDaoMapper {
     void unpinByLink(String link);
 
     void pinByLink(String link);
+
+    void updateContentValid(String link, Boolean contentValid);
 
 }

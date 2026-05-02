@@ -8,6 +8,7 @@ CREATE TABLE post (
     draft BOOLEAN DEFAULT FALSE,
     recommended BOOLEAN DEFAULT FALSE,
     pinned BOOLEAN DEFAULT FALSE,
+    content_valid BOOLEAN DEFAULT TRUE,
     deleted BOOLEAN DEFAULT FALSE
 );
 

@@ -53,7 +53,7 @@ public class FeedServiceImpl implements FeedService {
         }
 
         try {
-            Pagination<Post> posts = postService.listWithKeyWord(sortType, "", CommonConstants.FEED_POST_QUERY_PAGE_NO, CommonConstants.FEED_POST_QUERY_PAGE_SIZE);
+            Pagination<Post> posts = postService.listWithKeyWord(sortType, "", false, CommonConstants.FEED_POST_QUERY_PAGE_NO, CommonConstants.FEED_POST_QUERY_PAGE_SIZE);
 
             List<SyndEntry> entries = posts.getResults().stream()
                     .map(this::getEntry).toList();

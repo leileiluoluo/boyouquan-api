@@ -16,7 +16,7 @@ public interface PostService {
 
     List<MonthPublish> getBlogPostPublishSeriesInLatestOneYear(String blogDomainName);
 
-    Pagination<Post> listWithKeyWord(PostSortType sort, String keyword, int page, int size);
+    Pagination<Post> listWithKeyWord(PostSortType sort, String keyword, boolean skipContentInvalid, int page, int size);
 
     Long countAll();
 
@@ -51,5 +51,7 @@ public interface PostService {
     void unpinByLink(String link);
 
     void pinByLink(String link);
+
+    void updateContentValid(String link, Boolean contentValid);
 
 }

@@ -7,6 +7,7 @@
         description,
         published_at,
         draft,
+        content_valid,
         deleted
     </sql>
     <sql id="select_columns">
@@ -18,6 +19,7 @@
         draft,
         recommended,
         pinned,
+        content_valid as contentValid,
         deleted
     </sql>
     <select id="getMostPublishedInLatestOneMonth" resultType="com.boyouquan.model.BlogDomainNamePublish">
@@ -73,6 +75,9 @@
                 <if test="keyword != null and keyword !=''">
                     AND title LIKE CONCAT('%', #{keyword}, '%')
                 </if>
+                <if test="skipContentInvalid">
+                    AND content_valid=true
+                </if>
             </when>
             <otherwise>
                 <choose>
@@ -84,6 +89,9 @@
                         AND deleted=false
                         AND description IS NOT NULL
                         AND title LIKE CONCAT('%', #{keyword}, '%')
+                        <if test="skipContentInvalid">
+                            AND content_valid=true
+                        </if>
                     </when>
                     <otherwise>
                         SELECT
@@ -101,6 +109,9 @@
                         AND p1.draft=false
                         AND p1.deleted=false
                         AND p1.description IS NOT NULL
+                        <if test="skipContentInvalid">
+                            AND p1.content_valid=true
+                        </if>
                     </otherwise>
                 </choose>
             </otherwise>
@@ -116,6 +127,9 @@
                 AND deleted=false
                 AND recommended=true
                 AND description IS NOT NULL
+                <if test="skipContentInvalid">
+                    AND content_valid=true
+                </if>
                 ORDER BY pinned DESC, published_at DESC
                 LIMIT #{offset}, #{rows}
             </when>
@@ -130,6 +144,9 @@
                         AND description IS NOT NULL
                         <if test="keyword != null and keyword !=''">
                             AND title LIKE CONCAT('%', #{keyword}, '%')
+                        </if>
+                        <if test="skipContentInvalid">
+                            AND content_valid=true
                         </if>
                         ORDER BY published_at DESC
                         LIMIT #{offset}, #{rows}
@@ -150,6 +167,9 @@
                         AND p1.draft=false
                         AND p1.deleted=false
                         AND p1.description IS NOT NULL
+                        <if test="skipContentInvalid">
+                            AND p1.content_valid=true
+                        </if>
                         ORDER BY p1.published_at DESC
                         LIMIT #{offset}, #{rows}
                     </otherwise>
@@ -259,6 +279,7 @@
             #{item.description},
             #{item.publishedAt},
             #{item.draft},
+            true,
             false
             )
         </foreach>
@@ -274,6 +295,7 @@
         #{description},
         #{publishedAt},
         #{draft},
+        true,
         false
         )
     </insert>
@@ -305,6 +327,11 @@
     <update id="pinByLink">
         UPDATE post
         SET pinned=true
+        WHERE link=#{link}
+    </update>
+    <update id="updateContentValid">
+        UPDATE post
+        SET content_valid=#{contentValid}
         WHERE link=#{link}
     </update>
 </mapper>

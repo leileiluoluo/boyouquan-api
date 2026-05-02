@@ -2,7 +2,10 @@ package com.boyouquan.controller;
 
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.enumration.ErrorCode;
-import com.boyouquan.model.*;
+import com.boyouquan.model.Blog;
+import com.boyouquan.model.Post;
+import com.boyouquan.model.PostInfo;
+import com.boyouquan.model.PostSortType;
 import com.boyouquan.service.AccessService;
 import com.boyouquan.service.BlogService;
 import com.boyouquan.service.BlogStatusService;
@@ -14,7 +17,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +41,7 @@ public class PostController {
     @GetMapping("")
     public ResponseEntity<Pagination<PostInfo>> list(
             @RequestParam(value = "sort", required = false, defaultValue = "recommended") String sort,
+            @RequestParam(value = "skipContentInvalid", required = false, defaultValue = "false") boolean skipContentInvalid,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
         if (null == keyword) {
@@ -43,7 +50,7 @@ public class PostController {
         keyword = StringUtils.trim(keyword);
 
         // posts
-        Pagination<Post> postPagination = postService.listWithKeyWord(PostSortType.of(sort), keyword, page, CommonConstants.DEFAULT_PAGE_SIZE);
+        Pagination<Post> postPagination = postService.listWithKeyWord(PostSortType.of(sort), keyword, skipContentInvalid, page, CommonConstants.DEFAULT_PAGE_SIZE);
         List<PostInfo> postInfos = new ArrayList<>();
         for (Post post : postPagination.getResults()) {
             PostInfo postInfo = new PostInfo();

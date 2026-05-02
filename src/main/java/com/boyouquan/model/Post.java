@@ -28,5 +28,6 @@ public class Post implements Serializable {
     private Boolean draft = false;
     private Boolean recommended = false;
     private Boolean pinned = false;
+    private Boolean contentValid = true;
 
 }

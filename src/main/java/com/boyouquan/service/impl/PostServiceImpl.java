@@ -33,7 +33,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostLatestPublishedAt> listPostLatestPublishedAt(int limit) {
-        Pagination<Post> postPagination = listWithKeyWord(PostSortType.latest, "", 1, limit);
+        Pagination<Post> postPagination = listWithKeyWord(PostSortType.latest, "", false, 1, limit);
         if (postPagination.getResults().isEmpty()) {
             return Collections.emptyList();
         }
@@ -84,14 +84,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Pagination<Post> listWithKeyWord(PostSortType sort, String keyword, int page, int size) {
+    public Pagination<Post> listWithKeyWord(PostSortType sort, String keyword, boolean skipContentInvalid, int page, int size) {
         if (page < 1 || size <= 0) {
             return PaginationBuilder.buildEmptyResults();
         }
 
         int offset = (page - 1) * size;
-        List<Post> posts = postDaoMapper.listWithKeyWord(sort.name(), keyword, offset, size);
-        Long total = postDaoMapper.countWithKeyWord(sort.name(), keyword);
+        List<Post> posts = postDaoMapper.listWithKeyWord(sort.name(), keyword, skipContentInvalid, offset, size);
+        Long total = postDaoMapper.countWithKeyWord(sort.name(), keyword, skipContentInvalid);
         return PaginationBuilder.<Post>newBuilder()
                 .pageNo(page)
                 .pageSize(size)
@@ -217,6 +217,11 @@ public class PostServiceImpl implements PostService {
     public void pinByLink(String link) {
         postDaoMapper.pinByLink(link);
         logger.info("link pinned! {}", link);
+    }
+
+    @Override
+    public void updateContentValid(String link, Boolean contentValid) {
+        postDaoMapper.updateContentValid(link, contentValid);
     }
 
     private Response requestPostLink(String link) throws IOException {

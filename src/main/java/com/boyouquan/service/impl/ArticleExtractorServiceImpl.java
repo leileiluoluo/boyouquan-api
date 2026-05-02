@@ -54,7 +54,12 @@ public class ArticleExtractorServiceImpl implements ArticleExtractorService {
                 }
             }
 
-            return result.toString().trim();
+            String finalContent = result.toString().trim();
+            if (finalContent.length() < 30) {
+                contentValid = false;
+            }
+
+            return finalContent;
         } catch (Exception e) {
             contentValid = false;
             logger.error("提取文章失败: {}", e.getMessage(), e);

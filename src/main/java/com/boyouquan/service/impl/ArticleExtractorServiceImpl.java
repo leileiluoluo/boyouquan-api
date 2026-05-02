@@ -1,10 +1,11 @@
 package com.boyouquan.service.impl;
 
 import com.boyouquan.service.ArticleExtractorService;
+import net.dankito.readability4j.Article;
+import net.dankito.readability4j.Readability4J;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,79 +16,44 @@ import java.io.IOException;
 public class ArticleExtractorServiceImpl implements ArticleExtractorService {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleExtractorServiceImpl.class);
-
     private static final int TIME_OUT = 10000;
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36";
 
+    @Override
     public String getContent(String url) {
-        Document doc = null;
         try {
-            doc = Jsoup.connect(url)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+            // 1. 抓取页面
+            Document doc = Jsoup.connect(url)
+                    .userAgent(USER_AGENT)
                     .timeout(TIME_OUT)
                     .get();
+
+            // 2. Readability 提取文章（只拿清洗后的 HTML，不拿纯文本）
+            Readability4J readability4J = new Readability4J(url, doc.html());
+            Article article = readability4J.parse();
+            String contentHtml = article.getContent(); // 清洗后的正文 HTML（带<p>）
+
+            if (contentHtml == null || contentHtml.isBlank()) {
+                return "未提取到正文";
+            }
+
+            // 3. 重新解析 HTML，按 <p> 分段，保留换行！！！
+            Document contentDoc = Jsoup.parse(contentHtml);
+            StringBuilder result = new StringBuilder();
+
+            for (Element p : contentDoc.select("p")) {
+                String text = p.text().trim();
+                if (!text.isBlank()) {
+                    result.append(text).append("\n\n"); // 段落之间空两行
+                }
+            }
+
+            return result.toString().trim();
+
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            return "未提取到正文";
+            logger.error("提取文章失败: {}", e.getMessage(), e);
+            return "提取失败：" + e.getMessage();
         }
-
-        cleanUselessTags(doc);
-        Element contentElement = findMainContent(doc.body());
-
-        if (contentElement == null) return "未提取到正文";
-
-        // ====================== 修复：保留段落换行 ======================
-        StringBuilder sb = new StringBuilder();
-        for (Element p : contentElement.select("p")) {
-            String text = p.text().trim();
-            if (!text.isEmpty()) {
-                sb.append(text).append("\n\n"); // 段落之间空两行
-            }
-        }
-        return sb.toString().trim();
-    }
-
-    private static void cleanUselessTags(Document doc) {
-        String[] uselessTags = {
-                "script", "style", "noscript", "iframe", "header", "footer",
-                "nav", "aside", "ad", "banner", "comment", "copyright", "sidebar"
-        };
-        for (String tag : uselessTags) {
-            Elements elements = doc.select(tag);
-            if (!elements.isEmpty()) elements.remove();
-        }
-
-        doc.select("div").forEach(div -> {
-            String clazz = div.className().toLowerCase();
-            String id = div.id().toLowerCase();
-            if (clazz.contains("ad") || clazz.contains("nav") || clazz.contains("side") ||
-                    id.contains("ad") || id.contains("nav") || id.contains("footer")) {
-                div.remove();
-            }
-        });
-    }
-
-    private static Element findMainContent(Element body) {
-        Elements pList = body.select("p");
-        Element bestElem = body;
-        int maxScore = 0;
-
-        for (Element p : pList) {
-            Element parent = p.parent();
-            int score = calculateScore(parent);
-            if (score > maxScore) {
-                maxScore = score;
-                bestElem = parent;
-            }
-        }
-        return bestElem;
-    }
-
-    private static int calculateScore(Element e) {
-        String text = e.text();
-        int textLen = text.length();
-        int pCount = e.select("p").size();
-        if (textLen < 50) return 0;
-        return textLen + pCount * 30;
     }
 
 }

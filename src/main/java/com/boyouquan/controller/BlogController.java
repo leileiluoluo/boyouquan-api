@@ -1,6 +1,5 @@
 package com.boyouquan.controller;
 
-import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.enumration.ErrorCode;
 import com.boyouquan.model.*;
 import com.boyouquan.service.AccessService;
@@ -9,8 +8,10 @@ import com.boyouquan.service.PlanetShuttleService;
 import com.boyouquan.service.PostService;
 import com.boyouquan.util.CommonUtils;
 import com.boyouquan.util.Pagination;
+import com.boyouquan.util.PaginationBuilder;
 import com.boyouquan.util.ResponseUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -78,13 +80,34 @@ public class BlogController {
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<Pagination<Post>> getPostsUnderBlog(
+    public ResponseEntity<Pagination<PostInfo>> getPostsUnderBlog(
             @RequestParam("domainName") String domainName,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+        // posts
         Pagination<Post> pagination = postService.listByDraftAndBlogDomainName(false, domainName, page, size);
+        List<PostInfo> postInfos = new ArrayList<>();
+        for (Post post : pagination.getResults()) {
+            PostInfo postInfo = new PostInfo();
+            BeanUtils.copyProperties(post, postInfo);
 
-        return ResponseEntity.ok(pagination);
+            Blog blog = blogService.getByDomainName(post.getBlogDomainName());
+            postInfo.setBlogName(blog.getName());
+            postInfo.setBlogAddress(blog.getAddress());
+
+            Long linkAccessCount = accessService.countByLink(post.getLink());
+            postInfo.setLinkAccessCount(linkAccessCount);
+
+            postInfos.add(postInfo);
+        }
+
+        Pagination<PostInfo> postInfoPagination = PaginationBuilder.<PostInfo>newBuilder()
+                .pageNo(page)
+                .pageSize(pagination.getPageSize())
+                .total(pagination.getTotal())
+                .results(postInfos).build();
+
+        return ResponseEntity.ok(postInfoPagination);
     }
 
     @GetMapping("/charts")

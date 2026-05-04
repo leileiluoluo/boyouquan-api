@@ -55,3 +55,8 @@ boyouquan:
     path: ${POST_IMAGE_STORE_PATH:./post-images}
   image-upload-store:
     path: ${IMAGE_UPLOAD_STORE_PATH:./image-upload}
+  mini-program:
+    app-id: ${MINI_PROGRAM_APP_ID:fake_id}
+    app-secret: ${MINI_PROGRAM_APP_SECRET:fake_secret}
+    token-url: https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s
+    qr-code-url: https://api.weixin.qq.com/wxa/getwxacode?access_token=%s

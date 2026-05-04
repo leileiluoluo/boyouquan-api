@@ -40,6 +40,8 @@ public class MiniProgramServiceImpl implements MiniProgramService {
             return new byte[]{};
         }
 
+        logger.info("get qr code for {}", blogDomainName);
+
         try {
             if (existsInLocalStore(blogDomainName, size)) {
                 return getFromLocalStore(blogDomainName, size);

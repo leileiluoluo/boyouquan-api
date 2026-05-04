@@ -50,4 +50,16 @@ public class BoYouQuanConfig {
     @Value("${boyouquan.image-upload-store.path}")
     private String imageUploadStorePath;
 
+    @Value("${boyouquan.mini-program.app-id}")
+    private String miniProgramAppId;
+
+    @Value("${boyouquan.mini-program.app-secret}")
+    private String miniProgramAppSecret;
+
+    @Value("${boyouquan.mini-program.token-url}")
+    private String miniProgramTokenUrl;
+
+    @Value("${boyouquan.mini-program.qr-code-url}")
+    private String miniProgramQrCodeUrl;
+
 }

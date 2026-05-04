@@ -27,11 +27,14 @@ public class CommonConstants {
     public static final String GRAVATAR_ADDRESS_MEDIUM_SIZE = "/gravatar/%s?size=" + GRAVATAR_IMAGE_MEDIUM_SIZE;
     public static final String GRAVATAR_ADDRESS_LARGE_SIZE = "/gravatar/%s?size=" + GRAVATAR_IMAGE_LARGE_SIZE;
 
+    public static final String MINI_PROGRAM_STORE_FOLDER = "mini-program/%s/";
+    public static final String MINI_PROGRAM_BLOG_PAGE_PATH = "pages/blog/blog?blogDomainName=%s";
+    public static final int MINI_PROGRAM_QR_CODE_DEFAULT_SIZE = 100;
+
     public static final int RSS_POST_COUNT_READ_LIMIT_FIRST_TIME = 1000;
     public static final int RSS_POST_COUNT_READ_LIMIT = 10;
     public static final int RSS_BLOG_DESCRIPTION_LENGTH_LIMIT = 800;
     public static final int LATEST_POST_COUNT_LIMIT = 3;
-    public static final int ALL_POST_COUNT_LIMIT = 10000;
 
     public static final String HOME_PAGE_ADDRESS = "https://www.boyouquan.com/home";
     public static final String HOME_PAGE_SORT_LATEST_ADDRESS = "https://www.boyouquan.com/home?sort=latest";
@@ -65,6 +68,8 @@ public class CommonConstants {
     public static final String POST_IMAGES_URL_PREFIX = "/images/";
 
     public static final String BROADCAST_TYPE_LINK_GRAPHS = "link-graphs";
+
+    public static final String COMMON_JSON_BODY_MEDIA_TYPE = "application/json; charset=utf-8";
 
 }
 

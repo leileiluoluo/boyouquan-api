@@ -29,4 +29,9 @@ public class ObjectUtil {
         }
         return null;
     }
+
+    public static String objectToJson(Object object) {
+        return mapper.writeValueAsString(object);
+    }
+
 }

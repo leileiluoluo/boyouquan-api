@@ -49,6 +49,11 @@ public class MiniProgramServiceImpl implements MiniProgramService {
 
             byte[] bytes = getQrCodeFromSource(blogDomainName, size);
 
+            if (bytes.length == 0) {
+                logger.error("get empty qr code, blogDomainName: {}", blogDomainName);
+                return new byte[]{};
+            }
+
             // write to local store
             writeToLocalStore(blogDomainName, size, bytes);
 
@@ -114,6 +119,7 @@ public class MiniProgramServiceImpl implements MiniProgramService {
 
             // result
             String jsonResult = body.string();
+            logger.info("jsonResult: {}", jsonResult);
             MiniProgramToken token = ObjectUtil.jsonToObject(jsonResult, MiniProgramToken.class);
             if (null == token) {
                 logger.error("request mini program token failed, body: {}", jsonResult);
@@ -156,7 +162,10 @@ public class MiniProgramServiceImpl implements MiniProgramService {
                 return new byte[]{};
             }
 
-            return body.bytes();
+            byte[] bytes = body.bytes();
+            logger.info("bytes length: {}", bytes.length);
+
+            return bytes;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new byte[]{};

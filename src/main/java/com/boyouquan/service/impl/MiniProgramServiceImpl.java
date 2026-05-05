@@ -104,6 +104,8 @@ public class MiniProgramServiceImpl implements MiniProgramService {
         String appSecret = boYouQuanConfig.getMiniProgramAppSecret();
         String tokenUrl = String.format(boYouQuanConfig.getMiniProgramTokenUrl(), appId, appSecret);
 
+        logger.info("appId: {}", appId);
+
         Request request = new Request.Builder()
                 .url(tokenUrl)
                 .build();

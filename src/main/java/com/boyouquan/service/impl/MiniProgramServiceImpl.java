@@ -119,7 +119,6 @@ public class MiniProgramServiceImpl implements MiniProgramService {
 
             // result
             String jsonResult = body.string();
-            logger.info("jsonResult: {}", jsonResult);
             MiniProgramToken token = ObjectUtil.jsonToObject(jsonResult, MiniProgramToken.class);
             if (null == token) {
                 logger.error("request mini program token failed, body: {}", jsonResult);

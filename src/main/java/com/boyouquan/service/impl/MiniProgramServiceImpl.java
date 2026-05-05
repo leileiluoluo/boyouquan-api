@@ -104,6 +104,8 @@ public class MiniProgramServiceImpl implements MiniProgramService {
         String appSecret = boYouQuanConfig.getMiniProgramAppSecret();
         String tokenUrl = String.format(boYouQuanConfig.getMiniProgramTokenUrl(), appId, appSecret);
 
+        logger.info("appId: {}", appId);
+
         Request request = new Request.Builder()
                 .url(tokenUrl)
                 .build();
@@ -119,7 +121,6 @@ public class MiniProgramServiceImpl implements MiniProgramService {
 
             // result
             String jsonResult = body.string();
-            logger.info("jsonResult: {}", jsonResult);
             MiniProgramToken token = ObjectUtil.jsonToObject(jsonResult, MiniProgramToken.class);
             if (null == token) {
                 logger.error("request mini program token failed, body: {}", jsonResult);

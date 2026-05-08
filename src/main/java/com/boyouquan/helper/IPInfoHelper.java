@@ -49,6 +49,10 @@ public class IPInfoHelper {
             }
 
             IPLocationInfo ipLocationInfo = ObjectUtil.jsonToObject(body, IPLocationInfo.class);
+            if (null == ipLocationInfo || 200 != ipLocationInfo.getStatus()) {
+                logger.error("request ip info failed, body: {}", body);
+                return null;
+            }
 
             BlogLocation blogLocation = new BlogLocation();
             blogLocation.setDomainName(domainName);

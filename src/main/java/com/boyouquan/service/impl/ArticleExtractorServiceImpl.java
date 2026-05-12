@@ -23,18 +23,18 @@ public class ArticleExtractorServiceImpl implements ArticleExtractorService {
     private PostService postService;
 
     @Override
-    public String getContent(String url) {
+    public String getContent(String link) {
         boolean contentValid = true;
 
         try {
             // 1. 抓取页面
-            Document doc = Jsoup.connect(url)
+            Document doc = Jsoup.connect(link)
                     .userAgent(USER_AGENT)
                     .timeout(TIME_OUT)
                     .get();
 
             // 2. Readability 提取文章（只拿清洗后的 HTML，不拿纯文本）
-            Readability4J readability4J = new Readability4J(url, doc.html());
+            Readability4J readability4J = new Readability4J(link, doc.html());
             Article article = readability4J.parse();
             String contentHtml = article.getContent(); // 清洗后的正文 HTML（带<p>）
 
@@ -66,7 +66,7 @@ public class ArticleExtractorServiceImpl implements ArticleExtractorService {
             return "提取失败：" + e.getMessage();
         } finally {
             if (!contentValid) {
-                postService.updateContentValid(url, false);
+                postService.updateContentValid(link, false);
             }
         }
     }

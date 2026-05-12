@@ -1,0 +1,51 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boyouquan.dao.PostDetailDaoMapper">
+    <sql id="insert_columns">
+        link,
+        blog_domain_name,
+        content,
+        content_refined,
+        updated_at,
+        deleted
+    </sql>
+    <sql id="select_columns">
+        link,
+        blog_domain_name as blogDomainName,
+        content,
+        content_refined as contentRefined,
+        updated_at as updatedAt,
+        deleted
+    </sql>
+    <select id="existsByLink" resultType="boolean">
+        SELECT
+        EXISTS (
+        SELECT 1 FROM post_detail WHERE link=#{link}
+        )
+    </select>
+    <select id="getByLink" resultType="com.boyouquan.model.PostDetail">
+        SELECT
+        <include refid="select_columns"/>
+        FROM post_detail
+        WHERE deleted=false
+        AND link=#{link}
+    </select>
+    <insert id="save">
+        INSERT INTO post_detail (
+        <include refid="insert_columns"/>
+        ) VALUES (
+        #{link},
+        #{blogDomainName},
+        #{content},
+        #{contentRefined},
+        #{updatedAt},
+        false
+        )
+    </insert>
+    <update id="updateContentByLink">
+        UPDATE post_detail
+        SET
+        content=#{content},
+        updated_at=now()
+        WHERE link=#{link}
+    </update>
+</mapper>

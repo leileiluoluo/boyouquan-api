@@ -2,6 +2,6 @@ package com.boyouquan.service;
 
 public interface ArticleExtractorService {
 
-    String getContent(String url);
+    String getContent(String link);
 
 }

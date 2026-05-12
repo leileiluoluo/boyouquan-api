@@ -2,14 +2,8 @@ package com.boyouquan.controller;
 
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.enumration.ErrorCode;
-import com.boyouquan.model.Blog;
-import com.boyouquan.model.Post;
-import com.boyouquan.model.PostInfo;
-import com.boyouquan.model.PostSortType;
-import com.boyouquan.service.AccessService;
-import com.boyouquan.service.BlogService;
-import com.boyouquan.service.BlogStatusService;
-import com.boyouquan.service.PostService;
+import com.boyouquan.model.*;
+import com.boyouquan.service.*;
 import com.boyouquan.util.Pagination;
 import com.boyouquan.util.PaginationBuilder;
 import com.boyouquan.util.ResponseUtil;
@@ -37,6 +31,8 @@ public class PostController {
     private AccessService accessService;
     @Autowired
     private BlogStatusService blogStatusService;
+    @Autowired
+    private PostDetailService postDetailService;
 
     @GetMapping("")
     public ResponseEntity<Pagination<PostInfo>> list(
@@ -123,6 +119,18 @@ public class PostController {
         postInfo.setBlogTotalAccessCount(totalAccessCount);
 
         return ResponseEntity.ok(postInfo);
+    }
+
+    @GetMapping("/contents/by-link")
+    public ResponseEntity<?> getContentByLink(@RequestParam("link") String link) {
+        Post post = postService.getByLink(link);
+        if (null == post) {
+            return ResponseUtil.errorResponse(ErrorCode.POST_NOT_EXISTS);
+        }
+
+        PostDetail postDetail = postDetailService.getByBlogDomainNameAndLink(post.getBlogDomainName(), link);
+
+        return ResponseEntity.ok(postDetail);
     }
 
 }

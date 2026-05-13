@@ -8,7 +8,7 @@ public interface PostDetailService {
 
     PostDetail getByBlogDomainNameAndLink(String blogDomainName, String link);
 
-    void extractAndSave(String blogDomainName, String link);
+    PostDetail extractAndSave(String blogDomainName, String link);
 
     void updateContentByLink(String link, String content);
 

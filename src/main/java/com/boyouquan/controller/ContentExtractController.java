@@ -22,14 +22,14 @@ public class ContentExtractController {
     private ArticleExtractorService articleExtractorService;
 
     @GetMapping("")
-    public ResponseEntity<?> extractContent(@RequestParam String link) {
+    public ResponseEntity<?> extractContent(@RequestParam String url) {
         // validation
-        boolean exists = postService.existsByLink(link);
+        boolean exists = postService.existsByLink(url);
         if (!exists) {
             return ResponseUtil.errorResponse(ErrorCode.POST_NOT_EXISTS);
         }
 
-        String content = articleExtractorService.getContent(link);
+        String content = articleExtractorService.getContent(url);
 
         ExtractorResult result = new ExtractorResult();
         result.setContent(content);

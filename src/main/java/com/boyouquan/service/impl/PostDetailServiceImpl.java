@@ -24,22 +24,26 @@ public class PostDetailServiceImpl implements PostDetailService {
     @Override
     public PostDetail getByBlogDomainNameAndLink(String blogDomainName, String link) {
         PostDetail postDetail = postDetailDaoMapper.getByLink(link);
-        if (null == postDetail) {
-            extractAndSave(blogDomainName, link);
+        if (null != postDetail) {
+            return postDetail;
         }
-        return postDetail;
+
+        return extractAndSave(blogDomainName, link);
     }
 
     @Override
-    public void extractAndSave(String blogDomainName, String link) {
+    public PostDetail extractAndSave(String blogDomainName, String link) {
         String content = articleExtractorService.getContent(link);
-        if (StringUtils.isNotBlank(content)) {
-            PostDetail postDetail = new PostDetail();
-            postDetail.setLink(link);
-            postDetail.setBlogDomainName(blogDomainName);
-            postDetail.setContent(content);
-            postDetailDaoMapper.save(postDetail);
+        if (StringUtils.isBlank(content)) {
+            return null;
         }
+
+        PostDetail postDetail = new PostDetail();
+        postDetail.setLink(link);
+        postDetail.setBlogDomainName(blogDomainName);
+        postDetail.setContent(content);
+        postDetailDaoMapper.save(postDetail);
+        return postDetail;
     }
 
     @Override

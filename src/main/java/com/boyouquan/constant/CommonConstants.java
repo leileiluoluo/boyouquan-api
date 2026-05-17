@@ -28,7 +28,7 @@ public class CommonConstants {
     public static final String GRAVATAR_ADDRESS_LARGE_SIZE = "/gravatar/%s?size=" + GRAVATAR_IMAGE_LARGE_SIZE;
 
     public static final String MINI_PROGRAM_STORE_FOLDER = "mini-program/%s/";
-    public static final String MINI_PROGRAM_BLOG_PAGE_PATH = "pages/blog/index?blogDomainName%s";
+    public static final String MINI_PROGRAM_BLOG_PAGE_PATH = "pages/blog/index?blogDomainName=%s";
     public static final int MINI_PROGRAM_QR_CODE_DEFAULT_SIZE = 100;
 
     public static final int RSS_POST_COUNT_READ_LIMIT_FIRST_TIME = 1000;

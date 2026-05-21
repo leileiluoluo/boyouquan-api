@@ -38,6 +38,7 @@
             AND
             (
             name LIKE CONCAT('%', #{keyword}, '%')
+            OR id LIKE CONCAT('%', #{keyword}, '%')
             OR rss_address LIKE CONCAT('%', #{keyword}, '%')
             OR admin_email LIKE CONCAT('%', #{keyword}, '%')
             )
@@ -58,6 +59,7 @@
             AND
             (
             name LIKE CONCAT('%', #{keyword}, '%')
+            OR id LIKE CONCAT('%', #{keyword}, '%')
             OR rss_address LIKE CONCAT('%', #{keyword}, '%')
             OR admin_email LIKE CONCAT('%', #{keyword}, '%')
             )
@@ -75,6 +77,7 @@
             AND
             (
             name LIKE CONCAT('%', #{keyword}, '%')
+            OR id LIKE CONCAT('%', #{keyword}, '%')
             OR rss_address LIKE CONCAT('%', #{keyword}, '%')
             )
         </if>
@@ -93,6 +96,7 @@
             AND
             (
             name LIKE CONCAT('%', #{keyword}, '%')
+            OR id LIKE CONCAT('%', #{keyword}, '%')
             OR rss_address LIKE CONCAT('%', #{keyword}, '%')
             )
         </if>

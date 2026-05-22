@@ -3,6 +3,7 @@ package com.boyouquan.service.impl;
 import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.PostDaoMapper;
 import com.boyouquan.model.*;
+import com.boyouquan.service.PostDetailService;
 import com.boyouquan.service.PostService;
 import com.boyouquan.util.CommonUtils;
 import com.boyouquan.util.OkHttpUtil;
@@ -20,6 +21,8 @@ import java.net.SocketTimeoutException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -30,6 +33,11 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostDaoMapper postDaoMapper;
+
+    @Autowired
+    private PostDetailService postDetailService;
+
+    private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     public List<PostLatestPublishedAt> listPostLatestPublishedAt(int limit) {
@@ -168,6 +176,11 @@ public class PostServiceImpl implements PostService {
             for (Post post : posts) {
                 try {
                     postDaoMapper.save(post);
+
+                    // async call
+                    executorService.execute(() -> {
+                        postDetailService.extractAndSave(post.getBlogDomainName(), post.getLink());
+                    });
                 } catch (Exception e) {
                     logger.error("save failed", e);
                     continue;

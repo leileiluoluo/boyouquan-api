@@ -4,10 +4,12 @@ import com.boyouquan.dao.PostDetailDaoMapper;
 import com.boyouquan.model.PostDetail;
 import com.boyouquan.service.ArticleExtractorService;
 import com.boyouquan.service.PostDetailService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class PostDetailServiceImpl implements PostDetailService {
 
@@ -37,6 +39,16 @@ public class PostDetailServiceImpl implements PostDetailService {
         if (StringUtils.isBlank(content)) {
             return null;
         }
+
+        PostDetail existingPostDetail = getByBlogDomainNameAndLink(blogDomainName, link);
+        if (null != existingPostDetail) {
+            log.info("post detail exists, blogDomainName: {}, link: {}", blogDomainName, link);
+            postDetailDaoMapper.updateContentByLink(link, content);
+            existingPostDetail.setContent(content);
+            return existingPostDetail;
+        }
+
+        log.info("save new post detail, blogDomainName: {}, link: {}", blogDomainName, link);
 
         PostDetail postDetail = new PostDetail();
         postDetail.setLink(link);

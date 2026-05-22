@@ -40,7 +40,7 @@ public class PostDetailServiceImpl implements PostDetailService {
             return null;
         }
 
-        PostDetail existingPostDetail = getByBlogDomainNameAndLink(blogDomainName, link);
+        PostDetail existingPostDetail = postDetailDaoMapper.getByLink(link);;
         if (null != existingPostDetail) {
             log.info("post detail exists, blogDomainName: {}, link: {}", blogDomainName, link);
             postDetailDaoMapper.updateContentByLink(link, content);

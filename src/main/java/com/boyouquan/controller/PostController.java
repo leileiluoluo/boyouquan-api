@@ -65,6 +65,9 @@ public class PostController {
             String blogAdminMediumImageURL = blogService.getBlogAdminMediumImageURLByDomainName(blog.getDomainName());
             postInfo.setBlogAdminMediumImageURL(blogAdminMediumImageURL);
 
+            String blogAdminSmallImageURL = blogService.getBlogAdminSmallImageURLByDomainName(blog.getDomainName());
+            postInfo.setBlogAdminSmallImageURL(blogAdminSmallImageURL);
+
             Long linkAccessCount = accessService.countByLink(post.getLink());
             postInfo.setLinkAccessCount(linkAccessCount);
 
@@ -108,6 +111,9 @@ public class PostController {
 
         String blogAdminMediumImageURL = blogService.getBlogAdminMediumImageURLByDomainName(blog.getDomainName());
         postInfo.setBlogAdminMediumImageURL(blogAdminMediumImageURL);
+
+        String blogAdminSmallImageURL = blogService.getBlogAdminSmallImageURLByDomainName(blog.getDomainName());
+        postInfo.setBlogAdminSmallImageURL(blogAdminSmallImageURL);
 
         Long linkAccessCount = accessService.countByLink(post.getLink());
         postInfo.setLinkAccessCount(linkAccessCount);

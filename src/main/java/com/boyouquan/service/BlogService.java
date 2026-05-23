@@ -9,6 +9,8 @@ public interface BlogService {
 
     List<BlogLatestPublishedAt> listBlogLatestPublishedAt();
 
+    String getBlogAdminSmallImageURLByDomainName(String blogDomainName);
+
     String getBlogAdminMediumImageURLByDomainName(String blogDomainName);
 
     String getBlogAdminLargeImageURLByDomainName(String blogDomainName);

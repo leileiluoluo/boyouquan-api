@@ -1,5 +1,6 @@
 package com.boyouquan.controller;
 
+import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.service.GravatarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/gravatar")
 public class GravatarController {
@@ -20,7 +23,17 @@ public class GravatarController {
     private GravatarService gravatarService;
 
     @GetMapping("/{md5Email}")
-    public ResponseEntity<byte[]> image(@PathVariable("md5Email") String md5Email, @RequestParam("size") int size) {
+    public ResponseEntity<?> image(@PathVariable("md5Email") String md5Email, @RequestParam("size") int size) {
+        List<Integer> supportedSizes = List.of(
+                CommonConstants.GRAVATAR_IMAGE_SMALL_SIZE,
+                CommonConstants.GRAVATAR_IMAGE_LARGE_SIZE,
+                CommonConstants.GRAVATAR_IMAGE_MEDIUM_SIZE
+        );
+
+        if (!supportedSizes.contains(size)) {
+            return ResponseEntity.ok(new byte[]{});
+        }
+
         byte[] bytes = gravatarService.getImage(md5Email, size);
 
         HttpHeaders headers = new HttpHeaders();

@@ -22,8 +22,10 @@ public class CommonConstants {
 
     public static final String GRAVATAR_STORE_FOLDER = "gravatar/%s/";
     public static final String GRAVATAR_DEFAULT_IMAGE_MD5_EMAIL = "ccd670b883d4ac11d698c380668529de";
-    public static final int GRAVATAR_IMAGE_MEDIUM_SIZE = 40;
-    public static final int GRAVATAR_IMAGE_LARGE_SIZE = 80;
+    public static final int GRAVATAR_IMAGE_SMALL_SIZE = 40;
+    public static final int GRAVATAR_IMAGE_MEDIUM_SIZE = 80;
+    public static final int GRAVATAR_IMAGE_LARGE_SIZE = 160;
+    public static final String GRAVATAR_ADDRESS_SMALL_SIZE = "/gravatar/%s?size=" + GRAVATAR_IMAGE_SMALL_SIZE;
     public static final String GRAVATAR_ADDRESS_MEDIUM_SIZE = "/gravatar/%s?size=" + GRAVATAR_IMAGE_MEDIUM_SIZE;
     public static final String GRAVATAR_ADDRESS_LARGE_SIZE = "/gravatar/%s?size=" + GRAVATAR_IMAGE_LARGE_SIZE;
 

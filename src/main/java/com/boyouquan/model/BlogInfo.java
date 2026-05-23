@@ -24,6 +24,7 @@ public class BlogInfo extends Blog {
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date domainNameRegisteredAt;
     private List<Post> posts = Collections.emptyList();
+    private String blogAdminSmallImageURL;
     private String blogAdminMediumImageURL;
     private String blogAdminLargeImageURL;
     private String submittedInfo;

@@ -34,7 +34,7 @@ public class CommonConstants {
     public static final int MINI_PROGRAM_QR_CODE_DEFAULT_SIZE = 100;
 
     public static final int RSS_POST_COUNT_READ_LIMIT_FIRST_TIME = 1000;
-    public static final int RSS_POST_COUNT_READ_LIMIT = 10;
+    public static final int RSS_POST_COUNT_READ_LIMIT = 100;
     public static final int RSS_BLOG_DESCRIPTION_LENGTH_LIMIT = 800;
     public static final int LATEST_POST_COUNT_LIMIT = 3;
 

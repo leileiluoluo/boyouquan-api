@@ -1,5 +1,6 @@
 package com.boyouquan.service.impl;
 
+import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.dao.PostDetailDaoMapper;
 import com.boyouquan.model.PostDetail;
 import com.boyouquan.service.ArticleExtractorService;
@@ -34,6 +35,11 @@ public class PostDetailServiceImpl implements PostDetailService {
         if (StringUtils.isBlank(content)) {
             log.error("content is blank, link: {}", link);
             return null;
+        }
+
+        // content length
+        if (content.length() > CommonConstants.POST_CONTENT_MAX_LENGTH) {
+            content = content.substring(0, CommonConstants.POST_CONTENT_MAX_LENGTH);
         }
 
         PostDetail existingPostDetail = postDetailDaoMapper.getByLink(link);

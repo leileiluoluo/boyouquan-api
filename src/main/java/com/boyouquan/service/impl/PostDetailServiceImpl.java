@@ -25,22 +25,18 @@ public class PostDetailServiceImpl implements PostDetailService {
 
     @Override
     public PostDetail getByBlogDomainNameAndLink(String blogDomainName, String link) {
-        PostDetail postDetail = postDetailDaoMapper.getByLink(link);
-        if (null != postDetail) {
-            return postDetail;
-        }
-
-        return extractAndSave(blogDomainName, link);
+        return postDetailDaoMapper.getByLink(link);
     }
 
     @Override
     public PostDetail extractAndSave(String blogDomainName, String link) {
         String content = articleExtractorService.getContent(link);
         if (StringUtils.isBlank(content)) {
+            log.error("content is blank, link: {}", link);
             return null;
         }
 
-        PostDetail existingPostDetail = postDetailDaoMapper.getByLink(link);;
+        PostDetail existingPostDetail = postDetailDaoMapper.getByLink(link);
         if (null != existingPostDetail) {
             log.info("post detail exists, blogDomainName: {}, link: {}", blogDomainName, link);
             postDetailDaoMapper.updateContentByLink(link, content);

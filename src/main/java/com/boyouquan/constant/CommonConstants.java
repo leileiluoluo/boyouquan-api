@@ -73,5 +73,7 @@ public class CommonConstants {
 
     public static final String COMMON_JSON_BODY_MEDIA_TYPE = "application/json; charset=utf-8";
 
+    public static final int POST_CONTENT_VALID_LENGTH = 100;
+
 }
 

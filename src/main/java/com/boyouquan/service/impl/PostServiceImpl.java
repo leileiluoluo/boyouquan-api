@@ -181,7 +181,14 @@ public class PostServiceImpl implements PostService {
 
                     // async call
                     executorService.execute(() -> {
-                        postDetailService.extractAndSave(post.getBlogDomainName(), post.getLink());
+                        PostDetail detail = postDetailService.extractAndSave(post.getBlogDomainName(), post.getLink());
+
+                        // update valid flag
+                        if (null == detail || null == detail.getContent()
+                                || detail.getContent().length() < CommonConstants.POST_CONTENT_VALID_LENGTH) {
+                            logger.info("content has been set to invalid, link: {}", post.getLink());
+                            updateContentValid(post.getLink(), false);
+                        }
                     });
                 } catch (Exception e) {
                     logger.error("save failed", e);

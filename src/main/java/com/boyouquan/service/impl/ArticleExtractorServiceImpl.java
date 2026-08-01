@@ -24,8 +24,6 @@ public class ArticleExtractorServiceImpl implements ArticleExtractorService {
 
     @Override
     public String getContent(String link) {
-        boolean contentValid = true;
-
         try {
             // 1. 抓取页面
             Document doc = Jsoup.connect(link)
@@ -39,8 +37,8 @@ public class ArticleExtractorServiceImpl implements ArticleExtractorService {
             String contentHtml = article.getContent(); // 清洗后的正文 HTML（带<p>）
 
             if (contentHtml == null || contentHtml.isBlank()) {
-                contentValid = false;
-                return "未提取到正文";
+                logger.error("返回内容为空, link: {}", link);
+                return null;
             }
 
             // 3. 重新解析 HTML，按 <p> 分段，保留换行！！！
@@ -54,20 +52,10 @@ public class ArticleExtractorServiceImpl implements ArticleExtractorService {
                 }
             }
 
-            String finalContent = result.toString().trim();
-            if (finalContent.length() < 30) {
-                contentValid = false;
-            }
-
-            return finalContent;
+            return result.toString().trim();
         } catch (Exception e) {
-            contentValid = false;
             logger.error("提取文章失败: {}", e.getMessage(), e);
-            return "提取失败：" + e.getMessage();
-        } finally {
-            if (!contentValid) {
-                postService.updateContentValid(link, false);
-            }
+            return null;
         }
     }
 

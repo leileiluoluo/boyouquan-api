@@ -4,17 +4,17 @@
 <body>
 <div class="email-container">
 <main layout:fragment="content">
-    <h1 style="color: #1b489e; font-size: 24px; margin: 0 0 22px 0;"
+    <h1 style="color: #1b489e; font-size: 20px; margin: 0 0 20px 0;"
         th:text="${yearMonthStr} + '精选文章'"></h1>
 
     <p th:text="'如下是您订阅的博友圈「每月精选」频道最新一期的精选文章：'"></p>
 
-    <div style="margin: 20px 0;">
+    <div style="margin: 14px 0;">
         <div th:each="post, stat : ${monthlySelectedPost.postInfos}"
              style="padding: 16px 0; border-bottom: 1px solid #e6edf9;">
             <a th:text="${post.title}"
                th:href="@{'https://www.boyouquan.com/go?from=email&link={link}'(link=${post.link})}"
-               style="color: #1b489e; font-size: 16px; font-weight: 600; line-height: 1.5; text-decoration: none;"></a>
+               style="color: #1b489e; font-size: 14px; font-weight: 600; line-height: 1.5; text-decoration: none;"></a>
             <div style="margin-top: 6px; font-size: 13px; color: #999;">
                 <a th:text="${post.blogName}"
                    th:href="@{'https://www.boyouquan.com/blogs/{domain}'(domain=${post.blogDomainName})}"

@@ -290,7 +290,7 @@ public class CommonUtils {
     public static String getBeautifulYearMonthStr(Date date) {
         String year = getYearStr(date);
         String month = getMonthStr(date);
-        return String.format("%s年%s月", year, month);
+        return String.format("%s 年 %s 月", year, month);
     }
 
     public static String getYearMonthStr(Date date) {

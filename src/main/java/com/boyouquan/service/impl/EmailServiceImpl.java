@@ -255,7 +255,7 @@ public class EmailServiceImpl implements EmailService {
         String yearMonthStr = CommonUtils.getBeautifulYearMonthStr(date);
         String monthStr = CommonUtils.getMonthStr(date);
 
-        String subject = String.format("[博友圈] %s 精选文章", yearMonthStr);
+        String subject = String.format("[博友圈] %s精选文章", yearMonthStr);
 
         Context context = new Context();
 

@@ -287,6 +287,12 @@ public class CommonUtils {
         }
     }
 
+    public static String getBeautifulYearMonthStr(Date date) {
+        String year = getYearStr(date);
+        String month = getMonthStr(date);
+        return String.format("%s年%s月", year, month);
+    }
+
     public static String getYearMonthStr(Date date) {
         return COMMON_YEAR_MONTH_PATTERN.format(date);
     }

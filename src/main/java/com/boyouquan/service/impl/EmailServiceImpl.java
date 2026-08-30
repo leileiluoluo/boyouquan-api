@@ -5,6 +5,7 @@ import com.boyouquan.constant.CommonConstants;
 import com.boyouquan.helper.EncryptionHelper;
 import com.boyouquan.model.*;
 import com.boyouquan.service.EmailService;
+import com.boyouquan.util.CommonUtils;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
@@ -16,6 +17,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
+
+import java.util.Date;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -248,12 +251,18 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendLatestMonthlySelected(String email, MonthlySelectedPost monthlySelectedPost) {
-        String subject = String.format("[博友圈] %s 精选文章", monthlySelectedPost.getYearMonthStr());
+        Date date = CommonUtils.yearMonthStr2Date(monthlySelectedPost.getYearMonthStr());
+        String yearMonthStr = CommonUtils.getBeautifulYearMonthStr(date);
+        String monthStr = CommonUtils.getMonthStr(date);
+
+        String subject = String.format("[博友圈] %s 精选文章", yearMonthStr);
 
         Context context = new Context();
 
         context.setVariable("email", email);
         context.setVariable("token", encryptionHelper.encrypt(email));
+        context.setVariable("yearMonthStr", yearMonthStr);
+        context.setVariable("monthStr", monthStr);
         context.setVariable("monthlySelectedPost", monthlySelectedPost);
 
         String text = templateEngine.process("email/monthly_selected_subscription_template", context);

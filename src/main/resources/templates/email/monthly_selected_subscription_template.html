@@ -4,45 +4,35 @@
 <body>
 <div class="email-container">
 <main layout:fragment="content">
-    <h1 style="color: #d2691e; font-size: 24px; margin: 0 0 22px 0;"
-        th:text="'博友圈 ' + ${monthlySelectedPost.yearMonthStr} + ' 精选文章'"></h1>
+    <h1 style="color: #1b489e; font-size: 24px; margin: 0 0 22px 0;"
+        th:text="'博友圈 ' + ${yearMonthStr} + ' 精选文章'"></h1>
 
-    <p th:text="'如下是您订阅的博友圈「每月精选」频道最新一期（' + ${monthlySelectedPost.yearMonthStr} + '）的精选文章：'"></p>
+    <p th:text="'如下是您订阅的博友圈「每月精选」频道最新一期的精选文章：'"></p>
 
-    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 15px;">
-        <thead>
-        <tr style="background-color: #fff9e6; border-bottom: 1px solid #f0e68c;">
-            <th style="padding: 12px 10px; text-align: left; color: #d2691e;">博客名称</th>
-            <th style="padding: 12px 10px; text-align: left; color: #d2691e;">文章标题</th>
-            <th style="padding: 12px 10px; text-align: left; color: #d2691e; white-space: nowrap;">发布时间</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="post, stat : ${monthlySelectedPost.postInfos}" style="border-bottom: 1px solid #f6f0d0;">
-            <td style="padding: 12px 10px;">
+    <div style="margin: 20px 0;">
+        <div th:each="post, stat : ${monthlySelectedPost.postInfos}"
+             style="padding: 16px 0; border-bottom: 1px solid #e6edf9;">
+            <a th:text="${post.title}"
+               th:href="@{'https://www.boyouquan.com/go?from=email&link={link}'(link=${post.link})}"
+               style="color: #1b489e; font-size: 16px; font-weight: 600; line-height: 1.5; text-decoration: none;"></a>
+            <div style="margin-top: 6px; font-size: 13px; color: #999;">
                 <a th:text="${post.blogName}"
                    th:href="@{'https://www.boyouquan.com/blogs/{domain}'(domain=${post.blogDomainName})}"
-                   style="color: #007bff; text-decoration: none;"></a>
-            </td>
-            <td style="padding: 12px 10px;">
-                <a th:text="${post.title}"
-                   th:href="@{'https://www.boyouquan.com/go?from=email&link={link}'(link=${post.link})}"
-                   style="color: #007bff; text-decoration: none;"></a>
-            </td>
-            <td style="padding: 12px 10px; color: #666;"
-                th:text="${T(com.boyouquan.util.CommonUtils).dateCommonFormatDisplay(post.publishedAt)}"></td>
-        </tr>
-        </tbody>
-    </table>
+                   style="color: #666; text-decoration: none;"></a>
+                <span style="margin: 0 6px; color: #d7e2f4;">|</span>
+                <span th:text="${T(com.boyouquan.util.CommonUtils).dateCommonFormatDisplay(post.publishedAt)}"></span>
+            </div>
+        </div>
+    </div>
 
     <div class="footer-operation" style="margin-top: 30px; text-align: center; color: #777;">
         <p>
-            <a href="https://www.boyouquan.com/" style="color: #007bff; text-decoration: none;">首页</a>
+            <a href="https://www.boyouquan.com/" style="color: #1b489e; text-decoration: none;">首页</a>
             |
-            <a href="https://www.boyouquan.com/monthly-selected" style="color: #007bff; text-decoration: none;">往期精选</a>
+            <a href="https://www.boyouquan.com/monthly-selected" style="color: #1b489e; text-decoration: none;">往期精选</a>
             |
             <a th:href="@{'https://www.boyouquan.com/cancel-subscription?email={email}&token={token}'(email=${email}, token=${token})}"
-               style="color: #007bff; text-decoration: none;">取消订阅</a>
+               style="color: #1b489e; text-decoration: none;">取消订阅</a>
         </p>
     </div>
 </main>
